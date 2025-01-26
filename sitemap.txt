@@ -1,6 +1,6 @@
 http://example.com/about/index.html
-http://example.com/posts/1.html
 http://example.com/comment/index.html
+http://example.com/posts/1.html
 http://example.com/links/index.html
 http://example.com/tags/index.html
 http://example.com/categories/index.html

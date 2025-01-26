@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/posts/1.html</loc>
+    <loc>http://example.com/comment/index.html</loc>
     
     <lastmod>2025-01-26</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/comment/index.html</loc>
+    <loc>http://example.com/posts/1.html</loc>
     
     <lastmod>2025-01-26</lastmod>
     
