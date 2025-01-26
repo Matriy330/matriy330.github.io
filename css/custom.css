@@ -4,3 +4,18 @@
     box-shadow: none; /* 可选：移除页脚阴影 */
 }
 
+
+/* Fiveth: 修改加载动画的图片源，以及背景颜色 */
+.loading-bg{
+  background: #374151 !important;
+}
+.loading-img {
+  background: url(/img/tx.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+
+  #page-header #post-info > *{
+    display: flex;
+    justify-content: center;
+}
