@@ -1,6 +1,340 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>计算机保研复习-操作系统</title>
+    <url>/48835374/</url>
+    <content><![CDATA[<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h1 id="一、操作系统概述"><a href="#一、操作系统概述" class="headerlink" title="一、操作系统概述"></a>一、操作系统概述</h1><h2 id="1-1-操作系统功能特点"><a href="#1-1-操作系统功能特点" class="headerlink" title="&#x3D;&#x3D;1.1 操作系统功能特点&#x3D;&#x3D;"></a>&#x3D;&#x3D;1.1 操作系统功能特点&#x3D;&#x3D;</h2><p>⭐</p>
+<p>特点：</p>
+<ol>
+<li><p><strong>并发</strong>：并发是指在一段时间内多个进程可以同时执行，提高系统的资源利用率和系统吞吐量。</p>
+</li>
+<li><p><strong>共享</strong>：系统中的资源可以被多个并发执行的进程共同使用</p>
+</li>
+<li><p><strong>异步</strong>：在多道程序环境下，多个进程并发执行，但由于资源有限，进程的执行不是一贯到底，而是走走停停。</p>
+</li>
+<li><p><strong>虚拟</strong>：通过时分复用或者空分复用将一个物理实体转换为若干个逻辑上的对应物。比如虽然系统中只有一台处理机，但是通过复用技术，能够同时为多个用户服务。</p>
+</li>
+</ol>
+<p>功能：</p>
+<ul>
+<li><strong>处理机管理功能</strong>﹔进程同步、进程通信、进程调度</li>
+<li><strong>存储器管理功能</strong>：内存的分配与回收、内存保护、地址映射</li>
+<li><strong>设备管理功能</strong>：缓冲区管理、设备分配</li>
+<li><strong>文件管理功能</strong>：存储空间管理、目录管理</li>
+<li><strong>提供与用户之间的接口</strong>：用户接口、程序接口(系统调用)</li>
+<li><strong>作业管理</strong>：作业调度与控制</li>
+</ul>
+<p><strong>并行与并发的区别：</strong></p>
+<p><strong>并发</strong>：在单处理机系统中，每一时刻仅有一道程序执行，所以这些程序是分时交替执行的。宏观上有多个程序在同时运行，而微观上这些程序还是在分时地交替执行,通过分时得以实现的。</p>
+<p><strong>并行</strong>：在多处理机系统中，多个程序被分到多个处理机上，多个程序可同时执行</p>
+<h2 id="1-2-中断和异常处理过程"><a href="#1-2-中断和异常处理过程" class="headerlink" title="1.2 中断和异常处理过程"></a>1.2 中断和异常处理过程</h2><p>当CPU在执行用户程序的第i条指令时检测到一个异常事件，或在执行第i条指令后发现一个中断请求信号，则CPU打断当前的用户程序，然后转到相应的中断或异常处理程序去执行。若中断或异常处理程序能够解决相应的问题，则在中断或异常处理程序的最后，CPU通过执行中断或异常返回指令，回到被打断的用户程序的第i条指令或第i＋1条指令继续执行;若中断或异常处理程序发现是不可恢复的致命错误，则终止用户程序。</p>
+<p><strong>中断</strong>：中断也称外中断，指来自CPU执行指令以外的事件的发生，是为了支持CPU和设备之间的并行操作而引入的。</p>
+<p><strong>异常</strong>：异常也称内中断，指源自CPU执行指令内部的事件，如程序的非法操作码、地址越界。</p>
+<h1 id="二、进程管理"><a href="#二、进程管理" class="headerlink" title="二、进程管理"></a>二、进程管理</h1><h2 id="2-1-进程概念"><a href="#2-1-进程概念" class="headerlink" title="2.1 进程概念"></a>2.1 进程概念</h2><p>程序不能并发执行，因此我们引入了进程的概念，进程可以认为是程序的一次执行。</p>
+<p><strong>性质</strong>：</p>
+<ul>
+<li><p>由创建而产生，调度而执行，撤销而消亡</p>
+</li>
+<li><p>并发性（进程可以并发执行，程序不可以）</p>
+</li>
+<li><p>资源分配的基本单位</p>
+</li>
+<li><p>分为：运行态、就绪态、阻塞态、创建态、终止态</p>
+</li>
+<li><p>组成：程序段、程序控制块PCB、数据段</p>
+</li>
+</ul>
+<h2 id="2-2-线程与进程的区别"><a href="#2-2-线程与进程的区别" class="headerlink" title="&#x3D;&#x3D;2.2 线程与进程的区别&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.2 线程与进程的区别&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
+<p><strong>进程</strong>是系统中分配资源的基本单位,进程是程序执行时的一个实例</p>
+<p><strong>线程</strong>是作为调度和分派的基本单位，是进程中执行的基本单位。</p>
+<ul>
+<li><p>一个进程可以有多个线程，多个线程也可以并发执行</p>
+</li>
+<li><p>进程是系统进行资源分配的基本单位，线程是系统调度的基本单位</p>
+</li>
+<li><p>进程是相互独立的，而线程共享进程的资源。</p>
+</li>
+<li><p>线程的创建和销毁开销相对较小，因为共享相同的地址空间，而进程的创建和销毁开销较大。</p>
+</li>
+<li><p>由于线程共享进程的资源，所以线程间的切换比进程间的切换更快速，从而实现更高效的并发执行。</p>
+</li>
+<li><p>线程之间的通信和同步更加容易，共享相同的地址空间，而进程之间通信需要使用特定的通信机制。</p>
+</li>
+</ul>
+<h2 id="2-3-进程的通信方式"><a href="#2-3-进程的通信方式" class="headerlink" title="&#x3D;&#x3D;2.3 进程的通信方式&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.3 进程的通信方式&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
+<p><strong>进程间的信息交换</strong></p>
+<ol>
+<li><p><strong>共享存储系统</strong>：相互通信的进程共享某些数据结构和共享存储区进行通信。</p>
+</li>
+<li><p><strong>管道通信系统</strong>：发送进程向管道向管道输入数据，接收进程从管道中接受数据。</p>
+</li>
+<li><p><strong>消息传递系统</strong>：进程不必借助任何数据结构或共享存储区，而是将通信数据封装在消息中，并利用通信命令进行传递，消息队列</p>
+</li>
+<li><p><strong>客户机服务器系统</strong>：套接字(实现进程在网络间通信)、远程过程调用</p>
+</li>
+</ol>
+<h2 id="2-4-进程同步"><a href="#2-4-进程同步" class="headerlink" title="2.4 进程同步"></a>2.4 进程同步</h2><p>同一时间仅允许一个进程使用的资源称为临界资源，临界区是进程中访问临界资源的那段代码</p>
+<p>实现方法：临界区、信号量机制、管程</p>
+<p><strong>同步机制应遵循的规则：</strong></p>
+<ul>
+<li>空闲让进 当无进程处于临界区，可允许一个请求进入临界区的进程立即进入临界区</li>
+<li>忙则等待 当已有进程进入自己的临界区，所有企图进入临界区的进程必须等待</li>
+<li>有限等待 对要求访问临界资源的进程，应保证该进程能在有限时间内进入临界区</li>
+<li>让权等待 当进程不能进入自己的临界区，应释放处理机</li>
+</ul>
+<h2 id="2-5-进程状态转换"><a href="#2-5-进程状态转换" class="headerlink" title="&#x3D;&#x3D;2.5 进程状态转换&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.5 进程状态转换&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
+<p><strong>进程的三种基本状态：</strong></p>
+<p><strong>就绪状态</strong>：当进程已分配到除CPU以外的所有必要的资源，只要获得处理机便可立即执行。</p>
+<p><strong>执行状态：</strong>当进程已获得CPU，其程序正在执行。</p>
+<p><strong>阻塞状态</strong>：正在执行的进程，由于发生某个事件而不能继续执行。例如，I&#x2F;O请求、申请缓冲区失败。</p>
+<p><strong>进程三种状态间的转换</strong></p>
+<ol>
+<li><p>就绪→执行：处于就绪状态的进程，当进程调度程序为之分配了处理机后，就变为执行状态。</p>
+</li>
+<li><p>执行→就绪：处于执行状态的进程，因时间片用完而被剥夺处理机，就变为就绪状态。</p>
+</li>
+<li><p>执行→阻塞：正在执行的进程因等待某种事件发生而无法继续执行时，就变为阻塞状态。</p>
+</li>
+<li><p>阻塞→就绪：处于阻塞状态的进程，若其等待的事件已经发生，就变为就绪状态。</p>
+</li>
+</ol>
+<h2 id="2-6-哲学家进餐"><a href="#2-6-哲学家进餐" class="headerlink" title="&#x3D;&#x3D;2.6 哲学家进餐&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.6 哲学家进餐&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
+<p>生产者消费者问题  哲学家进餐问题   读者写者问题</p>
+<ol>
+<li><p>共五位哲学家，至多允许有四位哲学家同时去拿左边的筷子，然后在允许拿右边的筷子，最终能保证至少有一位哲学家能够进餐。</p>
+</li>
+<li><p>仅当哲学家的左，右两只筷子均可用时，才允许他拿起筷子进餐</p>
+</li>
+<li><p>规定奇数号的哲学家先拿起他左边的筷子，然后再去拿他右边的筷子；而偶数号的哲学家则先拿起他右边的筷子，然后再去拿他左边的筷子。</p>
+</li>
+</ol>
+<h1 id="三、处理机的调度与死锁"><a href="#三、处理机的调度与死锁" class="headerlink" title="三、处理机的调度与死锁"></a>三、处理机的调度与死锁</h1><h2 id="3-1-作业调度算法"><a href="#3-1-作业调度算法" class="headerlink" title="3.1 作业调度算法"></a>3.1 作业调度算法</h2><p>作业调度</p>
+<p>作业调度又称为高级调度，频度较低。其主要工作是将位于外存后备队列中的某个作业调入内存，排在就绪队列上。注意了，这个时候仅仅是将作业调入内存，并为作业创建进程、分配资源，此时进程处于就绪态，并没有执行。</p>
+<p>进程调度</p>
+<p>进程调度又称为低级调度，是最基本的、频度最高的调度方式。其主要任务是从就绪队列中选取一个或几个进程，并分配处理机的过程，执行。</p>
+<p>区别</p>
+<p>作业调度和进程调度最主要的区别在于，前者是为作业建立进程的过程，是将作业由外存调入内存的过程；而后者整个过程并没有跑出内存的范围，是将就绪态的进程变为运行态的过程。</p>
+<ol>
+<li><p>先来先服务(FCFS):按照请求的时间进行调度。</p>
+</li>
+<li><p>短作业优先(SJF):对服务时间短的作业(进程)优先调度</p>
+</li>
+<li><p>优先级调度算法：基于作业的紧迫程度，由外部赋予作业优先级</p>
+</li>
+<li><p>高响应比优先调度算法：同时考虑了作业的等待时间和估计运行时间。<strong>优先级 &#x3D; （等待时间+要求服务时间）&#x2F;要求服务时间</strong></p>
+</li>
+</ol>
+<h2 id="3-2-进程调度算法"><a href="#3-2-进程调度算法" class="headerlink" title="&#x3D;&#x3D;3.2 进程调度算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.2 进程调度算法&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
+<p>进程调度方式分为抢占方式和非抢占方式：</p>
+<p><strong>非抢占方式</strong>：进程完成后才能将处理机分配给另一优先级最高的进程</p>
+<p><strong>抢占方式</strong>：进程执行期间出现优先级更高的进程，则将处理机分配给他</p>
+<p><strong>优先级类型</strong>：</p>
+<p><strong>静态优先级</strong>：整个运行期间优先级不变</p>
+<p><strong>动态优先级</strong>：进程创建之初先赋予一个优先级，然后随着等待时间的增加而改变</p>
+<ol start="4">
+<li><p><strong>高响应比优先调度算法</strong>：主要应用于作业调度，同时考虑了每个作业的等待时间和估计运行时间。引入动态优先级，优先级随等待时间的延长而增加，使长作业优先级在等待期间不断增加</p>
+</li>
+<li><p><strong>轮转调度算法</strong>：将所有就绪进程按先来先服务的原则排成一个队列，用完时间片的进程排到队尾。</p>
+</li>
+<li><p><strong>多级队列调度算法</strong>：多个就绪队列，不同就绪队列间用不同的调度算法</p>
+</li>
+<li><p><strong>多级反馈队列调度算法</strong>：（优点：不必知道进程的运行时间）</p>
+<ul>
+<li>设置多个就绪队列：每个就绪队列优先级递减，时间片大小递增。</li>
+<li>每个队列采用先来先服务算法：在时间片内进程完成则撤离系统，若未完成则转入下一队列的末尾，当进程被降入最后一个队列时，则采用轮转的方式。</li>
+<li>按队列优先级调度，若有新进程进入优先级更高的队列，则将正在运行的进程放在本队列的末尾。</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-3-死锁"><a href="#3-3-死锁" class="headerlink" title="&#x3D;&#x3D;3.3 死锁&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.3 死锁&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
+<p><strong>什么是死锁？死锁产生的四个必要条件？如何预防死锁？</strong></p>
+<h3 id="3-3-1-死锁定义"><a href="#3-3-1-死锁定义" class="headerlink" title="3.3.1 死锁定义"></a>3.3.1 死锁定义</h3><p><strong>死锁</strong>是指两个或两个以上的进程在执行过程中，由于竞争资源而造成的一种阻塞的现象，都在等待另一个进程释放资源，若无外力作用，它们都将无法推进下去。</p>
+<ol>
+<li>系统资源的竞争：打印机、消息</li>
+<li>进程推进顺序非法（P1拥有A申请B，P2拥有B申请A）</li>
+</ol>
+<h3 id="3-3-2-产生的四个条件"><a href="#3-3-2-产生的四个条件" class="headerlink" title="3.3.2 产生的四个条件"></a>3.3.2 产生的四个条件</h3><ul>
+<li><strong>互斥条件</strong>：一个资源一次只能被一个进程使用，其它进程访问则等待。</li>
+<li><strong>请求与保持条件</strong>：进程已经保持了至少一个资源，但又提出了新的资源请求，而该资源已被其他进程占有，此时请求进程被阻塞，但对自己已获得的资源保持不放。</li>
+<li><strong>不剥夺条件</strong>：进程获得的资源，在未完全使用完之前，不能被强行剥夺</li>
+<li><strong>循环等待条件</strong>：若干进程之间形成一种头尾相接的环形等待资源关系</li>
+</ul>
+<h3 id="3-3-3-死锁处理策略"><a href="#3-3-3-死锁处理策略" class="headerlink" title="3.3.3 死锁处理策略"></a>3.3.3 死锁处理策略</h3><ul>
+<li>死锁预防：破坏造成死锁的四个必要条件(请求资源但长期不被满足时，释放全部已有资源、一次性分配资源、顺序分配资源)</li>
+<li>死锁避免：使用银行家算法避免系统进入不安全状态</li>
+<li>死锁检测：检测系统是否处于死锁状态，并解除之(剥夺资源、撤销进程、进程回退)</li>
+</ul>
+<h3 id="3-3-4-死锁预防"><a href="#3-3-4-死锁预防" class="headerlink" title="3.3.4 死锁预防"></a>3.3.4 死锁预防</h3><p><strong>破坏互斥条件</strong>:如把只能互斥访问的资源改造成共享的资源，那么就不会发生死锁。比如SPOOLing技术。</p>
+<blockquote>
+<p>举个例子，就比如说两个进程使用打印机的资源，在一个进程还没执行完的时候，另外一个进程是不能获取打印机的资源，只能阻塞。这就是互斥性，但是引入SPooling技术后，这时会出现第三个进程，叫做输入进程，进程1和进程2都将自己对打印机的请求交给输入进程，输入进程来决定什么时候让进程获取打印机资源，所以对于两个进程来说，自己的请求能够被立即接收并处理，不需要再阻塞等待。</p>
+<p>缺点：并不是所有的资源都可以改造成可共享资源。并且为了系统安全，很多地方必须保护这种互斥性。</p>
+</blockquote>
+<p><strong>打破请求与保持条件</strong>：当进程在运行前一次申请完他所需要的全部资源，在他的资源未满足前，不让他投入运行。</p>
+<p><strong>打破不剥夺条件条件</strong>：</p>
+<ul>
+<li><p>方案一：即使某些资源尚未使用完，也必须主动释放，从而破坏了不可剥夺的条件。</p>
+</li>
+<li><p>方案二：当某个进程需要的资源被其它进程占有的时候，可以由操作系统协助将想要的资源强行剥夺，需要考虑进程优先级。</p>
+</li>
+</ul>
+<p><strong>打破循环等待条件</strong>：实现资源有序分配策略，对所有设备实现分类编号，所有进程只能采用按序号递增的形式申请资源。</p>
+<p><strong>死锁避免和死锁预防的区别：</strong></p>
+<blockquote>
+<p><strong>死锁预防</strong>是设法至少破坏产生死锁的四个必要条件之一，严格的防止死锁的出现</p>
+<p><strong>死锁避免</strong>则不那么严格的限制产生死锁的必要条件的存在，因为即使死锁的必要条件存在，也不一定发生死锁。死锁避免是防止系统进入不安全状态，来避免死锁的发生。</p>
+</blockquote>
+<h2 id="3-5-银行家算法"><a href="#3-5-银行家算法" class="headerlink" title="&#x3D;&#x3D;3.5 银行家算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.5 银行家算法&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
+<p>进程运行之前先声明对各种资源的最大需求量，当进程在执行中申请资源时，先计算进程已占用的资源数与本次申请的资源数之和是否超过该进程声明的最大需求量。</p>
+<p>系统安全状态：不可能发生死锁</p>
+<p>系统不安全状态：可能发生死锁</p>
+<h1 id="四、存储器管理"><a href="#四、存储器管理" class="headerlink" title="四、存储器管理"></a>四、存储器管理</h1><h2 id="4-1-概述"><a href="#4-1-概述" class="headerlink" title="4.1 概述"></a>4.1 概述</h2><p><strong>存储器的多层结构</strong>：最高层为CPU寄存器、中间为主存、最底层是辅存。层次越高，存储介质的访问速度越快，价格也越高。</p>
+<p><strong>将用户程序变为可在内存中执行的程序的步骤</strong></p>
+<ol>
+<li><p>编译：由编译程序将用户源代码编译成若干目标模块 </p>
+</li>
+<li><p>链接：由链接程序将编译后形成的目标模块及所需的库函数链接在一起，形成装入模块。</p>
+</li>
+<li><p>装入：由装入程序将装入模块装入内存中运行。</p>
+</li>
+</ol>
+<p><strong>程序的装入方式</strong>：绝对装入、可重定位装入、动态运行时装入</p>
+<p><strong>程序的链接方式</strong>：静态链接、装入时动态链接、运行时动态链接</p>
+<h2 id="4-2-内存连续分配管理方式"><a href="#4-2-内存连续分配管理方式" class="headerlink" title="4.2 内存连续分配管理方式"></a>4.2 内存连续分配管理方式</h2><p>静态分区分配</p>
+<ol>
+<li><p><strong>单一连续分配</strong>：适合单道程序系统，把内存分为系统区和用户区，系统区仅提供给OS使用，用户区仅装有一道用户程序</p>
+</li>
+<li><p><strong>固定分区分配</strong>：适合多道程序系统，它将用户内存空间划分为若干个固定大小的区域，每个分区只装入一道作业。当有空闲分区时，便可以再从外存的后备作业队列中,选择适当大小的作业装入该分区。缺点：每个分区大小固定，必然会产生浪费。</p>
+</li>
+<li><p><strong>动态分区分配</strong>：在进程装入内存时，根据进程的实际需要，动态的为之分配内存空间。</p>
+</li>
+</ol>
+<p>动态分区分配算法：</p>
+<ol>
+<li><p><strong>首次适应法</strong>：分配内存时顺序查找，找到大小能满足要求的第一个空闲分区。 </p>
+<p>优点：倾向于优先利用低址部分的空闲分区，从而保留了高址部分的大空闲区，为大作业分配内存空间创造了条件。</p>
+<p>缺点：低址部分不断被划分，留下了许多难以利用的碎片。</p>
+</li>
+<li><p><strong>临近适应法</strong>：由首次适应算法演变而成。不同之处是分配内存时从上次查找结束的位置开始继续查找。</p>
+<p> 优点：内存中的空闲分区分布均匀，减少了查找可用分区的开销。</p>
+<p> 缺点：缺少大的空闲分区。</p>
+</li>
+<li><p><strong>最佳适应法</strong>：空闲分区按容量递增形成空闲分区链，找到第一个能满足要求的空闲分区，也就是能满足要求的最小空闲分区。</p>
+<p>缺点：留下许多难以利用的碎片。</p>
+</li>
+<li><p><strong>最坏适应法</strong>：空闲分区以容量递减的次序链接，找到第一个能满足要求的空闲分区，也就是挑选出最大的分区。</p>
+<p>优点：剩下的空闲分区不至于太小，产生碎片的可能小。</p>
+<p>缺点：缺乏大的存储空间。</p>
+</li>
+</ol>
+<h2 id="4-3-为什么非连续分配"><a href="#4-3-为什么非连续分配" class="headerlink" title="4.3 为什么非连续分配"></a>4.3 为什么非连续分配</h2><p><strong>为什么要采用内存非连续分配方式？内存非连续分配方式有哪些？</strong></p>
+<p>连续分配方式会产生很多碎片，虽然可以通过紧凑的方式将碎片拼接为可以用的大空间，但开销很大。如果允许将一个进程分散的装入到许多不相邻的分区中，则可以充分利用内存空间。</p>
+<ol>
+<li><strong>页式存储管理</strong>：将用户程序的地址空间分为若干页，将内存空间分为若干物理块，页和块大小相同，可以将用户程序的任一页放到任一物理块中。</li>
+<li><strong>段式存储管理</strong>：将用户程序的地址空间分为若干个大小不同的段，每段可定义一组相对完整的信息，以段为单位进行内存分配。</li>
+<li><strong>段页式存储方式</strong>：分页存储管理能有效提高内存利用率，分段存储管理能满足用户需求，把两种方法结合起来，成为了段页式存储管理。先将用户程序分为若干段，再把每个段分成若干页。</li>
+</ol>
+<p><strong>分页</strong></p>
+<p>分页将进程分成固定大小的页面，以便在需要时将它们调入内存。每个页面都有一个固定的大小（4KB），并按顺序编号。在执行程序时，只有当前需要的页面才会被加载到内存中，而不是一次性将整个程序加载到内存中。当程序需要访问一个未加载到内存中的页面时，它会发出缺页中断，此时操作系统会将该页面从磁盘中加载到内存中，并更新页表以指向新的物理地址。</p>
+<p><strong>分段</strong></p>
+<p>分段的主要目的是将进程分成逻辑上相关的段（如代码段、数据段、堆、栈等），以便于程序员对程序的组织和管理。每个段都有一个可变的大小，可以根据需要进行调整。当程序需要访问一个未加载到内存中的段时，它会发出缺段中断，此时操作系统会将该段从磁盘中加载到内存中，并更新段表以指向新的物理地址。</p>
+<h2 id="4-4-分页分段对比"><a href="#4-4-分页分段对比" class="headerlink" title="&#x3D;&#x3D;4.4 分页分段对比&#x3D;&#x3D;"></a>&#x3D;&#x3D;4.4 分页分段对比&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
+<p><strong>分页的作用，好处？和分段有什么区别？</strong></p>
+<ol>
+<li>页是信息的物理单位，分页是为了提高内存利用率。段是信息的逻辑单位，程序员编程方便。</li>
+<li>页的大小固定，由系统决定。段的长度不固定，决定于用户编写的程序。</li>
+<li>分页的用户程序的地址空间是一维的，分段的用户地址空间是二维的，需要给出段名和段内地址。</li>
+<li>分页管理有内部碎片而无外部碎片，分段管理有外部碎片而无内部碎片；</li>
+</ol>
+<h1 id="五、虚拟存储器"><a href="#五、虚拟存储器" class="headerlink" title="五、虚拟存储器"></a>五、虚拟存储器</h1><h2 id="5-1-虚拟存储器"><a href="#5-1-虚拟存储器" class="headerlink" title="&#x3D;&#x3D;5.1 虚拟存储器&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.1 虚拟存储器&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
+<p>虚拟内存使用外存上的空间来扩充内存空间，通过一定的换入&#x2F;换出</p>
+<p>将当前需要的少数页或段先装入内存，其余部分暂时留在外存。程序执行过程中，若要访问的页或段尚未调入内存，则发出缺页或缺段中断请求，OS利用<strong>请求调页</strong>（段）功能将他们调入内存。同时还可以利用页（段）的<strong>置换功能</strong>，将内存中暂时不用的页（段）换出到外存。</p>
+<h2 id="5-2-页面置换算法-Cache替换"><a href="#5-2-页面置换算法-Cache替换" class="headerlink" title="&#x3D;&#x3D;5.2 页面置换算法(Cache替换)&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.2 页面置换算法(Cache替换)&#x3D;&#x3D;</h2><p>Cache没有OPT和Clock,有随即替换算法</p>
+<p>⭐⭐⭐⭐</p>
+<ul>
+<li>**最佳置换算法(OPT)**：选择的被淘汰页面是以后永不使用的，或是未来最长时间不访问的。（我们无法预知哪个页面在将来不会被使用，因此此算法无法实现）</li>
+<li>**先进先出页面置换算法(FIFO)**：淘汰最先进入内存的页面（不能保证经常被访问的页面不被淘汰）</li>
+<li>**最近最久未使用置换算法(LRU)**：选择最近最久未使用的页面予以淘汰。（过去不经常访问不代表将来也不经常访问，因此不能保证经常被访问的页面不被淘汰）（可以用栈实现，淘汰栈底的）</li>
+<li>**最少使用置换算法(LFU)**：淘汰被访问次数最少的页面</li>
+<li><strong>时钟置换算法(CLOCK)</strong></li>
+</ul>
+<h2 id="5-3-磁盘调度算法"><a href="#5-3-磁盘调度算法" class="headerlink" title="&#x3D;&#x3D;5.3 磁盘调度算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.3 磁盘调度算法&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
+<p>寻道时间：把磁头移动到指定磁道上所经历的时间</p>
+<ol>
+<li><p><strong>先来先服务算法</strong>（FCFS)：根据进程请求访问磁盘的先后顺序进行调度。</p>
+<p>优点：公平，每个进程的请求都能依次得到处理 </p>
+<p>缺点：未对寻道进行优化，导致平均寻道时间较长</p>
+</li>
+<li><p><strong>最短寻找时间优先</strong>(SSTF)：访问与当前磁头所在磁道距离最近的磁道。缺点：可以保证每次的寻道时间最短，但是并不能保证总的寻道时间最短。(其实就是贪心算法的思想，只是选择眼前最优，但是总体未必最优)</p>
+</li>
+<li><p><strong>扫描算法</strong>(SCAN)：磁臂从磁盘的一端开始，向另一端移动；在移过每个柱面时，处理请求。当到达磁盘的另一端时，磁头移动方向反转，并继续处理。</p>
+<p>缺点：对用户的服务请求的响应机会不是均等的，因而导致响应时间的变化幅度很大，紧靠磁头前方的请求相对较少，因为是最近处理过这些柱面</p>
+</li>
+<li><p><strong>循环扫描算法</strong>（CSCAN）：此算法规定磁头单向移动，例如自里向外移动，当磁头移动到最外的磁道并访问后，磁头立即返回到起始端访问磁道。</p>
+</li>
+</ol>
+<h1 id="六、文件管理"><a href="#六、文件管理" class="headerlink" title="六、文件管理"></a>六、文件管理</h1><h2 id="6-1-文件系统文件组织方式"><a href="#6-1-文件系统文件组织方式" class="headerlink" title="&#x3D;&#x3D;6.1 文件系统文件组织方式&#x3D;&#x3D;"></a>&#x3D;&#x3D;6.1 文件系统文件组织方式&#x3D;&#x3D;</h2><p>⭐⭐</p>
+<p>文件系统中的文件通常是通过目录树来组织的。目录树是一种层次结构，每个节点表示一个目录或文件。根节点表示整个文件系统，它包含多个子节点。使用链接来组织文件。链接是一个特殊的文件，它可以指向另一个文件或目录。分为硬链接和软链接：</p>
+<ul>
+<li>硬链接是指向同一个文件系统中的另一个文件或目录的物理存储区域的链接</li>
+<li>软链接是指向文件系统中的另一个文件或目录的符号链接，其中包含指向目标文件或目录的路径，可以跨越不同的文件系统</li>
+</ul>
+]]></content>
+      <categories>
+        <category>保研复习</category>
+      </categories>
+      <tags>
+        <tag>保研面试题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>逆向CTF系列1-Hello，CTF</title>
+    <url>/f4ffdc6/</url>
+    <content><![CDATA[<h1 id="逆向CTF系列1-Hello，CTF"><a href="#逆向CTF系列1-Hello，CTF" class="headerlink" title="逆向CTF系列1-Hello，CTF"></a>逆向CTF系列1-Hello，CTF</h1><p>下载文件首先查壳</p>
+<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011170415935.png" alt="image-20241011170415935"></p>
+<p>是32位的。</p>
+<p>上面的图看到了没有。说明这个软件是没有加壳的。是用Microsoft Visual C++ 6.0软件编写的。如果查到了是aspack的。那就说明是加了aspack的壳。您可以用专门脱aspack脱壳机来脱壳。很多高手都是用OllyDBG V1.10 手工来脱壳的。</p>
+<p>可以先运行一下源程序，输入123，发现输出wrong</p>
+<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011213951422.png" alt="image-20241011213951422"></p>
+<p>可能是要我们输出success才行。在ida中再看看，果断F5。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span> &#123;</span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// ebx</span></span><br><span class="line">  <span class="type">char</span> v4; <span class="comment">// al</span></span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v6; <span class="comment">// [esp+0h] [ebp-70h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+0h] [ebp-70h]</span></span><br><span class="line">  <span class="type">char</span> Buffer[<span class="number">2</span>]; <span class="comment">// [esp+12h] [ebp-5Eh] BYREF</span></span><br><span class="line">  <span class="type">char</span> v9[<span class="number">20</span>]; <span class="comment">// [esp+14h] [ebp-5Ch] BYREF</span></span><br><span class="line">  <span class="type">char</span> v10[<span class="number">32</span>]; <span class="comment">// [esp+28h] [ebp-48h] BYREF</span></span><br><span class="line">  __int16 v11; <span class="comment">// [esp+48h] [ebp-28h]</span></span><br><span class="line">  <span class="type">char</span> v12; <span class="comment">// [esp+4Ah] [ebp-26h]</span></span><br><span class="line">  <span class="type">char</span> v13[<span class="number">36</span>]; <span class="comment">// [esp+4Ch] [ebp-24h] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v13, <span class="string">&quot;437261636b4d654a757374466f7246756e&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )&#123;</span><br><span class="line">    <span class="built_in">memset</span>(v10, <span class="number">0</span>, <span class="keyword">sizeof</span>(v10));</span><br><span class="line">    v11 = <span class="number">0</span>;</span><br><span class="line">    v12 = <span class="number">0</span>;</span><br><span class="line">    sub_40134B(aPleaseInputYou, v6);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, v9);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strlen</span>(v9) &gt; <span class="number">0x11</span> ) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">17</span>; ++i ) &#123;</span><br><span class="line">      v4 = v9[i];</span><br><span class="line">      <span class="keyword">if</span> ( !v4 ) <span class="keyword">break</span>;</span><br><span class="line">      <span class="built_in">sprintf</span>(Buffer, <span class="string">&quot;%x&quot;</span>, v4);</span><br><span class="line">      <span class="built_in">strcat</span>(v10, Buffer);</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(v10, v13))  sub_40134B(aSuccess, v7);</span><br><span class="line">     <span class="keyword">else</span> sub_40134B(aWrong, v7);</span><br><span class="line">  &#125;</span><br><span class="line">  sub_40134B(aWrong, v7);</span><br><span class="line">  result = --Stream._cnt;</span><br><span class="line">  <span class="keyword">if</span> ( Stream._cnt &lt; <span class="number">0</span> )</span><br><span class="line">    <span class="keyword">return</span> _filbuf(&amp;Stream);</span><br><span class="line">  ++Stream._ptr;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>sub_40134B没搜到他的用途，但是读完代码并理解后可以假设一下他是输出函数，也就是，在v10和v13相等才会输出v13</p>
+<p>简单讲一下代码逻辑，输入v9，v9长度不能大于0x11(0x11&#x3D;17,16进制，因为0x)，循环17次，取出每一位如果为0则退出循环，不为0则拼接到v10(16进制)，循环结束后进行比较。</p>
+<p>也就是437261636b4d654a757374466f7246756e是输入字符串的16进制</p>
+<blockquote>
+<p>％x以十六进制数形式输出整数</p>
+</blockquote>
+<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011220112125.png" alt="image-20241011220112125"></p>
+<p>当然也可以写脚本：</p>
+<p><code>16</code>进制字符串转字符串，大致的逻辑就是将<code>16</code>进制字符串<strong>每两个字符</strong>组合在一起得到一个<code>16</code>进制的字符串</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x=<span class="string">&#x27;437261636b4d654a757374466f7246756e&#x27;</span> </span><br><span class="line">y=<span class="string">&#x27;&#x27;</span> </span><br><span class="line">i=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span>(i &lt; <span class="built_in">len</span>(x)):</span><br><span class="line">    y += <span class="built_in">chr</span>(<span class="built_in">int</span>(x[i:i+<span class="number">2</span>],<span class="number">16</span>))</span><br><span class="line">    i += <span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(y)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以下是 int() 方法的语法:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class int(x, base=10)</span><br></pre></td></tr></table></figure>
+
+<p>参数</p>
+<ul>
+<li>x – 字符串或数字。</li>
+<li>base – 进制数，默认十进制。</li>
+</ul>
+</blockquote>
+<p>CrackMeJustForFun</p>
+<p>成功，CrackMeJustForFun就是flag</p>
+<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011220412699.png" alt="image-20241011220412699"></p>
+<p><strong>补充一下壳的知识：</strong></p>
+<blockquote>
+<p>壳是指在一个程序外面包裹一段代码，保护里面的代码不被正确反编译或非法修改，在加载到内存时般先于程序运行，拿到控制权，然后保护并加载程序。</p>
+<p>加壳:其实是利用特殊的算法，对EXE、DLL文件里的资源进行压缩。类似WINZIP 的效果，只不过这个压缩之后的文件，可以独立运行，解压过程完全隐蔽，都在内存中完成。加壳过的程序可以直接运行但是不能查看源代码，要经过脱壳才可以查看源代码，这样可以起到保护程序的作用。</p>
+</blockquote>
+<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011171006197.png" alt="image-20241011171006197"></p>
+<ul>
+<li>压缩壳:通过压缩算法压缩软件大小。</li>
+<li>加密壳:利用各种反跟踪技术保护程序不被调试、脱壳、反编译。</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>计算机保研复习-数据结构</title>
     <url>/9f5ee013/</url>
     <content><![CDATA[<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h1 id="一、线性表"><a href="#一、线性表" class="headerlink" title="一、线性表"></a>一、线性表</h1><h2 id="1-1-数组和链表的区别"><a href="#1-1-数组和链表的区别" class="headerlink" title="1.1 数组和链表的区别"></a>1.1 数组和链表的区别</h2><p><strong>线性表</strong>是具有相同数据类型的n个数据元素的有限序列</p>
@@ -472,339 +806,5 @@
       <tags>
         <tag>保研面试题</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>计算机保研复习-操作系统</title>
-    <url>/48835374/</url>
-    <content><![CDATA[<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h1 id="一、操作系统概述"><a href="#一、操作系统概述" class="headerlink" title="一、操作系统概述"></a>一、操作系统概述</h1><h2 id="1-1-操作系统功能特点"><a href="#1-1-操作系统功能特点" class="headerlink" title="&#x3D;&#x3D;1.1 操作系统功能特点&#x3D;&#x3D;"></a>&#x3D;&#x3D;1.1 操作系统功能特点&#x3D;&#x3D;</h2><p>⭐</p>
-<p>特点：</p>
-<ol>
-<li><p><strong>并发</strong>：并发是指在一段时间内多个进程可以同时执行，提高系统的资源利用率和系统吞吐量。</p>
-</li>
-<li><p><strong>共享</strong>：系统中的资源可以被多个并发执行的进程共同使用</p>
-</li>
-<li><p><strong>异步</strong>：在多道程序环境下，多个进程并发执行，但由于资源有限，进程的执行不是一贯到底，而是走走停停。</p>
-</li>
-<li><p><strong>虚拟</strong>：通过时分复用或者空分复用将一个物理实体转换为若干个逻辑上的对应物。比如虽然系统中只有一台处理机，但是通过复用技术，能够同时为多个用户服务。</p>
-</li>
-</ol>
-<p>功能：</p>
-<ul>
-<li><strong>处理机管理功能</strong>﹔进程同步、进程通信、进程调度</li>
-<li><strong>存储器管理功能</strong>：内存的分配与回收、内存保护、地址映射</li>
-<li><strong>设备管理功能</strong>：缓冲区管理、设备分配</li>
-<li><strong>文件管理功能</strong>：存储空间管理、目录管理</li>
-<li><strong>提供与用户之间的接口</strong>：用户接口、程序接口(系统调用)</li>
-<li><strong>作业管理</strong>：作业调度与控制</li>
-</ul>
-<p><strong>并行与并发的区别：</strong></p>
-<p><strong>并发</strong>：在单处理机系统中，每一时刻仅有一道程序执行，所以这些程序是分时交替执行的。宏观上有多个程序在同时运行，而微观上这些程序还是在分时地交替执行,通过分时得以实现的。</p>
-<p><strong>并行</strong>：在多处理机系统中，多个程序被分到多个处理机上，多个程序可同时执行</p>
-<h2 id="1-2-中断和异常处理过程"><a href="#1-2-中断和异常处理过程" class="headerlink" title="1.2 中断和异常处理过程"></a>1.2 中断和异常处理过程</h2><p>当CPU在执行用户程序的第i条指令时检测到一个异常事件，或在执行第i条指令后发现一个中断请求信号，则CPU打断当前的用户程序，然后转到相应的中断或异常处理程序去执行。若中断或异常处理程序能够解决相应的问题，则在中断或异常处理程序的最后，CPU通过执行中断或异常返回指令，回到被打断的用户程序的第i条指令或第i＋1条指令继续执行;若中断或异常处理程序发现是不可恢复的致命错误，则终止用户程序。</p>
-<p><strong>中断</strong>：中断也称外中断，指来自CPU执行指令以外的事件的发生，是为了支持CPU和设备之间的并行操作而引入的。</p>
-<p><strong>异常</strong>：异常也称内中断，指源自CPU执行指令内部的事件，如程序的非法操作码、地址越界。</p>
-<h1 id="二、进程管理"><a href="#二、进程管理" class="headerlink" title="二、进程管理"></a>二、进程管理</h1><h2 id="2-1-进程概念"><a href="#2-1-进程概念" class="headerlink" title="2.1 进程概念"></a>2.1 进程概念</h2><p>程序不能并发执行，因此我们引入了进程的概念，进程可以认为是程序的一次执行。</p>
-<p><strong>性质</strong>：</p>
-<ul>
-<li><p>由创建而产生，调度而执行，撤销而消亡</p>
-</li>
-<li><p>并发性（进程可以并发执行，程序不可以）</p>
-</li>
-<li><p>资源分配的基本单位</p>
-</li>
-<li><p>分为：运行态、就绪态、阻塞态、创建态、终止态</p>
-</li>
-<li><p>组成：程序段、程序控制块PCB、数据段</p>
-</li>
-</ul>
-<h2 id="2-2-线程与进程的区别"><a href="#2-2-线程与进程的区别" class="headerlink" title="&#x3D;&#x3D;2.2 线程与进程的区别&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.2 线程与进程的区别&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
-<p><strong>进程</strong>是系统中分配资源的基本单位,进程是程序执行时的一个实例</p>
-<p><strong>线程</strong>是作为调度和分派的基本单位，是进程中执行的基本单位。</p>
-<ul>
-<li><p>一个进程可以有多个线程，多个线程也可以并发执行</p>
-</li>
-<li><p>进程是系统进行资源分配的基本单位，线程是系统调度的基本单位</p>
-</li>
-<li><p>进程是相互独立的，而线程共享进程的资源。</p>
-</li>
-<li><p>线程的创建和销毁开销相对较小，因为共享相同的地址空间，而进程的创建和销毁开销较大。</p>
-</li>
-<li><p>由于线程共享进程的资源，所以线程间的切换比进程间的切换更快速，从而实现更高效的并发执行。</p>
-</li>
-<li><p>线程之间的通信和同步更加容易，共享相同的地址空间，而进程之间通信需要使用特定的通信机制。</p>
-</li>
-</ul>
-<h2 id="2-3-进程的通信方式"><a href="#2-3-进程的通信方式" class="headerlink" title="&#x3D;&#x3D;2.3 进程的通信方式&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.3 进程的通信方式&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
-<p><strong>进程间的信息交换</strong></p>
-<ol>
-<li><p><strong>共享存储系统</strong>：相互通信的进程共享某些数据结构和共享存储区进行通信。</p>
-</li>
-<li><p><strong>管道通信系统</strong>：发送进程向管道向管道输入数据，接收进程从管道中接受数据。</p>
-</li>
-<li><p><strong>消息传递系统</strong>：进程不必借助任何数据结构或共享存储区，而是将通信数据封装在消息中，并利用通信命令进行传递，消息队列</p>
-</li>
-<li><p><strong>客户机服务器系统</strong>：套接字(实现进程在网络间通信)、远程过程调用</p>
-</li>
-</ol>
-<h2 id="2-4-进程同步"><a href="#2-4-进程同步" class="headerlink" title="2.4 进程同步"></a>2.4 进程同步</h2><p>同一时间仅允许一个进程使用的资源称为临界资源，临界区是进程中访问临界资源的那段代码</p>
-<p>实现方法：临界区、信号量机制、管程</p>
-<p><strong>同步机制应遵循的规则：</strong></p>
-<ul>
-<li>空闲让进 当无进程处于临界区，可允许一个请求进入临界区的进程立即进入临界区</li>
-<li>忙则等待 当已有进程进入自己的临界区，所有企图进入临界区的进程必须等待</li>
-<li>有限等待 对要求访问临界资源的进程，应保证该进程能在有限时间内进入临界区</li>
-<li>让权等待 当进程不能进入自己的临界区，应释放处理机</li>
-</ul>
-<h2 id="2-5-进程状态转换"><a href="#2-5-进程状态转换" class="headerlink" title="&#x3D;&#x3D;2.5 进程状态转换&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.5 进程状态转换&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
-<p><strong>进程的三种基本状态：</strong></p>
-<p><strong>就绪状态</strong>：当进程已分配到除CPU以外的所有必要的资源，只要获得处理机便可立即执行。</p>
-<p><strong>执行状态：</strong>当进程已获得CPU，其程序正在执行。</p>
-<p><strong>阻塞状态</strong>：正在执行的进程，由于发生某个事件而不能继续执行。例如，I&#x2F;O请求、申请缓冲区失败。</p>
-<p><strong>进程三种状态间的转换</strong></p>
-<ol>
-<li><p>就绪→执行：处于就绪状态的进程，当进程调度程序为之分配了处理机后，就变为执行状态。</p>
-</li>
-<li><p>执行→就绪：处于执行状态的进程，因时间片用完而被剥夺处理机，就变为就绪状态。</p>
-</li>
-<li><p>执行→阻塞：正在执行的进程因等待某种事件发生而无法继续执行时，就变为阻塞状态。</p>
-</li>
-<li><p>阻塞→就绪：处于阻塞状态的进程，若其等待的事件已经发生，就变为就绪状态。</p>
-</li>
-</ol>
-<h2 id="2-6-哲学家进餐"><a href="#2-6-哲学家进餐" class="headerlink" title="&#x3D;&#x3D;2.6 哲学家进餐&#x3D;&#x3D;"></a>&#x3D;&#x3D;2.6 哲学家进餐&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
-<p>生产者消费者问题  哲学家进餐问题   读者写者问题</p>
-<ol>
-<li><p>共五位哲学家，至多允许有四位哲学家同时去拿左边的筷子，然后在允许拿右边的筷子，最终能保证至少有一位哲学家能够进餐。</p>
-</li>
-<li><p>仅当哲学家的左，右两只筷子均可用时，才允许他拿起筷子进餐</p>
-</li>
-<li><p>规定奇数号的哲学家先拿起他左边的筷子，然后再去拿他右边的筷子；而偶数号的哲学家则先拿起他右边的筷子，然后再去拿他左边的筷子。</p>
-</li>
-</ol>
-<h1 id="三、处理机的调度与死锁"><a href="#三、处理机的调度与死锁" class="headerlink" title="三、处理机的调度与死锁"></a>三、处理机的调度与死锁</h1><h2 id="3-1-作业调度算法"><a href="#3-1-作业调度算法" class="headerlink" title="3.1 作业调度算法"></a>3.1 作业调度算法</h2><p>作业调度</p>
-<p>作业调度又称为高级调度，频度较低。其主要工作是将位于外存后备队列中的某个作业调入内存，排在就绪队列上。注意了，这个时候仅仅是将作业调入内存，并为作业创建进程、分配资源，此时进程处于就绪态，并没有执行。</p>
-<p>进程调度</p>
-<p>进程调度又称为低级调度，是最基本的、频度最高的调度方式。其主要任务是从就绪队列中选取一个或几个进程，并分配处理机的过程，执行。</p>
-<p>区别</p>
-<p>作业调度和进程调度最主要的区别在于，前者是为作业建立进程的过程，是将作业由外存调入内存的过程；而后者整个过程并没有跑出内存的范围，是将就绪态的进程变为运行态的过程。</p>
-<ol>
-<li><p>先来先服务(FCFS):按照请求的时间进行调度。</p>
-</li>
-<li><p>短作业优先(SJF):对服务时间短的作业(进程)优先调度</p>
-</li>
-<li><p>优先级调度算法：基于作业的紧迫程度，由外部赋予作业优先级</p>
-</li>
-<li><p>高响应比优先调度算法：同时考虑了作业的等待时间和估计运行时间。<strong>优先级 &#x3D; （等待时间+要求服务时间）&#x2F;要求服务时间</strong></p>
-</li>
-</ol>
-<h2 id="3-2-进程调度算法"><a href="#3-2-进程调度算法" class="headerlink" title="&#x3D;&#x3D;3.2 进程调度算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.2 进程调度算法&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
-<p>进程调度方式分为抢占方式和非抢占方式：</p>
-<p><strong>非抢占方式</strong>：进程完成后才能将处理机分配给另一优先级最高的进程</p>
-<p><strong>抢占方式</strong>：进程执行期间出现优先级更高的进程，则将处理机分配给他</p>
-<p><strong>优先级类型</strong>：</p>
-<p><strong>静态优先级</strong>：整个运行期间优先级不变</p>
-<p><strong>动态优先级</strong>：进程创建之初先赋予一个优先级，然后随着等待时间的增加而改变</p>
-<ol start="4">
-<li><p><strong>高响应比优先调度算法</strong>：主要应用于作业调度，同时考虑了每个作业的等待时间和估计运行时间。引入动态优先级，优先级随等待时间的延长而增加，使长作业优先级在等待期间不断增加</p>
-</li>
-<li><p><strong>轮转调度算法</strong>：将所有就绪进程按先来先服务的原则排成一个队列，用完时间片的进程排到队尾。</p>
-</li>
-<li><p><strong>多级队列调度算法</strong>：多个就绪队列，不同就绪队列间用不同的调度算法</p>
-</li>
-<li><p><strong>多级反馈队列调度算法</strong>：（优点：不必知道进程的运行时间）</p>
-<ul>
-<li>设置多个就绪队列：每个就绪队列优先级递减，时间片大小递增。</li>
-<li>每个队列采用先来先服务算法：在时间片内进程完成则撤离系统，若未完成则转入下一队列的末尾，当进程被降入最后一个队列时，则采用轮转的方式。</li>
-<li>按队列优先级调度，若有新进程进入优先级更高的队列，则将正在运行的进程放在本队列的末尾。</li>
-</ul>
-</li>
-</ol>
-<h2 id="3-3-死锁"><a href="#3-3-死锁" class="headerlink" title="&#x3D;&#x3D;3.3 死锁&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.3 死锁&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐⭐⭐</p>
-<p><strong>什么是死锁？死锁产生的四个必要条件？如何预防死锁？</strong></p>
-<h3 id="3-3-1-死锁定义"><a href="#3-3-1-死锁定义" class="headerlink" title="3.3.1 死锁定义"></a>3.3.1 死锁定义</h3><p><strong>死锁</strong>是指两个或两个以上的进程在执行过程中，由于竞争资源而造成的一种阻塞的现象，都在等待另一个进程释放资源，若无外力作用，它们都将无法推进下去。</p>
-<ol>
-<li>系统资源的竞争：打印机、消息</li>
-<li>进程推进顺序非法（P1拥有A申请B，P2拥有B申请A）</li>
-</ol>
-<h3 id="3-3-2-产生的四个条件"><a href="#3-3-2-产生的四个条件" class="headerlink" title="3.3.2 产生的四个条件"></a>3.3.2 产生的四个条件</h3><ul>
-<li><strong>互斥条件</strong>：一个资源一次只能被一个进程使用，其它进程访问则等待。</li>
-<li><strong>请求与保持条件</strong>：进程已经保持了至少一个资源，但又提出了新的资源请求，而该资源已被其他进程占有，此时请求进程被阻塞，但对自己已获得的资源保持不放。</li>
-<li><strong>不剥夺条件</strong>：进程获得的资源，在未完全使用完之前，不能被强行剥夺</li>
-<li><strong>循环等待条件</strong>：若干进程之间形成一种头尾相接的环形等待资源关系</li>
-</ul>
-<h3 id="3-3-3-死锁处理策略"><a href="#3-3-3-死锁处理策略" class="headerlink" title="3.3.3 死锁处理策略"></a>3.3.3 死锁处理策略</h3><ul>
-<li>死锁预防：破坏造成死锁的四个必要条件(请求资源但长期不被满足时，释放全部已有资源、一次性分配资源、顺序分配资源)</li>
-<li>死锁避免：使用银行家算法避免系统进入不安全状态</li>
-<li>死锁检测：检测系统是否处于死锁状态，并解除之(剥夺资源、撤销进程、进程回退)</li>
-</ul>
-<h3 id="3-3-4-死锁预防"><a href="#3-3-4-死锁预防" class="headerlink" title="3.3.4 死锁预防"></a>3.3.4 死锁预防</h3><p><strong>破坏互斥条件</strong>:如把只能互斥访问的资源改造成共享的资源，那么就不会发生死锁。比如SPOOLing技术。</p>
-<blockquote>
-<p>举个例子，就比如说两个进程使用打印机的资源，在一个进程还没执行完的时候，另外一个进程是不能获取打印机的资源，只能阻塞。这就是互斥性，但是引入SPooling技术后，这时会出现第三个进程，叫做输入进程，进程1和进程2都将自己对打印机的请求交给输入进程，输入进程来决定什么时候让进程获取打印机资源，所以对于两个进程来说，自己的请求能够被立即接收并处理，不需要再阻塞等待。</p>
-<p>缺点：并不是所有的资源都可以改造成可共享资源。并且为了系统安全，很多地方必须保护这种互斥性。</p>
-</blockquote>
-<p><strong>打破请求与保持条件</strong>：当进程在运行前一次申请完他所需要的全部资源，在他的资源未满足前，不让他投入运行。</p>
-<p><strong>打破不剥夺条件条件</strong>：</p>
-<ul>
-<li><p>方案一：即使某些资源尚未使用完，也必须主动释放，从而破坏了不可剥夺的条件。</p>
-</li>
-<li><p>方案二：当某个进程需要的资源被其它进程占有的时候，可以由操作系统协助将想要的资源强行剥夺，需要考虑进程优先级。</p>
-</li>
-</ul>
-<p><strong>打破循环等待条件</strong>：实现资源有序分配策略，对所有设备实现分类编号，所有进程只能采用按序号递增的形式申请资源。</p>
-<p><strong>死锁避免和死锁预防的区别：</strong></p>
-<blockquote>
-<p><strong>死锁预防</strong>是设法至少破坏产生死锁的四个必要条件之一，严格的防止死锁的出现</p>
-<p><strong>死锁避免</strong>则不那么严格的限制产生死锁的必要条件的存在，因为即使死锁的必要条件存在，也不一定发生死锁。死锁避免是防止系统进入不安全状态，来避免死锁的发生。</p>
-</blockquote>
-<h2 id="3-5-银行家算法"><a href="#3-5-银行家算法" class="headerlink" title="&#x3D;&#x3D;3.5 银行家算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.5 银行家算法&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
-<p>进程运行之前先声明对各种资源的最大需求量，当进程在执行中申请资源时，先计算进程已占用的资源数与本次申请的资源数之和是否超过该进程声明的最大需求量。</p>
-<p>系统安全状态：不可能发生死锁</p>
-<p>系统不安全状态：可能发生死锁</p>
-<h1 id="四、存储器管理"><a href="#四、存储器管理" class="headerlink" title="四、存储器管理"></a>四、存储器管理</h1><h2 id="4-1-概述"><a href="#4-1-概述" class="headerlink" title="4.1 概述"></a>4.1 概述</h2><p><strong>存储器的多层结构</strong>：最高层为CPU寄存器、中间为主存、最底层是辅存。层次越高，存储介质的访问速度越快，价格也越高。</p>
-<p><strong>将用户程序变为可在内存中执行的程序的步骤</strong></p>
-<ol>
-<li><p>编译：由编译程序将用户源代码编译成若干目标模块 </p>
-</li>
-<li><p>链接：由链接程序将编译后形成的目标模块及所需的库函数链接在一起，形成装入模块。</p>
-</li>
-<li><p>装入：由装入程序将装入模块装入内存中运行。</p>
-</li>
-</ol>
-<p><strong>程序的装入方式</strong>：绝对装入、可重定位装入、动态运行时装入</p>
-<p><strong>程序的链接方式</strong>：静态链接、装入时动态链接、运行时动态链接</p>
-<h2 id="4-2-内存连续分配管理方式"><a href="#4-2-内存连续分配管理方式" class="headerlink" title="4.2 内存连续分配管理方式"></a>4.2 内存连续分配管理方式</h2><p>静态分区分配</p>
-<ol>
-<li><p><strong>单一连续分配</strong>：适合单道程序系统，把内存分为系统区和用户区，系统区仅提供给OS使用，用户区仅装有一道用户程序</p>
-</li>
-<li><p><strong>固定分区分配</strong>：适合多道程序系统，它将用户内存空间划分为若干个固定大小的区域，每个分区只装入一道作业。当有空闲分区时，便可以再从外存的后备作业队列中,选择适当大小的作业装入该分区。缺点：每个分区大小固定，必然会产生浪费。</p>
-</li>
-<li><p><strong>动态分区分配</strong>：在进程装入内存时，根据进程的实际需要，动态的为之分配内存空间。</p>
-</li>
-</ol>
-<p>动态分区分配算法：</p>
-<ol>
-<li><p><strong>首次适应法</strong>：分配内存时顺序查找，找到大小能满足要求的第一个空闲分区。 </p>
-<p>优点：倾向于优先利用低址部分的空闲分区，从而保留了高址部分的大空闲区，为大作业分配内存空间创造了条件。</p>
-<p>缺点：低址部分不断被划分，留下了许多难以利用的碎片。</p>
-</li>
-<li><p><strong>临近适应法</strong>：由首次适应算法演变而成。不同之处是分配内存时从上次查找结束的位置开始继续查找。</p>
-<p> 优点：内存中的空闲分区分布均匀，减少了查找可用分区的开销。</p>
-<p> 缺点：缺少大的空闲分区。</p>
-</li>
-<li><p><strong>最佳适应法</strong>：空闲分区按容量递增形成空闲分区链，找到第一个能满足要求的空闲分区，也就是能满足要求的最小空闲分区。</p>
-<p>缺点：留下许多难以利用的碎片。</p>
-</li>
-<li><p><strong>最坏适应法</strong>：空闲分区以容量递减的次序链接，找到第一个能满足要求的空闲分区，也就是挑选出最大的分区。</p>
-<p>优点：剩下的空闲分区不至于太小，产生碎片的可能小。</p>
-<p>缺点：缺乏大的存储空间。</p>
-</li>
-</ol>
-<h2 id="4-3-为什么非连续分配"><a href="#4-3-为什么非连续分配" class="headerlink" title="4.3 为什么非连续分配"></a>4.3 为什么非连续分配</h2><p><strong>为什么要采用内存非连续分配方式？内存非连续分配方式有哪些？</strong></p>
-<p>连续分配方式会产生很多碎片，虽然可以通过紧凑的方式将碎片拼接为可以用的大空间，但开销很大。如果允许将一个进程分散的装入到许多不相邻的分区中，则可以充分利用内存空间。</p>
-<ol>
-<li><strong>页式存储管理</strong>：将用户程序的地址空间分为若干页，将内存空间分为若干物理块，页和块大小相同，可以将用户程序的任一页放到任一物理块中。</li>
-<li><strong>段式存储管理</strong>：将用户程序的地址空间分为若干个大小不同的段，每段可定义一组相对完整的信息，以段为单位进行内存分配。</li>
-<li><strong>段页式存储方式</strong>：分页存储管理能有效提高内存利用率，分段存储管理能满足用户需求，把两种方法结合起来，成为了段页式存储管理。先将用户程序分为若干段，再把每个段分成若干页。</li>
-</ol>
-<p><strong>分页</strong></p>
-<p>分页将进程分成固定大小的页面，以便在需要时将它们调入内存。每个页面都有一个固定的大小（4KB），并按顺序编号。在执行程序时，只有当前需要的页面才会被加载到内存中，而不是一次性将整个程序加载到内存中。当程序需要访问一个未加载到内存中的页面时，它会发出缺页中断，此时操作系统会将该页面从磁盘中加载到内存中，并更新页表以指向新的物理地址。</p>
-<p><strong>分段</strong></p>
-<p>分段的主要目的是将进程分成逻辑上相关的段（如代码段、数据段、堆、栈等），以便于程序员对程序的组织和管理。每个段都有一个可变的大小，可以根据需要进行调整。当程序需要访问一个未加载到内存中的段时，它会发出缺段中断，此时操作系统会将该段从磁盘中加载到内存中，并更新段表以指向新的物理地址。</p>
-<h2 id="4-4-分页分段对比"><a href="#4-4-分页分段对比" class="headerlink" title="&#x3D;&#x3D;4.4 分页分段对比&#x3D;&#x3D;"></a>&#x3D;&#x3D;4.4 分页分段对比&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
-<p><strong>分页的作用，好处？和分段有什么区别？</strong></p>
-<ol>
-<li>页是信息的物理单位，分页是为了提高内存利用率。段是信息的逻辑单位，程序员编程方便。</li>
-<li>页的大小固定，由系统决定。段的长度不固定，决定于用户编写的程序。</li>
-<li>分页的用户程序的地址空间是一维的，分段的用户地址空间是二维的，需要给出段名和段内地址。</li>
-<li>分页管理有内部碎片而无外部碎片，分段管理有外部碎片而无内部碎片；</li>
-</ol>
-<h1 id="五、虚拟存储器"><a href="#五、虚拟存储器" class="headerlink" title="五、虚拟存储器"></a>五、虚拟存储器</h1><h2 id="5-1-虚拟存储器"><a href="#5-1-虚拟存储器" class="headerlink" title="&#x3D;&#x3D;5.1 虚拟存储器&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.1 虚拟存储器&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
-<p>虚拟内存使用外存上的空间来扩充内存空间，通过一定的换入&#x2F;换出</p>
-<p>将当前需要的少数页或段先装入内存，其余部分暂时留在外存。程序执行过程中，若要访问的页或段尚未调入内存，则发出缺页或缺段中断请求，OS利用<strong>请求调页</strong>（段）功能将他们调入内存。同时还可以利用页（段）的<strong>置换功能</strong>，将内存中暂时不用的页（段）换出到外存。</p>
-<h2 id="5-2-页面置换算法-Cache替换"><a href="#5-2-页面置换算法-Cache替换" class="headerlink" title="&#x3D;&#x3D;5.2 页面置换算法(Cache替换)&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.2 页面置换算法(Cache替换)&#x3D;&#x3D;</h2><p>Cache没有OPT和Clock,有随即替换算法</p>
-<p>⭐⭐⭐⭐</p>
-<ul>
-<li>**最佳置换算法(OPT)**：选择的被淘汰页面是以后永不使用的，或是未来最长时间不访问的。（我们无法预知哪个页面在将来不会被使用，因此此算法无法实现）</li>
-<li>**先进先出页面置换算法(FIFO)**：淘汰最先进入内存的页面（不能保证经常被访问的页面不被淘汰）</li>
-<li>**最近最久未使用置换算法(LRU)**：选择最近最久未使用的页面予以淘汰。（过去不经常访问不代表将来也不经常访问，因此不能保证经常被访问的页面不被淘汰）（可以用栈实现，淘汰栈底的）</li>
-<li>**最少使用置换算法(LFU)**：淘汰被访问次数最少的页面</li>
-<li><strong>时钟置换算法(CLOCK)</strong></li>
-</ul>
-<h2 id="5-3-磁盘调度算法"><a href="#5-3-磁盘调度算法" class="headerlink" title="&#x3D;&#x3D;5.3 磁盘调度算法&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.3 磁盘调度算法&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
-<p>寻道时间：把磁头移动到指定磁道上所经历的时间</p>
-<ol>
-<li><p><strong>先来先服务算法</strong>（FCFS)：根据进程请求访问磁盘的先后顺序进行调度。</p>
-<p>优点：公平，每个进程的请求都能依次得到处理 </p>
-<p>缺点：未对寻道进行优化，导致平均寻道时间较长</p>
-</li>
-<li><p><strong>最短寻找时间优先</strong>(SSTF)：访问与当前磁头所在磁道距离最近的磁道。缺点：可以保证每次的寻道时间最短，但是并不能保证总的寻道时间最短。(其实就是贪心算法的思想，只是选择眼前最优，但是总体未必最优)</p>
-</li>
-<li><p><strong>扫描算法</strong>(SCAN)：磁臂从磁盘的一端开始，向另一端移动；在移过每个柱面时，处理请求。当到达磁盘的另一端时，磁头移动方向反转，并继续处理。</p>
-<p>缺点：对用户的服务请求的响应机会不是均等的，因而导致响应时间的变化幅度很大，紧靠磁头前方的请求相对较少，因为是最近处理过这些柱面</p>
-</li>
-<li><p><strong>循环扫描算法</strong>（CSCAN）：此算法规定磁头单向移动，例如自里向外移动，当磁头移动到最外的磁道并访问后，磁头立即返回到起始端访问磁道。</p>
-</li>
-</ol>
-<h1 id="六、文件管理"><a href="#六、文件管理" class="headerlink" title="六、文件管理"></a>六、文件管理</h1><h2 id="6-1-文件系统文件组织方式"><a href="#6-1-文件系统文件组织方式" class="headerlink" title="&#x3D;&#x3D;6.1 文件系统文件组织方式&#x3D;&#x3D;"></a>&#x3D;&#x3D;6.1 文件系统文件组织方式&#x3D;&#x3D;</h2><p>⭐⭐</p>
-<p>文件系统中的文件通常是通过目录树来组织的。目录树是一种层次结构，每个节点表示一个目录或文件。根节点表示整个文件系统，它包含多个子节点。使用链接来组织文件。链接是一个特殊的文件，它可以指向另一个文件或目录。分为硬链接和软链接：</p>
-<ul>
-<li>硬链接是指向同一个文件系统中的另一个文件或目录的物理存储区域的链接</li>
-<li>软链接是指向文件系统中的另一个文件或目录的符号链接，其中包含指向目标文件或目录的路径，可以跨越不同的文件系统</li>
-</ul>
-]]></content>
-      <categories>
-        <category>保研复习</category>
-      </categories>
-      <tags>
-        <tag>保研面试题</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>逆向CTF系列1-Hello，CTF</title>
-    <url>/f4ffdc6/</url>
-    <content><![CDATA[<h1 id="逆向CTF系列1-Hello，CTF"><a href="#逆向CTF系列1-Hello，CTF" class="headerlink" title="逆向CTF系列1-Hello，CTF"></a>逆向CTF系列1-Hello，CTF</h1><p>下载文件首先查壳</p>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011170415935.png" alt="image-20241011170415935"></p>
-<p>是32位的。</p>
-<p>上面的图看到了没有。说明这个软件是没有加壳的。是用Microsoft Visual C++ 6.0软件编写的。如果查到了是aspack的。那就说明是加了aspack的壳。您可以用专门脱aspack脱壳机来脱壳。很多高手都是用OllyDBG V1.10 手工来脱壳的。</p>
-<p>可以先运行一下源程序，输入123，发现输出wrong</p>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011213951422.png" alt="image-20241011213951422"></p>
-<p>可能是要我们输出success才行。在ida中再看看，果断F5。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span> &#123;</span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// ebx</span></span><br><span class="line">  <span class="type">char</span> v4; <span class="comment">// al</span></span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v6; <span class="comment">// [esp+0h] [ebp-70h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+0h] [ebp-70h]</span></span><br><span class="line">  <span class="type">char</span> Buffer[<span class="number">2</span>]; <span class="comment">// [esp+12h] [ebp-5Eh] BYREF</span></span><br><span class="line">  <span class="type">char</span> v9[<span class="number">20</span>]; <span class="comment">// [esp+14h] [ebp-5Ch] BYREF</span></span><br><span class="line">  <span class="type">char</span> v10[<span class="number">32</span>]; <span class="comment">// [esp+28h] [ebp-48h] BYREF</span></span><br><span class="line">  __int16 v11; <span class="comment">// [esp+48h] [ebp-28h]</span></span><br><span class="line">  <span class="type">char</span> v12; <span class="comment">// [esp+4Ah] [ebp-26h]</span></span><br><span class="line">  <span class="type">char</span> v13[<span class="number">36</span>]; <span class="comment">// [esp+4Ch] [ebp-24h] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v13, <span class="string">&quot;437261636b4d654a757374466f7246756e&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )&#123;</span><br><span class="line">    <span class="built_in">memset</span>(v10, <span class="number">0</span>, <span class="keyword">sizeof</span>(v10));</span><br><span class="line">    v11 = <span class="number">0</span>;</span><br><span class="line">    v12 = <span class="number">0</span>;</span><br><span class="line">    sub_40134B(aPleaseInputYou, v6);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, v9);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strlen</span>(v9) &gt; <span class="number">0x11</span> ) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">17</span>; ++i ) &#123;</span><br><span class="line">      v4 = v9[i];</span><br><span class="line">      <span class="keyword">if</span> ( !v4 ) <span class="keyword">break</span>;</span><br><span class="line">      <span class="built_in">sprintf</span>(Buffer, <span class="string">&quot;%x&quot;</span>, v4);</span><br><span class="line">      <span class="built_in">strcat</span>(v10, Buffer);</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(v10, v13))  sub_40134B(aSuccess, v7);</span><br><span class="line">     <span class="keyword">else</span> sub_40134B(aWrong, v7);</span><br><span class="line">  &#125;</span><br><span class="line">  sub_40134B(aWrong, v7);</span><br><span class="line">  result = --Stream._cnt;</span><br><span class="line">  <span class="keyword">if</span> ( Stream._cnt &lt; <span class="number">0</span> )</span><br><span class="line">    <span class="keyword">return</span> _filbuf(&amp;Stream);</span><br><span class="line">  ++Stream._ptr;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>sub_40134B没搜到他的用途，但是读完代码并理解后可以假设一下他是输出函数，也就是，在v10和v13相等才会输出v13</p>
-<p>简单讲一下代码逻辑，输入v9，v9长度不能大于0x11(0x11&#x3D;17,16进制，因为0x)，循环17次，取出每一位如果为0则退出循环，不为0则拼接到v10(16进制)，循环结束后进行比较。</p>
-<p>也就是437261636b4d654a757374466f7246756e是输入字符串的16进制</p>
-<blockquote>
-<p>％x以十六进制数形式输出整数</p>
-</blockquote>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011220112125.png" alt="image-20241011220112125"></p>
-<p>当然也可以写脚本：</p>
-<p><code>16</code>进制字符串转字符串，大致的逻辑就是将<code>16</code>进制字符串<strong>每两个字符</strong>组合在一起得到一个<code>16</code>进制的字符串</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x=<span class="string">&#x27;437261636b4d654a757374466f7246756e&#x27;</span> </span><br><span class="line">y=<span class="string">&#x27;&#x27;</span> </span><br><span class="line">i=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span>(i &lt; <span class="built_in">len</span>(x)):</span><br><span class="line">    y += <span class="built_in">chr</span>(<span class="built_in">int</span>(x[i:i+<span class="number">2</span>],<span class="number">16</span>))</span><br><span class="line">    i += <span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(y)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>以下是 int() 方法的语法:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class int(x, base=10)</span><br></pre></td></tr></table></figure>
-
-<p>参数</p>
-<ul>
-<li>x – 字符串或数字。</li>
-<li>base – 进制数，默认十进制。</li>
-</ul>
-</blockquote>
-<p>CrackMeJustForFun</p>
-<p>成功，CrackMeJustForFun就是flag</p>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011220412699.png" alt="image-20241011220412699"></p>
-<p><strong>补充一下壳的知识：</strong></p>
-<blockquote>
-<p>壳是指在一个程序外面包裹一段代码，保护里面的代码不被正确反编译或非法修改，在加载到内存时般先于程序运行，拿到控制权，然后保护并加载程序。</p>
-<p>加壳:其实是利用特殊的算法，对EXE、DLL文件里的资源进行压缩。类似WINZIP 的效果，只不过这个压缩之后的文件，可以独立运行，解压过程完全隐蔽，都在内存中完成。加壳过的程序可以直接运行但是不能查看源代码，要经过脱壳才可以查看源代码，这样可以起到保护程序的作用。</p>
-</blockquote>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011171006197.png" alt="image-20241011171006197"></p>
-<ul>
-<li>压缩壳:通过压缩算法压缩软件大小。</li>
-<li>加密壳:利用各种反跟踪技术保护程序不被调试、脱壳、反编译。</li>
-</ul>
-]]></content>
   </entry>
 </search>
