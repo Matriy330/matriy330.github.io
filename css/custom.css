@@ -15,7 +15,11 @@
 }
 
 
-  #page-header #post-info > *{
+#page-header #post-info > *{
     display: flex;
     justify-content: center;
+}
+
+#page-header #page-site-info{
+  top: 120px !important
 }
