@@ -2,16 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/archives/831150a6-ba17-4d53-9a0b-5ac1c4d7639b</loc>
-    
-    <lastmod>2025-01-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/f4ffdc6/</loc>
+    <loc>http://example.com/48835374/</loc>
     
     <lastmod>2025-01-27</lastmod>
     
@@ -29,7 +20,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/4a17b156/</loc>
+    <loc>http://example.com/f4ffdc6/</loc>
     
     <lastmod>2025-01-27</lastmod>
     
@@ -116,24 +107,10 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>http://example.com/tags/bao-yan-mian-shi-ti/</loc>
-    <lastmod>2025-01-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
     <loc>http://example.com/categories/%E4%BF%9D%E7%A0%94%E5%A4%8D%E4%B9%A0/</loc>
-    <lastmod>2025-01-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/categories/bao-yan-mian-shi/</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
