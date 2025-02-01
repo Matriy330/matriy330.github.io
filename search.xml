@@ -287,54 +287,6 @@
       </tags>
   </entry>
   <entry>
-    <title>逆向CTF系列1-Hello，CTF</title>
-    <url>/f4ffdc6/</url>
-    <content><![CDATA[<h1 id="逆向CTF系列1-Hello，CTF"><a href="#逆向CTF系列1-Hello，CTF" class="headerlink" title="逆向CTF系列1-Hello，CTF"></a>逆向CTF系列1-Hello，CTF</h1><p>下载文件首先查壳</p>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011170415935.png" alt="image-20241011170415935"></p>
-<p>是32位的。</p>
-<p>上面的图看到了没有。说明这个软件是没有加壳的。是用Microsoft Visual C++ 6.0软件编写的。如果查到了是aspack的。那就说明是加了aspack的壳。您可以用专门脱aspack脱壳机来脱壳。很多高手都是用OllyDBG V1.10 手工来脱壳的。</p>
-<p>可以先运行一下源程序，输入123，发现输出wrong</p>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011213951422.png" alt="image-20241011213951422"></p>
-<p>可能是要我们输出success才行。在ida中再看看，果断F5。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span> &#123;</span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// ebx</span></span><br><span class="line">  <span class="type">char</span> v4; <span class="comment">// al</span></span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v6; <span class="comment">// [esp+0h] [ebp-70h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+0h] [ebp-70h]</span></span><br><span class="line">  <span class="type">char</span> Buffer[<span class="number">2</span>]; <span class="comment">// [esp+12h] [ebp-5Eh] BYREF</span></span><br><span class="line">  <span class="type">char</span> v9[<span class="number">20</span>]; <span class="comment">// [esp+14h] [ebp-5Ch] BYREF</span></span><br><span class="line">  <span class="type">char</span> v10[<span class="number">32</span>]; <span class="comment">// [esp+28h] [ebp-48h] BYREF</span></span><br><span class="line">  __int16 v11; <span class="comment">// [esp+48h] [ebp-28h]</span></span><br><span class="line">  <span class="type">char</span> v12; <span class="comment">// [esp+4Ah] [ebp-26h]</span></span><br><span class="line">  <span class="type">char</span> v13[<span class="number">36</span>]; <span class="comment">// [esp+4Ch] [ebp-24h] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v13, <span class="string">&quot;437261636b4d654a757374466f7246756e&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )&#123;</span><br><span class="line">    <span class="built_in">memset</span>(v10, <span class="number">0</span>, <span class="keyword">sizeof</span>(v10));</span><br><span class="line">    v11 = <span class="number">0</span>;</span><br><span class="line">    v12 = <span class="number">0</span>;</span><br><span class="line">    sub_40134B(aPleaseInputYou, v6);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, v9);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">strlen</span>(v9) &gt; <span class="number">0x11</span> ) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">17</span>; ++i ) &#123;</span><br><span class="line">      v4 = v9[i];</span><br><span class="line">      <span class="keyword">if</span> ( !v4 ) <span class="keyword">break</span>;</span><br><span class="line">      <span class="built_in">sprintf</span>(Buffer, <span class="string">&quot;%x&quot;</span>, v4);</span><br><span class="line">      <span class="built_in">strcat</span>(v10, Buffer);</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(v10, v13))  sub_40134B(aSuccess, v7);</span><br><span class="line">     <span class="keyword">else</span> sub_40134B(aWrong, v7);</span><br><span class="line">  &#125;</span><br><span class="line">  sub_40134B(aWrong, v7);</span><br><span class="line">  result = --Stream._cnt;</span><br><span class="line">  <span class="keyword">if</span> ( Stream._cnt &lt; <span class="number">0</span> )</span><br><span class="line">    <span class="keyword">return</span> _filbuf(&amp;Stream);</span><br><span class="line">  ++Stream._ptr;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>sub_40134B没搜到他的用途，但是读完代码并理解后可以假设一下他是输出函数，也就是，在v10和v13相等才会输出v13</p>
-<p>简单讲一下代码逻辑，输入v9，v9长度不能大于0x11(0x11&#x3D;17,16进制，因为0x)，循环17次，取出每一位如果为0则退出循环，不为0则拼接到v10(16进制)，循环结束后进行比较。</p>
-<p>也就是437261636b4d654a757374466f7246756e是输入字符串的16进制</p>
-<blockquote>
-<p>％x以十六进制数形式输出整数</p>
-</blockquote>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011220112125.png" alt="image-20241011220112125"></p>
-<p>当然也可以写脚本：</p>
-<p><code>16</code>进制字符串转字符串，大致的逻辑就是将<code>16</code>进制字符串<strong>每两个字符</strong>组合在一起得到一个<code>16</code>进制的字符串</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x=<span class="string">&#x27;437261636b4d654a757374466f7246756e&#x27;</span> </span><br><span class="line">y=<span class="string">&#x27;&#x27;</span> </span><br><span class="line">i=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span>(i &lt; <span class="built_in">len</span>(x)):</span><br><span class="line">    y += <span class="built_in">chr</span>(<span class="built_in">int</span>(x[i:i+<span class="number">2</span>],<span class="number">16</span>))</span><br><span class="line">    i += <span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(y)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>以下是 int() 方法的语法:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class int(x, base=10)</span><br></pre></td></tr></table></figure>
-
-<p>参数</p>
-<ul>
-<li>x – 字符串或数字。</li>
-<li>base – 进制数，默认十进制。</li>
-</ul>
-</blockquote>
-<p>CrackMeJustForFun</p>
-<p>成功，CrackMeJustForFun就是flag</p>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011220412699.png" alt="image-20241011220412699"></p>
-<p><strong>补充一下壳的知识：</strong></p>
-<blockquote>
-<p>壳是指在一个程序外面包裹一段代码，保护里面的代码不被正确反编译或非法修改，在加载到内存时般先于程序运行，拿到控制权，然后保护并加载程序。</p>
-<p>加壳:其实是利用特殊的算法，对EXE、DLL文件里的资源进行压缩。类似WINZIP 的效果，只不过这个压缩之后的文件，可以独立运行，解压过程完全隐蔽，都在内存中完成。加壳过的程序可以直接运行但是不能查看源代码，要经过脱壳才可以查看源代码，这样可以起到保护程序的作用。</p>
-</blockquote>
-<p><img src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241011171006197.png" alt="image-20241011171006197"></p>
-<ul>
-<li>压缩壳:通过压缩算法压缩软件大小。</li>
-<li>加密壳:利用各种反跟踪技术保护程序不被调试、脱壳、反编译。</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>计算机保研复习-数据结构</title>
     <url>/9f5ee013/</url>
     <content><![CDATA[<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h1 id="一、线性表"><a href="#一、线性表" class="headerlink" title="一、线性表"></a>一、线性表</h1><h2 id="1-1-数组和链表的区别"><a href="#1-1-数组和链表的区别" class="headerlink" title="1.1 数组和链表的区别"></a>1.1 数组和链表的区别</h2><p><strong>线性表</strong>是具有相同数据类型的n个数据元素的有限序列</p>
