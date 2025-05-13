@@ -1,0 +1,775 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机保研复习-数据结构 | Matriy's blog</title><meta name="author" content="Matriy"><meta name="copyright" content="Matriy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="数据结构 一、线性表 1.1 数组和链表的区别 线性表是具有相同数据类型的n个数据元素的有限序列 物理存储结构不同： 数组是顺序存储结构，存储长度是固定的，它不能适应数据动态增减的情况； 链表是链式存储结构，能够动态分配存储空间以适应数据动态增减的情况； 内存分配方式不同： 数组的存储空间一般采用静">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机保研复习-数据结构">
+<meta property="og:url" content="http://matriy330.github.io/9f5ee013/index.html">
+<meta property="og:site_name" content="Matriy&#39;s blog">
+<meta property="og:description" content="数据结构 一、线性表 1.1 数组和链表的区别 线性表是具有相同数据类型的n个数据元素的有限序列 物理存储结构不同： 数组是顺序存储结构，存储长度是固定的，它不能适应数据动态增减的情况； 链表是链式存储结构，能够动态分配存储空间以适应数据动态增减的情况； 内存分配方式不同： 数组的存储空间一般采用静">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://matriy330.github.io/img/tx.jpg">
+<meta property="article:published_time" content="2025-01-20T07:56:35.000Z">
+<meta property="article:modified_time" content="2025-02-14T14:15:01.249Z">
+<meta property="article:author" content="Matriy">
+<meta property="article:tag" content="保研面试题">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://matriy330.github.io/img/tx.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "计算机保研复习-数据结构",
+  "url": "http://matriy330.github.io/9f5ee013/",
+  "image": "http://matriy330.github.io/img/tx.jpg",
+  "datePublished": "2025-01-20T07:56:35.000Z",
+  "dateModified": "2025-02-14T14:15:01.249Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Matriy",
+      "url": "http://matriy330.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="canonical" href="http://matriy330.github.io/9f5ee013/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="G-ShTqjjywiLkL87Rg0PaiSsDVYymWStdQUO1wrM_VY"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":30,"languages":{"author":"作者: Matriy","link":"链接: ","source":"来源: Matriy's blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}
+</script><link rel="stylesheet" href="/css/custom.css"><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机保研复习-数据结构',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="an_music_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Matriy's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">计算机保研复习-数据结构</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">计算机保研复习-数据结构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-20T07:56:35.000Z" title="发表于 2025-01-20 15:56:35">2025-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-14T14:15:01.249Z" title="更新于 2025-02-14 22:15:01">2025-02-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/others/">others</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">10k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>30分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/9f5ee013/#post-comment"><span id="twikoo-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h1 id="一、线性表"><a href="#一、线性表" class="headerlink" title="一、线性表"></a>一、线性表</h1><h2 id="1-1-数组和链表的区别"><a href="#1-1-数组和链表的区别" class="headerlink" title="1.1 数组和链表的区别"></a>1.1 数组和链表的区别</h2><p><strong>线性表</strong>是具有相同数据类型的n个数据元素的有限序列</p>
+<ul>
+<li><p>物理<strong>存储结构</strong>不同：</p>
+<ul>
+<li><p>数组是顺序存储结构，存储长度是固定的，它不能适应数据动态增减的情况；</p>
+</li>
+<li><p>链表是链式存储结构，能够动态分配存储空间以适应数据动态增减的情况；</p>
+</li>
+</ul>
+</li>
+<li><p><strong>内存分配方式</strong>不同：</p>
+<ul>
+<li><p>数组的存储空间一般采用静态分配；</p>
+</li>
+<li><p>链表的存储空间一般采用动态分配；</p>
+</li>
+</ul>
+</li>
+<li><p>元素的<strong>存取方式</strong>不同：</p>
+<ul>
+<li><p>数组元素为直接存取；</p>
+</li>
+<li><p>链表元素的存取需要遍历链表；</p>
+</li>
+</ul>
+</li>
+<li><p>元素的<strong>插入和删除方式</strong>不同：</p>
+<ul>
+<li>数组进行元素插入和删除时，需要移动数组的元素；</li>
+<li>链表进行元素插入和删除时，无需移动链表内的元素；</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-2-链表种类"><a href="#1-2-链表种类" class="headerlink" title="1.2 链表种类"></a>1.2 链表种类</h2><ol>
+<li>单链表</li>
+<li>双链表</li>
+<li>循环单链 双链表</li>
+</ol>
+<p>​	好处：单链表只能从表头结点开始遍历所有结点，而循环单链表可以从表中的任一结点开始遍历整个链表。对单链表我们常常设立头	指针，这样在表头表尾操作的时间复杂度分别为O(1)和O(n)，而对于循环列表常常设立尾指针，时间复杂度都为O(1)</p>
+<ol start="4">
+<li>静态链表：借助数组描述线性表的链式存储结构，需要预先分配一块连续的内存空间。</li>
+</ol>
+<p>​	优点：增删改查不用移动大量元素。</p>
+<p>​	缺点：不能随机存取，容量固定不可变。(不支持指针的语言)</p>
+<p>尾插法得遍历(维护长度)</p>
+<p>头插法直接在前面插入</p>
+<h2 id="1-3-栈与队列"><a href="#1-3-栈与队列" class="headerlink" title="&#x3D;&#x3D;1.3 栈与队列&#x3D;&#x3D;"></a>&#x3D;&#x3D;1.3 栈与队列&#x3D;&#x3D;</h2><p>栈：是只允许在一端进行插入或删除操作的线性表</p>
+<p>队列：也是一种操作受限的线性表，只允许在表的一端进行插入，而在表的另一端进行删除</p>
+<p><strong>栈</strong>：顺序栈利用一组地址连续的存储单元存放数据元素，同时附设一个指针指示当前栈顶元素位置。链栈是利用一个单链表存储数据元素，并将表头作为栈顶进行插入和删除操作。</p>
+<p><strong>队列</strong>：顺序存储是利用一组地址连续的存储单元存放数据元素，并附设两个指针，通常front指针指向队头元素，rear指针指向队尾元素的下一个位置。链式存储是利用一个带有头指针和尾指针的链表存储数据元素。</p>
+<h2 id="1-4-数据存储方式"><a href="#1-4-数据存储方式" class="headerlink" title="&#x3D;&#x3D;1.4 数据存储方式&#x3D;&#x3D;"></a>&#x3D;&#x3D;1.4 数据存储方式&#x3D;&#x3D;</h2><p><strong>顺序存储结构的优点：</strong></p>
+<p><strong>顺序存储</strong>是指在内存中开辟连续的存储空间来存放数据，把逻辑上相邻的元素存储在物理位置也相邻的存储单元中。</p>
+<ol>
+<li><p>可以随机存取，即通过首地址和元素序号可在时间O(1)内找到指定的元素，链表只能从表头开始遍历，顺序存取元素。</p>
+</li>
+<li><p>存储密度高，每个节点只存储数据元素（链式存储还要存指针）</p>
+<p><strong>缺点：</strong>只能使用相邻的一整块存储单元，因此可能产生较多的外部碎片。</p>
+</li>
+</ol>
+<p><strong>链式存储结构的优点：</strong></p>
+<p><strong>链式存储</strong>的存储空间不是连续的，借助指针来表示元素间的逻辑关系。还需要存放一个指向其后继的指针，指向下一元素。</p>
+<ol>
+<li><p>进行插入、删除操作时很方便，不需要移动数据元素。</p>
+<p>顺序存储在进行插入操作时需要将插入位置之后的元素全部后移一位，时间复杂度为O(n)，而链式存储只需要修改插入位置前驱后继节点指针的指向，时间复杂度为o(1)；</p>
+</li>
+<li><p>不用预先估计存储空间的规模，在需要时向内存申请空间即可，操作灵活。</p>
+<p>而顺序存储包含两种方式，静态分配和动态分配，若采用静态分配，一旦存储空间满了就不能再扩充，因此为了规避内存溢出的风险，只能尽量分配足够大的存储空间，但这样又会导致空间的浪费。而动态分配虽然可以扩充存储空间，但是需要移动大量元素，操作效率低。</p>
+</li>
+<li><p>不会出现碎片现象，能充分利用所有存储单元</p>
+</li>
+<li><p>每个元素因存储指针而占用额外的存储空间</p>
+</li>
+</ol>
+<p><strong>索引存储</strong>：</p>
+<ul>
+<li><p>优点：检索速度快</p>
+</li>
+<li><p>缺点：附加的索引表额外占用存储空间，增加和删除元素时也要修改索引表。</p>
+</li>
+</ul>
+<p><strong>散列存储</strong>：根据元素的关键字直接计算出该元素的存储地址。</p>
+<p><strong>优点</strong>：检索、增加和删除结点的操作都很快；<strong>缺点</strong>是若散列函数不好，则可能出现元素存储单元冲突，而解决冲突会增加时间空间开销。</p>
+<h2 id="1-5-头指针和头节点的区别"><a href="#1-5-头指针和头节点的区别" class="headerlink" title="1.5 头指针和头节点的区别"></a>1.5 头指针和头节点的区别</h2><p>⭐⭐</p>
+<p>不管带不带头结点，头指针始终指向链表的第一个结点，而头结点是带头结点链表中的第一个结点，结点内通常不存储信息，它是为了方便做的一种处理。</p>
+<p>引入头结点的<strong>优点</strong>：</p>
+<ol>
+<li><p>由于第一个数据节点的位置被存放在头结点的指针域中，因此在链表的第一个位置上的操作和在链表其他位置上的操作一致，无需进行特殊处理。</p>
+</li>
+<li><p>无论链表是否为空，其头指针都是指向头结点的非空指针，因此空表和非空表的处理也得到了统一。</p>
+</li>
+</ol>
+<h2 id="1-6-判断链表是否有环"><a href="#1-6-判断链表是否有环" class="headerlink" title="&#x3D;&#x3D;1.6 判断链表是否有环&#x3D;&#x3D;"></a>&#x3D;&#x3D;<strong>1.6 判断链表是否有环</strong>&#x3D;&#x3D;</h2><p>&#x3D;&#x3D;<strong>（非常重要！）</strong>⭐⭐⭐⭐⭐⭐⭐&#x3D;&#x3D;</p>
+<p>快慢指针：创建两个指针fast和slow，开始时两个指针都指向链表头head，在每一步操作中slow向前走一步，fast向前走两步，由于fast比slow移动的快，如果有环，两个指针就会相遇。</p>
+<h2 id="1-7-循环队列"><a href="#1-7-循环队列" class="headerlink" title="&#x3D;&#x3D;1.7 循环队列&#x3D;&#x3D;"></a>&#x3D;&#x3D;1.7 循环队列&#x3D;&#x3D;</h2><p><strong>有一个循环队列Q，里面的编号是0到n-1，头尾指针分别是front，rear，现在求Q中元素的个数？</strong>⭐⭐</p>
+<p>因为出队操作会导致队头的存储空间空闲，当rear指针指到maxsize的时候，其实是一种“假溢出”，这时候队列并没有满。为了解决这个问题，我们把存储队列元素的表从逻辑上视为一个环，称为循环队列。</p>
+<p><strong>初始</strong>：front&#x3D;rear&#x3D;0；</p>
+<p>出队：front &#x3D; (front+1)%maxsize 队头指针加一取模</p>
+<p>入队：rear &#x3D; (raer+1)%maxsize  队尾指针加1取模</p>
+<p><strong>队列长度</strong>&#x3D;(rear-front+maxsize)%maxsize</p>
+<p><strong>如何区分循环队列是队空还是队满</strong>？</p>
+<p>队满条件和队空条件都是rear &#x3D; front</p>
+<p>因此为了区分这两个条件，可以采用的处理方式为：</p>
+<ol>
+<li>入队时少用一个存储单元，将差一个不满的条件视为队满，判断队空条件不变：队头和队尾指针在同一位置时，队空 rear &#x3D; front，判断队满条件变为：队头指针在队尾指针的下一位置时，队满，也就是（rear+1）%maxsize &#x3D; front </li>
+<li>增设一个数据成员记录元素个数，队空条件为size &#x3D; 0；队满条件为size&#x3D;maxsize。</li>
+</ol>
+<h2 id="1-8-栈的应用"><a href="#1-8-栈的应用" class="headerlink" title="1.8 栈的应用"></a>1.8 栈的应用</h2><p><strong>（1）括号匹配</strong>：匹配过程为从左至右扫描表达式，每当遇到一个右括号时，就判断他和最后出现的那个左括号是否匹配，因此用栈存储被扫描到的左括号。每当扫描到右括号时，就让栈顶的左括号出栈。</p>
+<p><strong>（2）后缀表达式的运算</strong>：运算过程是从左到右扫描表达式，每遇到一个运算符，就让运算符前面最近的两个操作数执行对应运算，合体成一个新的操作数。最后出现的操作数最先被运算，所以用栈来存储操作数。</p>
+<p><strong>（3）中缀表达式转后缀表达式</strong>：栈中存储还未确定运算顺序的运算符。</p>
+<p><strong>（4）递归</strong></p>
+<p><strong>（5）进制转换</strong></p>
+<p><strong>（6）深度优先搜索图</strong></p>
+<p><strong>（7）前序遍历二叉树</strong></p>
+<h2 id="1-9-队列的应用"><a href="#1-9-队列的应用" class="headerlink" title="1.9 队列的应用"></a>1.9 队列的应用</h2><p><strong>（1）层次遍历</strong></p>
+<p><strong>（2）图的广度优先遍历</strong></p>
+<p><strong>（3）打印机缓冲区</strong>（主机和外部设备速度不匹配）：先进入缓冲区排队的先打印</p>
+<p><strong>（4）CPU资源竞争中的先来先服务策略</strong></p>
+<h1 id="二、串"><a href="#二、串" class="headerlink" title="&#x3D;&#x3D;二、串&#x3D;&#x3D;"></a>&#x3D;&#x3D;二、串&#x3D;&#x3D;</h1><p>⭐⭐⭐</p>
+<p><strong>朴素的匹配算法和KMP算法</strong></p>
+<p><strong>朴素模式匹配算法</strong>：这个方法也称为暴力匹配。就是从源字符串开始搜索，若出现不能匹配，则从原搜索位置+1进行搜索。</p>
+<p>主串长度：n，模式串长度m，最坏情况下共需对比n-m+1个子串，每个子串对比m个字符，时间复杂度为O(n*m)。</p>
+<p><strong>KMP算法：</strong></p>
+<p>KMP算法的<strong>思想</strong>是利用匹配失败后的信息，尽量减少子串与主串的匹配次数以达到快速匹配的目的。</p>
+<p>算法实现的<strong>关键</strong>是求出next数组，next[j]表示：在子串的第j个字符与主串发生失配时，则跳到子串指针应该移动到的位置。</p>
+<p><strong>求next数组的方法</strong>：在不匹配的位置前，画一个分界线，模式串一步步右移，直到分界线之前能匹配或者模式串完全跨过分界线为止。此时子串指针j指向哪儿，next数组的值就是多少。</p>
+<p>next数组：next[i]表示在i位置之前的字符串中，同时也是模式串的后缀和前缀匹配的最大长度。</p>
+<p>next[1]&#x3D;0 next[2]&#x3D;1</p>
+<p><strong>匹配方法</strong>：匹配过程产生失配时，主串指针i不变，子串指针j退回到next[j]的位置并重新进行比较。</p>
+<p><strong>时间复杂度</strong>：求next数组O(m)，模式匹配O(n),O(m+n)，主要优点是主串不回溯。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic1.zhimg.com/v2-f29d822e4faf22542875de6c73fe07d0_b.webp" alt="动图" style="zoom:50%;" />
+
+<h1 id="三、树"><a href="#三、树" class="headerlink" title="三、树"></a>三、树</h1><h2 id="3-1-树的性质"><a href="#3-1-树的性质" class="headerlink" title="3.1 树的性质"></a>3.1 树的性质</h2><ul>
+<li>树中的结点数等于所有结点的度数之和加1</li>
+<li>度为m的树中第i层上至多有m^i-1^个结点(i&gt;&#x3D;1)</li>
+<li>高度为h的m叉树至多有m^h^-1&#x2F;(m-1)个结点</li>
+<li>具有n个结点的m叉树的最小高度为ceil[logm (n(m-1)+ 1)]。</li>
+</ul>
+<h2 id="3-2-哈夫曼树与哈夫曼编码"><a href="#3-2-哈夫曼树与哈夫曼编码" class="headerlink" title="3.2 哈夫曼树与哈夫曼编码"></a>3.2 哈夫曼树与哈夫曼编码</h2><p><strong>哈夫曼树</strong>：在含有n个带权叶结点的二叉树中，带权路径长度(WPL)最小的二叉树</p>
+<p><strong>构造步骤</strong>：</p>
+<ol>
+<li>将这n个结点分别作为n棵仅含一个结点的二叉树，构成森林F。</li>
+<li>构造一个新结点，从F中选取两棵根结点权值最小的树作为新结点的左、右子树，并且将新结点的权值置为左、右子树上根结点的权值之和。</li>
+<li>从F中删除刚才选出的两棵树，同时将新得到的树加入F中。</li>
+<li>重复步骤2和3，直至F中只剩下一棵树为止。</li>
+</ol>
+<p><strong>前缀编码</strong>：任何一个编码都不是其他编码的前缀（<strong>最左子串</strong>），哈夫曼编码就是<strong>最优前缀编码</strong></p>
+<h2 id="3-3-树的分类及构造"><a href="#3-3-树的分类及构造" class="headerlink" title="&#x3D;&#x3D;3.3 树的分类及构造&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.3 树的分类及构造&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
+<ol>
+<li>满二叉树</li>
+<li>完全二叉树</li>
+<li>二叉树排序</li>
+<li>平衡二叉树：树上任一结点左子树和右子树深度之差不超过1.</li>
+</ol>
+<p>​	<strong>二叉树的顺序存储,二叉树的链式存储</strong></p>
+<p><strong>如何由遍历序列构造一颗二叉树？&#x2F;已知先序序列和后序序列能否重现二叉树？</strong></p>
+<p>不能，没有中序遍历序列的情况下是无法确定一颗二叉树的</p>
+<p><strong>线索二叉树</strong></p>
+<ul>
+<li>在含有n个结点的二叉树中会有n+1个空指针，可以利用这些指针存放当前结点的前驱和后继指针，引入线索二叉树可以加快查找结点前驱和后继的速度。</li>
+<li>要增加两个标志域标识指针域是指向左（右）孩子的还是指向前驱（后继）的。</li>
+</ul>
+<h2 id="3-4-树与森林"><a href="#3-4-树与森林" class="headerlink" title="3.4 树与森林"></a>3.4 树与森林</h2><ol>
+<li><p><strong>树–&gt;二叉树</strong>：</p>
+<ul>
+<li><strong>加线</strong>。在所有的兄弟结点之间加一条线。</li>
+<li><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic3.zhimg.com/v2-1c30c5a655372ace13e8bf93fcbd84fa_b.webp" alt="动图" style="zoom: 33%;" /><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic1.zhimg.com/v2-f08193a3566fe03c521b0fe829530320_b.webp" alt="动图" style="zoom:33%;" /><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic3.zhimg.com/v2-2d10b1bb1f71ce902b07e5629a602e42_b.webp" alt="动图" style="zoom:33%;" /></li>
+<li><strong>去线</strong>。树中的每个结点，只保留它与<strong>第一个孩子结点</strong>的连线，删除其他孩子结点之间的连线。</li>
+<li>以树的根结点为轴心，将整个树调节一下（第一个孩子是结点的左孩子，兄弟转过来的孩子是结点的右孩子）</li>
+<li>每个结点左指针指向它的第一个孩子，右指针指向它在树中相邻的右兄弟。</li>
+</ul>
+</li>
+<li><p><strong>森林–&gt;二叉树</strong>：将森林中的每棵树都转换为二叉树，将第二棵二叉树作为第一棵的右子树，将第三棵二叉树作为第二棵二叉树的右兄弟，以此类推，直至只剩下唯一一棵二叉树。</p>
+</li>
+<li><p><strong>二叉树–&gt;森林</strong>：将根节点右链断开形成两棵二叉树，以此类推直至所有二叉树根节点都不存在右子树，最后将每棵二叉树都转换为树，得到森林。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic4.zhimg.com/v2-707f004bb9513f7332e25c1ab9e322e7_b.webp" alt="动图" style="zoom:33%;" /><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic2.zhimg.com/v2-e2c977efa9bacdccae281913493df5ed_b.webp" alt="动图" style="zoom:33%;" /></p>
+</li>
+</ol>
+<h2 id="3-5-并查集"><a href="#3-5-并查集" class="headerlink" title="3.5 并查集"></a>3.5 并查集</h2><p>每一个集合以森林中的一棵树表示，集合的并操作就转化成了合并两棵树（只需要改变第二棵树根节点的指向），集合的查操作就转化成了判断两个结点是否在同一棵树中。</p>
+<h1 id="四、图"><a href="#四、图" class="headerlink" title="四、图"></a>四、图</h1><p>邻接矩阵适合稠密图 邻接表适合稀疏图</p>
+<h2 id="4-1-最小生成树"><a href="#4-1-最小生成树" class="headerlink" title="&#x3D;&#x3D;4.1 最小生成树&#x3D;&#x3D;"></a>&#x3D;&#x3D;4.1 最小生成树&#x3D;&#x3D;</h2><p>图的所有生成树中具有边上的权值之和最小的树</p>
+<ul>
+<li>Prim算法的基本思想是<strong>选点</strong>：<ul>
+<li><p>初始时从图中任取一顶点加入树T，之后选择一个与当前T中顶点集合距离最近的顶点，并将该顶点和相应的边加入T，每次操作T中的顶点数和边数都加1。</p>
+</li>
+<li><p>以此类推，直至图中所有的顶点都并入T，得到的T就是最小生成树。</p>
+</li>
+<li><p><strong>实现方法</strong>：两个数组，一个用来存储各顶点加入生成树的最小代价，一个用来存储各顶点是否已经加入了最小生成树。每次归并一个新顶点前，要遍历这两个数组找到还未加入树且权值最小的顶点；归并一个新顶点后要更新这两个数组。</p>
+<p><strong>时间复杂度</strong>：此算法是双层循环，外层循环控制次数，一共要归并n个顶点，因此要循环n-1次，内层并列两个循环，每个循环负责遍历一个数组，因此此算法的时间复杂度为O(n^2^)，时间复杂度只与顶点有关，与边无关，适用于稠密图。</p>
+</li>
+</ul>
+</li>
+<li>Kruskal算法的基本思想是<strong>选边</strong>：<ul>
+<li><p>初始时构造只有n个顶点但是没有边的非连通图，每个顶点自成一个连通分量，然后按边的权值升序枚举每条边</p>
+<ul>
+<li>若该边依附的顶点落在T中不同的连通分量上，则将此边加入T</li>
+<li>否则舍弃此边而选择下一条权值最小的边</li>
+</ul>
+</li>
+<li><p>以此类推，直至T中所有顶点都在一个连通分量上，得到的T就是最小生成树。</p>
+</li>
+<li><p><strong>实现方法</strong>：将图中边按照权值从小到大排列，然后从最小的边开始扫描，设置一个边的集合来记录，如果该边并入不构成回路的话，则将该边并入当前生成树。直到所有的边都检测完为止。</p>
+<p><strong>时间复杂度</strong>：用堆来存放边的集合O(logE)，用并查集来判断2顶点是否连通（是否属于同一个集合），O(ElogE)</p>
+<p>时间复杂度只与边有关，适合边稀疏顶点多的图</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-2-最短路径"><a href="#4-2-最短路径" class="headerlink" title="&#x3D;&#x3D;4.2 最短路径&#x3D;&#x3D;"></a>&#x3D;&#x3D;4.2 最短路径&#x3D;&#x3D;</h2><ul>
+<li><p>Dijkstra算法是求单源最短路径算法，用于求某一顶点到其他顶点的最短路径</p>
+<ol>
+<li><p>迪杰斯特拉算法的基本思想是逐步找到从起始节点到其他节点的最短路径，通过不断更新节点的距离信息来实现。算法维护一个距离数组，其中存储了从起始节点到每个节点的当前最短路径估计</p>
+</li>
+<li><p>算法的具体步骤如下：</p>
+<ol>
+<li>初始化距离数组，将起始节点的距离设为0，其他节点的距离设为无穷大。</li>
+<li>从距离数组中选择当前距离最小的节点，标记为已访问。</li>
+<li>遍历以该节点为起点的所有边，更新与这些边相连的节点的距离。如果通过当前节点可以获得更短的路径，就更新距离数组中的值。</li>
+<li>重复步骤2和3，直到所有节点都被访问过或者目标节点的距离已经确定为最短路径。</li>
+</ol>
+<p>时间复杂度为O(n^2^) ，其中n为图中的顶点数。</p>
+</li>
+</ol>
+</li>
+<li><p>Floyd算法是求任意顶点之间的最短路径的算法，其边的权值可为负权。</p>
+<ul>
+<li>Floyd算法的基本思想是采用动态规划的方法，通过逐步迭代来更新节点之间的最短路径距离。</li>
+<li>算法的核心是一个三重循环，第一层循环遍历各个节点作为中间节点，第二、三层循环遍历源点i和终点j，看是否能通过这个中间节点来获得更短的路径。</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-3-拓扑排序"><a href="#4-3-拓扑排序" class="headerlink" title="4.3 拓扑排序"></a>4.3 拓扑排序</h2><p><strong>AOV网</strong>：以顶点为活动，边为活动间先后顺序关系的有向图</p>
+<p>在AOV网中如果不存在回路，则可以把所有的活动排列成一个序列，称该序列为<strong>拓扑序列</strong></p>
+<p>拓扑排序可以决定哪些子工程必须要先执行，哪些子工程要在某些工程完成后才能执行。</p>
+<p>步骤：</p>
+<ol>
+<li>在有向图中任意选择一个没有前驱的节点输出</li>
+<li>从图中删去该节点以及与它相连的边</li>
+<li>重复步骤1、2，直到所有的顶点都输出或者当前图中不存在无前驱的顶点为止，后者代表该图是有环图</li>
+</ol>
+<p><strong>时间复杂度：</strong>由于删除每个顶点的同时还要删除以他为起点的边，因此每个顶点和每条边都会被遍历一次。采用邻接表存储方式：O(V+E)，采用邻接矩阵存储方式：O(V^2^)</p>
+<h2 id="4-4-关键路径"><a href="#4-4-关键路径" class="headerlink" title="4.4 关键路径"></a>4.4 关键路径</h2><p><strong>AOE网</strong>：用顶点表示事件，边表示活动，边的权值表示两个活动持续的时间。</p>
+<p>AOE网从源点到汇点的路径中，具有最大路径长度的路径为<strong>关键路径</strong>，关键路径上的活动称为<strong>关键活动</strong></p>
+<p>步骤：</p>
+<ol>
+<li>按拓扑序依次求各个事件的最早发生时间ve</li>
+<li>求各个事件的最晚开始时间vl</li>
+<li>求各个活动的最早开始时间e</li>
+<li>求各个活动的最晚开始时间l</li>
+<li>求所有活动的时间余量，余量为0的活动为关键活动</li>
+</ol>
+<h2 id="4-5-图的基本概念"><a href="#4-5-图的基本概念" class="headerlink" title="4.5 图的基本概念"></a>4.5 图的基本概念</h2><ol>
+<li><p><strong>完全图</strong>：在全图的任意两个顶点间都存在边</p>
+</li>
+<li><p><strong>连通图</strong>：图中任意两个顶点连通</p>
+</li>
+<li><p><strong>连通分量</strong>：无向图中的极大连通子图</p>
+</li>
+<li><p><strong>强连通</strong>：在有向图中，如果有一对顶点v和w，从v到w和从w到v都有路径，则称这两个顶点是强连通的</p>
+</li>
+<li><p><strong>强连通分量</strong>：极大强连通子图</p>
+</li>
+<li><p><strong>生成树</strong>：包含图中全部顶点的极小连通子图。</p>
+</li>
+</ol>
+<p>⭐</p>
+<ul>
+<li><p><strong>邻接矩阵法</strong>（适用于存储稠密图）：用一个一维数组存储图中顶点信息，用一个二维数组存储图中边的信息,存储顶点之间邻接关系的二维数组称为邻接矩阵。空间复杂度O(n^2^)。</p>
+</li>
+<li><p><strong>邻接表法</strong>（适用于存储稀疏图）：图中顶点用一个一维数组存储，存储顶点数据和边表头指针。为每个顶点建立一个单链表，存储依附于此顶点的边，这个单链表就成为边表（对于有向图来说叫出边表）空间复杂度：无向图（每条边存储了两次）：O(V+2E) 有向图O(V+E)</p>
+</li>
+</ul>
+<h2 id="4-6-DFS和BFS"><a href="#4-6-DFS和BFS" class="headerlink" title="&#x3D;&#x3D;4.6 DFS和BFS&#x3D;&#x3D;"></a>&#x3D;&#x3D;4.6 DFS和BFS&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
+<ol>
+<li><p><strong>广度优先搜索</strong></p>
+<p><strong>时间复杂度</strong>&#x3D;访问顶点的时间+找邻接顶点的时间，采用邻接表存储方式：O(V+E)，采用邻接矩阵存储方式：O(V^2^)</p>
+</li>
+<li><p><strong>深度优先搜索</strong>：深度优先搜索类似于树的先序遍历，他的策略是尽可能深的搜索一个图。</p>
+<p><strong>基本思想</strong>是：首先访问图中某一起始顶点v，然后由v出发，访问与v邻接但未被访问的顶点w1，再访问与W1邻接但未被访问的顶点w2…..重复上述过程，当不能再向下访问时，依次退回到最近被访问的结点，若他还有顶点未被访问过，则从该点开始继续上述的搜索过程，直至图中所有顶点都被访问过为止。</p>
+<p><strong>时间复杂度</strong>&#x3D;访问顶点的时间+找邻接顶点的时间，用邻接表存储方式：O(V+E)，采用邻接矩阵存储方式：O(V^2^）</p>
+</li>
+</ol>
+<h1 id="五、查找"><a href="#五、查找" class="headerlink" title="五、查找"></a>五、查找</h1><h2 id="5-1-顺序查找-分块查找"><a href="#5-1-顺序查找-分块查找" class="headerlink" title="5.1 顺序查找 分块查找"></a>5.1 顺序查找 分块查找</h2><p><strong>平均查找长度（ASL）</strong>所有查找过程中进行关键字的比较次数的平均值</p>
+<p>按顺序查找<strong>优化思路</strong>：若每个元素被查的概率不等，则将被查概率大的放在靠前的位置。</p>
+<p>按块查找(区间)索引结构</p>
+<p>将查找表分为若干子块，块内元素无序，块间有序，即第一个块中的最大关键字小于第二个块中所有记录的关键字，以此类推。再建立一个索引表索引，表中的每个元素含有各块的最大关键字和各块第一个元素的地址，索引表按关键字有序排列。</p>
+<p>查找过程分为两步，第一步是在索引表中确定待查记录所在的块，可以顺序或折半查找索引表；第二步是在块内顺序查找。</p>
+<h2 id="5-2-折半查找"><a href="#5-2-折半查找" class="headerlink" title="5.2 折半查找"></a>5.2 折半查找</h2><ul>
+<li>首先将给定值key与有序表的中间位置的元素比较；<ul>
+<li>若相等，则查找成功，返回该元素的存储位置；</li>
+<li>若不等，则所需查找的元素只需继续查找中间元素的前半部分或后半部分；<ul>
+<li>然后在缩小的范围内继续进行同样的查找，直到找到为止，或确定表中没有所需要查找的元素，则查找不成功，返回查找失败的信息。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>时间复杂度O(log_n)，要求查找表为顺序存储结构并且有序；</p>
+<h2 id="5-3-二叉排序树"><a href="#5-3-二叉排序树" class="headerlink" title="5.3 二叉排序树"></a>5.3 二叉排序树</h2><ul>
+<li>若该树有左子树，则其左子树的所有节点值小于根的值；</li>
+<li>若该树有右子树，则其右子树的所有节点值均大于根的值；</li>
+<li>其左右子树也分别为二叉排序树</li>
+</ul>
+<p><strong>构造</strong>：从一棵空树出发，依次输入元素，将他们插入二叉排序树中的合适位置，使其符合二叉排序树定义。</p>
+<p><strong>删除</strong>：如果删除节点是叶节点，则直接删除；如果是非叶节点且只有一棵子树，则让这棵子树成为被删除结点父节点的子树；若是非叶节点且有左右两棵子树，则用被删除节点的直接前驱或者直接后继(中序遍历)替代。</p>
+<p><strong>平均查找长度</strong>：二叉排序树的平均查找长度主要取决于树的高度。最好情况：二叉排序树的平衡的(左右子树高度之差不超过1)，O(log2 n)；最坏情况：二叉排序树是一个只有左（右）孩子的单支树，O(n)</p>
+<h2 id="5-4-平衡二叉树："><a href="#5-4-平衡二叉树：" class="headerlink" title="5.4 平衡二叉树："></a>5.4 平衡二叉树：</h2><p>又称为<strong>AVL树</strong>，它具有如下特点：</p>
+<ul>
+<li>他的左右子树高度差的绝对值不能大于1，且他的左右子树也都是平衡二叉树。</li>
+</ul>
+<p>特点：执行插入和删除操作后，非常频繁地调整全树整体拓扑结构</p>
+<p><strong>插入</strong>：每当在二叉排序树中插入（删除）一个结点时，首先检查其插入路径上的结点是否因为此次操作而导致了不平衡。如果导致了不平衡，则先找到插入路径上离插入节点最近的平衡因子的绝对值大于1的结点A，再对以A为根的子树（最小平衡子树）进行旋转。</p>
+<ul>
+<li><p>如果由于在结点A的左孩子的左子树上插入新节点而导致失去平衡，则通过一次右单旋转调整。</p>
+</li>
+<li><p>如果由于在结点A的右孩子的右子树上插入新节点而导致失去平衡，则通过一次左单旋转调整。</p>
+</li>
+<li><p>如果由于在结点A的左孩子的右子树上插入新结点而导致失去平衡，则先通过一次左旋再通过一次右旋调整。</p>
+</li>
+<li><p>如果由于在结点A的右孩子的左子树上插入新结点而导致失去平衡，则先通过一次右旋再通过一次左旋调整。</p>
+</li>
+</ul>
+<p><strong>平均查找长度：</strong>含有n个节点的平衡二叉树的最大深度为O(log2 n)，因此平衡二叉树的平均查找长度为O(log2 n)</p>
+<p>左旋：将右子树的左子树链接到父亲节点的右孩子结点</p>
+<h2 id="5-5-红黑树"><a href="#5-5-红黑树" class="headerlink" title="&#x3D;&#x3D;5.5 红黑树&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.5 红黑树&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
+<p>BST 插入 删除 修改都是O(n)</p>
+<p>红黑树和二叉排序树都是O(log2n)</p>
+<p>一棵红黑树是满足如下红黑性质的二叉排序树：</p>
+<ol>
+<li>每个结点或是红色，或是黑色的。</li>
+<li>根结点是黑色的。</li>
+<li>叶结点都是黑色的。</li>
+<li>不存在两个相邻的红结点</li>
+<li>对每个结点，从该结点到任意一个叶结点的简单路径上，所含黑结点的数量相同。</li>
+</ol>
+<ul>
+<li>结论1：从根到叶结点的最长路径不大于最短路径的2倍。</li>
+<li>结论2：有n个内部结点的红黑树的高度h≤2log_2(n+ 1)。</li>
+</ul>
+<p>红黑树的“适度平衡”，由 AVL树的“高度平衡”，降低到“任意一个结点左右子树的高度，相差不超过2倍”，也降低了动态操作时调整的频率。放宽条件。对于红黑树来说，插入删除操作很多时候不会破坏其红黑特性，无需频繁调整树的形态，红黑树常数级时间内能完成修改</p>
+<p>C++中的map和set、Java中的TreeMap和TreeSet都是用红黑树实现的。</p>
+<p><strong>插入</strong>：先进行查找操作，确定插入位置并插入。如果新结点是根，则染为黑色，若新节点非根，则染为红色。如果插入后不满足红黑树定义，则需要调整使其重新满足红黑树定义。</p>
+<h2 id="5-6-B树"><a href="#5-6-B树" class="headerlink" title="5.6 B树"></a>5.6 B树</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20240330205312381.png" alt="image-20240330205312381"></p>
+<p>关键字顺序类比BST</p>
+<p><strong>查找</strong>：1.在B树里找结点 2.在结点里找关键字</p>
+<p><strong>插入</strong>：</p>
+<ol>
+<li>首先进行查找操作，找出插入该关键字的最低层中的某个非叶节点。</li>
+<li>进行插入操作，如果插入后被插入节点的关键字个数超过m-1，则需要对节点进行分裂。</li>
+<li>分裂方法是：从中间位置将关键字一分为二，左部分放在原结点中，右部分放在新结点中，中间位置的关键字插入原节点的父结点中。若此时导致父节点关键字个数也超过上限，则继续分裂。</li>
+</ol>
+<p><strong>删除</strong>：如果被删除的关键字k不在终端结点中时，可以用k的前驱或者后继来替代k。如果被删除的关键字在终端结点，则有2种情况：如果被删除关键字所在节点删除前的关键字个数&gt;&#x3D;m&#x2F;2，则直接删除。反之需要重新调整结点，向兄弟结点借一个关键字或者与兄弟节点和双亲结点中的关键字进行合并。</p>
+<p>用作数据库索引</p>
+<h2 id="5-7-B-树"><a href="#5-7-B-树" class="headerlink" title="&#x3D;&#x3D;5.7 B+树&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.7 B+树&#x3D;&#x3D;</h2><p>⭐⭐⭐</p>
+<p>与分块查找类似</p>
+<ul>
+<li>具有n个关键字的结点只含有n棵子树，即每个关键字对应一棵子树；</li>
+<li>叶结点包含了全部关键字，非叶结点中出现的关键字也会出现在叶结点中；</li>
+<li>叶结点包含信息，所有非叶结点仅起索引作用，非叶结点中的每个索引项只含有对应子树的最大关键字和指向该子树的指针，不含有该关键字对应记录的存储地址；</li>
+</ul>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20240330210408289.png" alt="image-20240330210408289" style="zoom:67%;" />
+
+<p><strong>B数和B+树的区别</strong></p>
+<ol>
+<li><p>B+树具有n个关键字的结点只含有n棵子树，即每个关键字对应一棵子树。而在B树中，具有n个关键字的结点含有n+1棵子树。</p>
+</li>
+<li><p>B+树叶结点包含了全部关键字，即在非叶结点中出现的关键字也会出现在叶结点中。而在B树中，叶结点包含的关键字与其他结点包含的关键字是不重复的。</p>
+</li>
+<li><p>B+树非叶节点仅起索引作用，叶结点包含关键字对应记录的存储地址.而B树的结点中都包含关键字对应记录的存储地址。</p>
+</li>
+</ol>
+<p><strong>为什么有了B树还要提出B+树</strong></p>
+<ul>
+<li><strong>结构差异</strong>：B树的关键字分布在所有节点中，而B+树的所有关键字都存储在叶子节点中。</li>
+<li><strong>查询效率</strong>：对于单点查询，B树和B+树的效率相近。但对于范围查询，B+树由于叶子节点间的链接，效率更高。</li>
+<li><strong>空间利用率</strong>：B+树由于非叶子节点不存储数据，空间利用率更高，能够存储更多的关键字。</li>
+</ul>
+<h2 id="5-8-哈希表"><a href="#5-8-哈希表" class="headerlink" title="&#x3D;&#x3D;5.8 哈希表&#x3D;&#x3D;"></a>&#x3D;&#x3D;5.8 哈希表&#x3D;&#x3D;</h2><p>⭐⭐⭐⭐</p>
+<p><strong>哈希表</strong>又称为散列表，通过把关键码的值直接映射到表中的一个位置，以加快查找速度。</p>
+<p><strong>构造方法：</strong></p>
+<ol>
+<li><p>直接定址法：直接取某个线性函数值作为散列地址</p>
+</li>
+<li><p>除留取余法：取一个最接近散列表表长的质数p，散列函数为key%p</p>
+</li>
+<li><p>数字分析法：选取数码分布较为均匀的若干位作为散列地址</p>
+</li>
+<li><p>平方取中法：取平方值的中间几位作为散列地址。</p>
+</li>
+</ol>
+<p><strong>处理冲突的方法：</strong></p>
+<ol>
+<li><strong>开放定址法</strong>：指可存放新表项的空闲地址既向它的同义词表项开放，又向它的非同义词表项开放。<ul>
+<li><strong>线性探测法</strong>：冲突发生时，顺序查看表中下一个单元，直到找出一个空闲单元，缺点：大量元素在相邻的散列地址上堆积起来，降低了查找效率。</li>
+<li><strong>平方探测法</strong>：增量序列为0^2^,1^2^,-1^2^,2^2^…以此类推。优点：避免出现堆积问题，缺点：不能探测到散列表上的所有单元。</li>
+<li><strong>双散列法</strong>：需要使用两个散列函数，当通过第一个散列函数得到的地址发生冲突时，则利用第二个散列函数计算该关键字的地址增量。</li>
+<li><strong>伪随机序列法</strong>：增量为随机数。</li>
+</ul>
+</li>
+<li><strong>拉链法</strong>：不同的关键字会通过散列函数映射到同一地址时，为了避免非同义词发生冲突，可以把所有的同义词存储在一个线性链表中，这个线性链表由其散列地址唯一标识。</li>
+</ol>
+<h1 id="六、排序"><a href="#六、排序" class="headerlink" title="&#x3D;&#x3D;六、排序&#x3D;&#x3D;"></a>&#x3D;&#x3D;六、排序&#x3D;&#x3D;</h1><p><strong>基本思想是什么？时间复杂度？是否稳定？给一个例子，问冒泡和快速排序在最坏的情况下比较几次？</strong>★★★★★★</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.acwing.com/media/article/image/2020/12/05/41924_1a3c844236-sort.png" alt="sort.png"></p>
+<h2 id="6-1-插入排序"><a href="#6-1-插入排序" class="headerlink" title="6.1 插入排序"></a>6.1 插入排序</h2><blockquote>
+<p>将序列分为有序部分和无序部分，从无序部分依次选择元素与有序部分比较找到合适的位置，将原来的元素往后移，将元素插入到相应位置上。</p>
+</blockquote>
+<h2 id="6-2-希尔排序"><a href="#6-2-希尔排序" class="headerlink" title="6.2 希尔排序"></a>6.2 希尔排序</h2><blockquote>
+<p>把元素按下标的一定增量d进行分组，对每组使用直接插入排序。随着增量逐渐减少，当增量减至1时，整个文件恰被分为一组，算法终止。</p>
+</blockquote>
+<p>优点是：让关键字值小的元素能够很快移动到前面，且序列基本有序时进行直接插入排序时间效率会提升很多</p>
+<h2 id="6-3-简单选择排序"><a href="#6-3-简单选择排序" class="headerlink" title="6.3 简单选择排序"></a>6.3 简单选择排序</h2><blockquote>
+<p>将序列分为有序部分和无序部分，每经过一趟就在无序部分找到一个最小值然后与无序部分的第一个元素交换位置。</p>
+</blockquote>
+<p>优点是：实现简单，缺点是：每一趟只能确定一个元素的位置，时间效率低。</p>
+<h2 id="6-4-堆排序"><a href="#6-4-堆排序" class="headerlink" title="6.4 堆排序"></a>6.4 堆排序</h2><blockquote>
+<p>堆是特殊的完全二叉树，树中任意节点均大于或小于其左右孩子</p>
+</blockquote>
+<blockquote>
+<p>将无序序列构建成一个堆，根据升序和降序需求选择大根堆或者小根堆，将堆顶元素与末尾元素交换，通过up和down操作重新调整堆，反复执行调整交换步骤，直到整个序列有序。</p>
+</blockquote>
+<h2 id="6-5-冒泡排序"><a href="#6-5-冒泡排序" class="headerlink" title="6.5 冒泡排序"></a>6.5 冒泡排序</h2><blockquote>
+<p>基本思路为：每一趟都将相邻两元素进行比较，出现逆序情况则进行交换。</p>
+</blockquote>
+<h2 id="6-6-快速排序"><a href="#6-6-快速排序" class="headerlink" title="6.6 快速排序"></a>6.6 快速排序</h2><blockquote>
+<p>基本思路为：在序列中任意选择一个元素作为中心，比它大的元素一律向后移动，比它小的元素一律向前移动，形成左右两个子序列，再把子序列按上述操作进行调整，直到所有的子序列中都只有一个元素时序列即为有序。</p>
+<p>每次由一个枢轴将待排序序列分成左右两部分，这个过程类似于构造一棵二叉树，最小高度为log2 n,最大高度为n</p>
+</blockquote>
+<p>优点是：每一趟能确定一个元素，时间效率较高。</p>
+<h2 id="6-7-基数排序"><a href="#6-7-基数排序" class="headerlink" title="6.7 基数排序"></a>6.7 基数排序</h2><blockquote>
+<p>从最低位开始，对所有元素按照当前位的数值进行排序，直到对最高位进行排序。</p>
+<p>设置r个空队列，按照各个关键字位权重递增的次序，对d个关键字位分别进行分配和收集操作。</p>
+<p>分配：顺序扫描各个元素，根据当前处理的关键字位将元素插入相应队列。</p>
+<p>收集：把各个队列中的结点依次出队并连接。</p>
+</blockquote>
+<h2 id="6-8-归并排序"><a href="#6-8-归并排序" class="headerlink" title="6.8 归并排序"></a>6.8 归并排序</h2><blockquote>
+<p>将待排序表中的n个记录视为n个有序子表，每个子表长度为1。然后两两归并，得到n&#x2F;2个长度为2的有序表，继续两两归并，直至归并成一个长度为n的有序表为止。</p>
+<p>初始化两个数组A和B，将两个要进行归并操作的有序表复制到数组B的相邻位置，每次从B中的两个有序表分别取出一个关键字进行比较，将大的存入A，重复上述操作直至B空。</p>
+</blockquote>
+<h1 id="七、其它"><a href="#七、其它" class="headerlink" title="&#x3D;&#x3D;七、其它&#x3D;&#x3D;"></a>&#x3D;&#x3D;七、其它&#x3D;&#x3D;</h1><h2 id="7-1-时间复杂度"><a href="#7-1-时间复杂度" class="headerlink" title="7.1 时间复杂度"></a>7.1 时间复杂度</h2><p>一个语句的频度是指该语句在算法中被重复执行的次数。算法中所有语句的频度之和记为T(n), 它是该算法问题规模n的函数，时间复杂度主要分析T(n) 的数量级。T(n) &#x3D; O(f(n))</p>
+<p>时间复杂度描述了算法所需的时间资源随着输入规模的增加而增加的速度。它是一种用来描述算法运行时间增长速度的渐近符号。大O记法表示算法时间复杂度的上界，即在最坏情况下，算法的运行时间不会超过某个常数乘以某个函数。</p>
+<blockquote>
+<p>取f(n) 中随n增长最快的项，将其系数置为1 作为时间复杂度的度量。例如， f(n) &#x3D; an^3^ + bn^2^+ cn 的时向复杂度为O(n^3^)</p>
+</blockquote>
+<h2 id="7-2-空间复杂度"><a href="#7-2-空间复杂度" class="headerlink" title="7.2 空间复杂度"></a>7.2 空间复杂度</h2><p>空间复杂度描述了算法所需的存储空间与输入规模之间的关系。空间复杂度可以衡量算法对内存的利用情况</p>
+<p>一个程序在执行时除需要存储空间来存放本身所用的指令、常数、变量和输入数据外，还需要一些对数据进行操作的工作单元和存储一些为实现计算所需信息的辅助空间。</p>
+<h2 id="7-3-算法"><a href="#7-3-算法" class="headerlink" title="7.3 算法"></a>7.3 算法</h2><p>算法是指解决特定问题或执行特定任务的一系列步骤或规则。算法是独立于编程语言的，它描述了解决问题的方法，而不是具体的实现方式。算法是一种用来描述解决问题的有限步骤集合。</p>
+<h2 id="7-4-数据结构三要素"><a href="#7-4-数据结构三要素" class="headerlink" title="7.4 数据结构三要素"></a>7.4 数据结构三要素</h2><p><strong>数据结构三要素是什么？逻辑结构包括什么？存储结构包括什么？</strong></p>
+<p>逻辑结构、存储结构、数据运算</p>
+<p>逻辑结构包括线性结构和非线性结构</p>
+<p>线性结构包括线性表、栈、队列，非线性结构包括树、图集合</p>
+<p>存储结构包括顺序存储、链式存储、索引存储和散列存储</p>
+<h2 id="7-5-循环与递归"><a href="#7-5-循环与递归" class="headerlink" title="7.5 循环与递归"></a>7.5 循环与递归</h2><p>循环和递归两者是可以互换的，不能决定性的说循环的效率比递归高。</p>
+<p>递归的优点是：代码简洁清晰，容易检查正确性；缺点是：当递归调用的次数较多时，要增加额外的堆栈处理，有可能产生堆栈溢出的情况，对执行效率有一定的影响。</p>
+<p>循环的优点是：结构简单，速度快；缺点是：它并不能解决全部问题，有的问题适合于用递归来解决不适合用循环。</p>
+<h2 id="7-6-贪心动态规划及分治法"><a href="#7-6-贪心动态规划及分治法" class="headerlink" title="7.6 贪心动态规划及分治法"></a>7.6 贪心动态规划及分治法</h2><p><strong>贪心算法</strong>顾名思义就是做出在当前看来是最好的结果，它不从整体上加以考虑，也就是局部最优解。贪心算法从上往下，从顶部一步一步最优，得到最后的结果，它不能保证全局最优解。</p>
+<p><strong>动态规划</strong>是把问题分解成子问题，这些子问题可能有重复，可以记录下前面子问题的结果防止重复计算。动态规划解决子问题，前一个子问题的解对后一个子问题产生一定的影响。动态规划是从下到上，一步一步找到全局最优解。（各子问题重叠）</p>
+<p><strong>分治法</strong>：将原问题划分成n个规模较小而结构与原问题相似的子问题；</p>
+<p><strong>递归</strong>地解决这些子问题，然后<strong>再合并</strong>其结果，就得到原问题的解。（各子问题独立）</p>
+<p>分治模式在每一层递归上都有三个步骤</p>
+<p>分解：将原问题分解成一系列子问题；</p>
+<p>解决：递归地解各个子问题。若子问题足够小，则直接求解；</p>
+<p>合并：将子问题的结果合并成原问题的解。</p>
+<p>例如归并排序。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://matriy330.github.io">Matriy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://matriy330.github.io/9f5ee013/">http://matriy330.github.io/9f5ee013/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://matriy330.github.io" target="_blank">Matriy's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BF%9D%E7%A0%94%E9%9D%A2%E8%AF%95%E9%A2%98/">保研面试题</a></div><div class="post-share"><div class="social-share" data-image="/img/tx.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/zsm.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zsm.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/zfb.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zfb.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/406df5ba/" title="保研面试(英语)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-16</div><div class="info-item-2">保研面试(英语)</div></div><div class="info-2"><div class="info-item-1">保研面试1.读过哪些书，哪些著作，哪些期刊 A Federated Learning Paradigm for Heart Sound Classification FedProto: Federated Prototype Learning across Heterogeneous Clients Communication-Efficient Learning of Deep Networks from Decentralized Data  从分散的数据中进行深度网络的通信高效学习 没听清：sorry, could you repeat your question again? &#x3D;&#x3D;Please introduce your hometown&#x3D;&#x3D; &#x3D;&#x3D;Please introduce your collage school.&#x3D;&#x3D; &#x3D;&#x3D;Please introduce your parents&#x3D;&#x3D; &#x3D;&#x3D;What’s your...</div></div></div></a><a class="pagination-related" href="/53f43eae/" title="计算机保研复习-C++和JAVA"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-18</div><div class="info-item-2">计算机保研复习-C++和JAVA</div></div><div class="info-2"><div class="info-item-1">C++和JAVA 首先应该清楚，Java 是由 C++发展而来的，保留了 C++的大部分内容。但 Java 的句法更清晰、规模更小、更易学。  1. 解释对编译Java是一种解释性语言，其在执行时会被“翻译”为二进制形式，也就是jvm去解释它。而C++则是编译语言，意味着程序只能在特定操作系统上编译并在特定系统上运行，也就是说C++一步到位成机器语言的。 2. 指针Java 没有指针的概念。在 C&#x2F;C++中，指针操作内存时，经常会出现错误。而在Java中是没有指针这一概念的，因此也有效地防止了一系列由指针引起的操作层失误（如指针悬空所造成的系统崩溃），更有利于 Java 程序的安全。 3. 内存安全Java是一种内存安全型语言，意味着大家可以为给定数组分配任意参数，即使超出范围也只会返回错误提示。C++更为灵活，但代价是一旦分配的参数超出资源范围，则会引起错误甚至严重崩溃。 4. 多重继承Java不支持多重继承。多重继承，它允许多父类派生一个子类。也就是说，一个类允许继承多个父类。尽管多重继承功能很强，但使用复杂，而且会引起许多麻烦，编译程序实现它也很不容易。所以...</div></div></div></a><a class="pagination-related" href="/48835374/" title="计算机保研复习-操作系统"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-19</div><div class="info-item-2">计算机保研复习-操作系统</div></div><div class="info-2"><div class="info-item-1">操作系统一、操作系统概述&#x3D;&#x3D;1.1...</div></div></div></a><a class="pagination-related" href="/683ace39/" title="计算机保研复习-数据库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-23</div><div class="info-item-2">计算机保研复习-数据库</div></div><div class="info-2"><div class="info-item-1">数据库复习一、基本概念数据库：长期存储在计算机内、有组织、可共享的大量数据的集合，数据库中的数据按照一定的数据模型组织、储存，具有较低的冗余度、较高的数据独立性和易扩展性。  数据库分类：关系数据库、非关系型数据库（NoSQL、MongoDB）、图数据库（Neo4j）、内存数据库（Redis）  数据库管理系统：位于用户与操作系统之间的数据管理软件  数据库系统：由数据库、数据库管理系统、应用程序和数据库管理员组成的存储、管理、处理和维护数据的系统   数据库有什么类型的数据库、关系型数据库的特点 特点：  结构化数据存储：使用关系来组织和存储数据，数据以行和列的形式组织，表格之间通过键值进行关联。 SQL语言：使用SQL来进行数据的查询、插入、更新和删除等操作。 事务支持：支持ACID特性，保证数据库操作的可靠性和一致性。 数据完整性：关系型数据库支持各种约束，可以确保数据的完整性和一致性。 复杂查询支持：关系型数据库支持复杂的查询操作，包括联合查询、嵌套查询、聚合函数、子查询等  二、数据库体系结构2.1...</div></div></div></a><a class="pagination-related" href="/858f1325/" title="计算机保研复习-计算机网络"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20240405142024967.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-19</div><div class="info-item-2">计算机保研复习-计算机网络</div></div><div class="info-2"><div class="info-item-1">计算机网络定义：计算机网络就是一些互联的、自治的计算机系统的集合。 一、大致1.1 网络层协议 IP：IP是互联网协议，它负责将数据包从源主机传输到目标主机，通过IP地址来标识主机和网络。 ICMP： 它用于报告错误、测试主机的可达性以及其他网络状态信息。  IP 层的协议，封装在IP数据报中。  常见应用：  Ping命令用来测试两台主机之间的连通性  Traceroute用来跟踪分组经过的路由      IGMP：IGMP是用于在IP网络上管理多播组的协议。它允许主机加入或离开多播组，以便有效地传输多播数据。 ARP：实现IP地址到MAC地址的映射 OSPF：开放最短路径优先协议，它采用洪泛法向本自治系统中的所有路由器发送信息在IP网络中确定最短路径。  传输层协议：TCP、UDP 1.2...</div></div></div></a><a class="pagination-related" href="/ec32f18a/" title="计算机保研复习-算法基础课(java&amp;&amp;C++)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20240314172001349.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-18</div><div class="info-item-2">计算机保研复习-算法基础课(java&amp;&amp;C++)</div></div><div class="info-2"><div class="info-item-1">算法基础课(java&amp;&amp;C++)  第一章 基础算法1.1 快速排序123456789101112131415161718192021222324252627#include &lt;iostream&gt;using namespace std;const int N = 1000010;int q[N];void quick_sort(int l, int r)&#123;    if (l &gt;= r) return;    int i = l - 1, j = r + 1, x = q[l + r &gt;&gt; 1];    while (i &lt; j)&#123;        do i ++ ; while (q[i] &lt; x);        do j -- ; while (q[j] &gt; x);        if (i &lt; j) swap(q[i], q[j]);    &#125;    quick_sort(l, j);    quick_sort(j + 1, r);&#125;int...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Matriy</div><div class="author-info-description">不积硅步，无以至千里</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Matriy330"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">我是一个网安小白，一名安卓逆向工程师，Web安全开发工程师，二进制学习者</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E8%A1%A8"><span class="toc-text">一、线性表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E6%95%B0%E7%BB%84%E5%92%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">1.1 数组和链表的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E9%93%BE%E8%A1%A8%E7%A7%8D%E7%B1%BB"><span class="toc-text">1.2 链表种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97"><span class="toc-text">&#x3D;&#x3D;1.3 栈与队列&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">&#x3D;&#x3D;1.4 数据存储方式&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-%E5%A4%B4%E6%8C%87%E9%92%88%E5%92%8C%E5%A4%B4%E8%8A%82%E7%82%B9%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">1.5 头指针和头节点的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF"><span class="toc-text">&#x3D;&#x3D;1.6 判断链表是否有环&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97"><span class="toc-text">&#x3D;&#x3D;1.7 循环队列&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-8-%E6%A0%88%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">1.8 栈的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-9-%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">1.9 队列的应用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%B2"><span class="toc-text">&#x3D;&#x3D;二、串&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A0%91"><span class="toc-text">三、树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%A0%91%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-text">3.1 树的性质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E4%B8%8E%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81"><span class="toc-text">3.2 哈夫曼树与哈夫曼编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E6%A0%91%E7%9A%84%E5%88%86%E7%B1%BB%E5%8F%8A%E6%9E%84%E9%80%A0"><span class="toc-text">&#x3D;&#x3D;3.3 树的分类及构造&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E6%A0%91%E4%B8%8E%E6%A3%AE%E6%9E%97"><span class="toc-text">3.4 树与森林</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E5%B9%B6%E6%9F%A5%E9%9B%86"><span class="toc-text">3.5 并查集</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%9B%BE"><span class="toc-text">四、图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="toc-text">&#x3D;&#x3D;4.1 最小生成树&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="toc-text">&#x3D;&#x3D;4.2 最短路径&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="toc-text">4.3 拓扑排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="toc-text">4.4 关键路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-%E5%9B%BE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">4.5 图的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-DFS%E5%92%8CBFS"><span class="toc-text">&#x3D;&#x3D;4.6 DFS和BFS&#x3D;&#x3D;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%9F%A5%E6%89%BE"><span class="toc-text">五、查找</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE-%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE"><span class="toc-text">5.1 顺序查找 分块查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BE"><span class="toc-text">5.2 折半查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91"><span class="toc-text">5.3 二叉排序树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9A"><span class="toc-text">5.4 平衡二叉树：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-text">&#x3D;&#x3D;5.5 红黑树&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-6-B%E6%A0%91"><span class="toc-text">5.6 B树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-7-B-%E6%A0%91"><span class="toc-text">&#x3D;&#x3D;5.7 B+树&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-8-%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-text">&#x3D;&#x3D;5.8 哈希表&#x3D;&#x3D;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%8E%92%E5%BA%8F"><span class="toc-text">&#x3D;&#x3D;六、排序&#x3D;&#x3D;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-text">6.1 插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="toc-text">6.2 希尔排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-%E7%AE%80%E5%8D%95%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">6.3 简单选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-4-%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-text">6.4 堆排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-5-%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-text">6.5 冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-6-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-text">6.6 快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-7-%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-text">6.7 基数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-8-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-text">6.8 归并排序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%85%B6%E5%AE%83"><span class="toc-text">&#x3D;&#x3D;七、其它&#x3D;&#x3D;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">7.1 时间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">7.2 空间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-%E7%AE%97%E6%B3%95"><span class="toc-text">7.3 算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="toc-text">7.4 数据结构三要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5-%E5%BE%AA%E7%8E%AF%E4%B8%8E%E9%80%92%E5%BD%92"><span class="toc-text">7.5 循环与递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-6-%E8%B4%AA%E5%BF%83%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%8F%8A%E5%88%86%E6%B2%BB%E6%B3%95"><span class="toc-text">7.6 贪心动态规划及分治法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/850e6e3/" title="Magisk学习简介"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Magisk学习简介"/></a><div class="content"><a class="title" href="/850e6e3/" title="Magisk学习简介">Magisk学习简介</a><time datetime="2025-05-12T16:00:00.000Z" title="发表于 2025-05-13 00:00:00">2025-05-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录Frida spawn模式hook失败的问题(禁用usap)"/></a><div class="content"><a class="title" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)">记录Frida spawn模式hook失败的问题(禁用usap)</a><time datetime="2025-05-11T16:00:00.000Z" title="发表于 2025-05-12 00:00:00">2025-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录一次安装Frida14.2.18的坑和解决方法"/></a><div class="content"><a class="title" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法">记录一次安装Frida14.2.18的坑和解决方法</a><time datetime="2025-05-10T16:00:00.000Z" title="发表于 2025-05-11 00:00:00">2025-05-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/1610ef8a/" title="Android逆向18-Unicorn"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向18-Unicorn"/></a><div class="content"><a class="title" href="/1610ef8a/" title="Android逆向18-Unicorn">Android逆向18-Unicorn</a><time datetime="2025-05-09T16:00:00.000Z" title="发表于 2025-05-10 00:00:00">2025-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/c2ef4741/" title="Android逆向17-抓包进阶"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向17-抓包进阶"/></a><div class="content"><a class="title" href="/c2ef4741/" title="Android逆向17-抓包进阶">Android逆向17-抓包进阶</a><time datetime="2025-05-08T16:00:00.000Z" title="发表于 2025-05-09 00:00:00">2025-05-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Matriy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px"target="_blank" href="https://hexo.io/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px"target="_blank" href="https://butterfly.js.org/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px"target="_blank" href="https://www.jsdelivr.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用 Jsdelivr 为静态资源提供CDN加速" alt="Jsdelivr"></a><a style="margin-inline:5px"target="_blank" href="https://github.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px"target="_blank"href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p> <p>Hi, welcome to Matriy's <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="/js/anzhiyu.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

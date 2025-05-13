@@ -1,0 +1,917 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hadoop入门 | Matriy's blog</title><meta name="author" content="Matriy"><meta name="copyright" content="Matriy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Hadoop入门题型一、填空题（共10个空，每空1分，共10分) 二、不定项选择题（共15小题，每题2分，共30分） 三、问答题（共6小题，共40分） 四、论述题（共2小题，每题10分，共20分） 第一章1.1 大数据的概念、类型大数据指无法在一定时间范围内用常规软件工具进行捕捉、管理和处理的数据集合，是需要新处理模式才能具有更强决策力、洞察发现力和流程优化能力的海量、高增长率和多样化的信息资产。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop入门">
+<meta property="og:url" content="http://matriy330.github.io/67914616/index.html">
+<meta property="og:site_name" content="Matriy&#39;s blog">
+<meta property="og:description" content="Hadoop入门题型一、填空题（共10个空，每空1分，共10分) 二、不定项选择题（共15小题，每题2分，共30分） 三、问答题（共6小题，共40分） 四、论述题（共2小题，每题10分，共20分） 第一章1.1 大数据的概念、类型大数据指无法在一定时间范围内用常规软件工具进行捕捉、管理和处理的数据集合，是需要新处理模式才能具有更强决策力、洞察发现力和流程优化能力的海量、高增长率和多样化的信息资产。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://matriy330.github.io/img/tx.jpg">
+<meta property="article:published_time" content="2024-12-06T09:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-02T03:33:47.208Z">
+<meta property="article:author" content="Matriy">
+<meta property="article:tag" content="开发相关">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://matriy330.github.io/img/tx.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hadoop入门",
+  "url": "http://matriy330.github.io/67914616/",
+  "image": "http://matriy330.github.io/img/tx.jpg",
+  "datePublished": "2024-12-06T09:00:00.000Z",
+  "dateModified": "2025-03-02T03:33:47.208Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Matriy",
+      "url": "http://matriy330.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="canonical" href="http://matriy330.github.io/67914616/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="G-ShTqjjywiLkL87Rg0PaiSsDVYymWStdQUO1wrM_VY"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":30,"languages":{"author":"作者: Matriy","link":"链接: ","source":"来源: Matriy's blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}
+</script><link rel="stylesheet" href="/css/custom.css"><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hadoop入门',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="an_music_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Matriy's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Hadoop入门</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Hadoop入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-06T09:00:00.000Z" title="发表于 2024-12-06 17:00:00">2024-12-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-02T03:33:47.208Z" title="更新于 2025-03-02 11:33:47">2025-03-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/others/">others</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">10.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>33分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/67914616/#post-comment"><span id="twikoo-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Hadoop入门"><a href="#Hadoop入门" class="headerlink" title="Hadoop入门"></a>Hadoop入门</h1><h1 id="题型"><a href="#题型" class="headerlink" title="题型"></a>题型</h1><p>一、填空题（共10个空，每空1分，共10分)</p>
+<p>二、不定项选择题（共15小题，每题2分，共30分）</p>
+<p>三、问答题（共6小题，共40分）</p>
+<p>四、论述题（共2小题，每题10分，共20分）</p>
+<h1 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h1><h2 id="1-1-大数据的概念、类型"><a href="#1-1-大数据的概念、类型" class="headerlink" title="1.1 大数据的概念、类型"></a>1.1 大数据的概念、类型</h2><p>大数据指无法在一定时间范围内用常规软件工具进行捕捉、管理和处理的数据集合，是需要新处理模式才能具有更强决策力、洞察发现力和流程优化能力的海量、高增长率和多样化的信息资产。</p>
+<p> 大数据的<strong>类型</strong>大致可分为三类：</p>
+<ol>
+<li><strong>传统企业数据</strong>：包括 CRM系统中的客户数据，传统的ERP数据，网上商店交易数据、库存数据以及账目数据等。</li>
+<li><strong>机器和传感器数据</strong>：包括详细呼叫记录，网络日志、工业设备传感器，设备日志，交易数据等</li>
+<li><strong>社交数据</strong>：包括用户行为记录，反馈数据等。如来Twitter、Facebook等在线社交平台。</li>
+</ol>
+<h2 id="1-2-大数据的特征"><a href="#1-2-大数据的特征" class="headerlink" title="1.2 大数据的特征"></a>1.2 大数据的特征</h2><p><strong>体密真种速</strong></p>
+<ol>
+<li><p>数据的体量巨大(Volume)</p>
+</li>
+<li><p>价值密度低(Value)：大数据规模越大，真正有价值的数据相对越少</p>
+</li>
+<li><p>数据真实性(Veracity)：真实性和质量，aplhago</p>
+</li>
+<li><p>数据的多样性(Variety)</p>
+</li>
+<li><p>流动速度快(Velocity)：一是数据产生得快，二是数据处理得快。</p>
+</li>
+</ol>
+<h2 id="1-3-大数据的计算模式"><a href="#1-3-大数据的计算模式" class="headerlink" title="1.3 大数据的计算模式"></a>1.3 大数据的计算模式</h2><ol>
+<li><strong>批处理计算</strong></li>
+</ol>
+<ul>
+<li>针对大规模数据(按批次收集和处理)的离线周期性批量处理。主要技术有MapReduce、Spark</li>
+<li>数据仓库、离线分析、大规模数据挖掘等</li>
+</ul>
+<ol start="2">
+<li><strong>流计算</strong></li>
+</ol>
+<ul>
+<li>针对流数据的实时计算处理，数据在产生的同时被处理。主要技术：Storm、Streams等。</li>
+<li>实时推荐系统、实时日志分析、实时风险监控等</li>
+</ul>
+<ol start="3">
+<li><strong>图计算</strong></li>
+</ol>
+<ul>
+<li>针对大规模图结构数据的处理。主要技术：Pregel、Giraph等</li>
+<li>社交网络的数据，谁和谁关系较好等</li>
+</ul>
+<ol start="4">
+<li><strong>查询分析计算</strong></li>
+</ol>
+<ul>
+<li>大规模数据的存储管理和查询分析。主要技术：Hive、Impala等。</li>
+<li>对数据仓库中的数据，用sql语句进行查询分析</li>
+</ul>
+<h2 id="1-4-大数据、云计算和物联网之间的区别和联系"><a href="#1-4-大数据、云计算和物联网之间的区别和联系" class="headerlink" title="1.4 大数据、云计算和物联网之间的区别和联系"></a>1.4 大数据、云计算和物联网之间的区别和联系</h2><p><strong>区别</strong></p>
+<ul>
+<li>大数据是为了从海量数据中发掘数据资产的价值，对象是数据</li>
+<li>云计算本质上旨在整合和优化各种IT资源，并通过网络以服务的方式廉价提供给用户，实现计算、网络、存储资源的弹性管理。云计算可以大量节约使用成本。</li>
+<li>物联网的发展目标是实现物物相连，应用创新是物联网发展的核心。物联网使得获取信息更容易，对象是各类物品。</li>
+</ul>
+<p><strong>联系</strong></p>
+<p>从整体上看，大数据、云计算和物联网这三者是相辅相成的。大数据根植于云计算，大数据分析的很多技术都来自于云计算（提供数据存储和管理、数据分析），大数据为云计算提供了“用武之地”（就是具有大量的数据，以及对大量数据分析应用的需求），物联网源源不断地产生的大量数据，构成了大数据的重要来源，物联网借助于云计算和大数据技术，实现物联网大数据的存储、分析和处理。</p>
+<p>云计算为进行大数据分析提供了算力与资源，把计算资源虚拟化形成资源池进行大数据分析。</p>
+<h2 id="1-5-Hadoop的三种关键技术"><a href="#1-5-Hadoop的三种关键技术" class="headerlink" title="1.5 Hadoop的三种关键技术"></a>1.5 Hadoop的三种关键技术</h2><p>HDFS，MapReduce，YARN主要解决大数据分析中的存储，处理和监视问题</p>
+<ul>
+<li><p><strong>分布式文件系统（HDFS）</strong>来解决数据存储问题</p>
+<p>HDFS将数据分成若干小块，存在集群中多台计算机上实现大量数据存储。通过在多个主机上复制数据来保证数据的可靠性。</p>
+</li>
+<li><p><strong>并行计算框架MapReduce</strong> 来解决计算问题</p>
+<p>MapReduce框架将计算问题进行划分，并将任务分配给不同计算机，使用本地存储的数据的执行处理程序，负责作业调度。</p>
+</li>
+<li><p>为了确保不同组件之间可以密切协同工作，Hadoop使用了<strong>YARN</strong>的监视机制，同时也负责资源管理</p>
+</li>
+</ul>
+<h2 id="1-6-Hadoop1-0，-Hadoop2-0和Hadoop3-x区别"><a href="#1-6-Hadoop1-0，-Hadoop2-0和Hadoop3-x区别" class="headerlink" title="1.6 Hadoop1.0， Hadoop2.0和Hadoop3.x区别"></a>1.6 Hadoop1.0， Hadoop2.0和Hadoop3.x区别</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231219145133487.png" alt="image-20231219145133487"  />
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231219145315698.png" alt="image-20231219145315698"></p>
+<p><strong>2.0改进</strong></p>
+<ul>
+<li><p>针对1.0单NameNode制约HDFS的扩展性问题，提出HDFS Federation，它让多个NameNode分管不同的目录进而实现访问隔离和横向扩展</p>
+</li>
+<li><p>彻底解决了NameNode单点故障问题(如JobTracker和NameNode单点故障)，引入StandByNameNode同时运行，保持元数据同步，高可用，热备份</p>
+</li>
+<li><p>针对1.0中的MapReduce在扩展性和多框架支持等方面的不足，它将JobTracker中的资源管理和作业控制分开，分别由ResourceManager（负责所有应用程序的资源分配）和ApplicationMaster（负责管理一个应用程序）实现，即引入了资源管理框架Yarn，可为各类应用程序进行资源管理和调度</p>
+</li>
+</ul>
+<p><strong>3.0改进</strong></p>
+<ol>
+<li><strong>性能优化：</strong>存储层和计算层的改进，提高了整体的处理效率。</li>
+<li><strong>容器支持：</strong> 通过支持容器化技术，提高了集群资源的利用率。</li>
+<li><strong>GPU支持：</strong> 提高特定工作负载的计算性能。</li>
+<li>集成了各种分布式框架，高可用性</li>
+</ol>
+<p><strong>HDFS中数据块的默认大小</strong>：128MB，<strong>数据块的默认备份数量</strong>：3</p>
+<h2 id="1-7-MapReduce编程主要原则"><a href="#1-7-MapReduce编程主要原则" class="headerlink" title="1.7 MapReduce编程主要原则"></a>1.7 MapReduce编程主要原则</h2><ul>
+<li><p><strong>代码向数据靠拢</strong></p>
+<p>不像传统编程应用程序那样将数据移动到代码，在MapReduce中，我们通过将代码移动到数据，消除了数据传输的开销。</p>
+</li>
+<li><p><strong>允许程序透明地伸缩</strong></p>
+<p>mapreduce允许程序伸缩，计算以不存在数据过载的方式执行。</p>
+</li>
+<li><p><strong>抽象出容错、同步</strong></p>
+<p>MapReduce实现处理所有事情，允许开发人员只构建计算逻辑。</p>
+</li>
+</ul>
+<p><strong>思想</strong>：<strong>分而治之</strong>：一个存储在分布式文件系统中的大规模数据集，会被切分成许多独立分片，被多个Map任务并行处理，通过Reduce程序将结果汇总，输出开发者需要的结果</p>
+<h1 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h1><h2 id="2-1-常用linux命令的使用-HDFS"><a href="#2-1-常用linux命令的使用-HDFS" class="headerlink" title="2.1 常用linux命令的使用(HDFS)"></a>2.1 常用linux命令的使用(HDFS)</h2><p>cd cp mkdir tar chmod </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -cd /user/data</span><br><span class="line">hadoop fs -cp /input/file.txt /output/</span><br><span class="line">hadoop fs -mkdir /new_directory</span><br><span class="line">hadoop fs -mkdir -p /user/myuser/nested_directory/sub_directory</span><br><span class="line">hadoop fs -ls /user/myuser/</span><br><span class="line">tar -czvf test.tgz test 将当前目录下的test文件夹打包为test.tgz </span><br><span class="line">tar -xzvf test.tgz； 将test.tgz解压到当前目录</span><br><span class="line">tar -xzvf test.tgz -C /usr；如果要解压到/usr</span><br><span class="line">hadoop fs -chmod 755 /myfile.txt             // rwx augo+rwx</span><br><span class="line">hadoop fs -rm /fruit.txt 删除当前目录下fruit.txt文件</span><br><span class="line">hadoop fs -rm -r dir1 删除dir1目录及其子目录</span><br><span class="line">hadoop fs -rm -r -i newdir 以安全询问方式删除目录newdir</span><br><span class="line">hadoop fs -rm -f /user/myuser/nonexistentfile.txt</span><br><span class="line">hadoop fs -cat -n /user/myuser/myfile.txt</span><br><span class="line">hadoop fs -mv /user/myuser/source_file.txt /user/myuser/destination_file.txt</span><br><span class="line">hadoop fs -chown root /test1/data.txt  改变 Hadoop 中/test1 目录中的 data.txt 文件拥有者为root</span><br><span class="line">hadoop fs -get /test1/data.txt /apps       copyToLocal  下同copyFromLocal</span><br><span class="line">hadoop fs -put /data/data.txt /test1  将Linux本地/data目录下的 data.txt文件，上传到HDFS中的/test1目录</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-Vi三种状态及转换方式"><a href="#2-2-Vi三种状态及转换方式" class="headerlink" title="2.2 Vi三种状态及转换方式"></a>2.2 Vi三种状态及转换方式</h2><p>gedit vim vi </p>
+<ul>
+<li><strong>命令模式</strong>：输入的任何字符都作为命令处理。</li>
+<li><strong>插入模式</strong>：输入的任何字符都作为插入字符处理</li>
+<li><strong>末行模式</strong>：执行文件级或全局性操作，如保存文件、退出编辑器，设置编辑环境等</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231222142159365.png" alt="image-20231222142159365"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a：从当前光标位置右边开始输入下一字符。</span><br><span class="line">A：从当前光标所在行的行尾开始输入下一字符。</span><br><span class="line">i：从当前光标位置左边插入新的字符</span><br><span class="line">I：从当前光标所在行的行首开始插入字符。</span><br><span class="line">o：从当前光标所在行新增一行并进入插入模式，光标移到新的一行行首。</span><br><span class="line">O：从当前光标所在行上方新增一行并进入插入模式，光标移到新的一行行首。</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-三种部署方式及其特点"><a href="#2-3-三种部署方式及其特点" class="headerlink" title="2.3 三种部署方式及其特点"></a>2.3 三种部署方式及其特点</h2><ol>
+<li><p><strong>本地部署模式</strong></p>
+<p>本地部署模式就是在单台服务器上进行开发和调试，无需运行任何守护进程，该模式不使用HDFS，使用本地计算机文件系统。</p>
+<p>所有程序都在本机JVM上执行，处理本地Linux系统的数据。Hadoop不启动NameNode、DataNode、JobTracker和TaskTracker等服务进程，同一进程提供了所有的服务。该模式常用于开发和调试MapReduce程序阶段，验证程序逻辑的正确性。</p>
+<p>本地部署模式仅需要配置Hadoop-env.sh这一个参数文件即可。</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数文件</strong></th>
+<th><strong>配置对象</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Hadoop-env.sh</strong></td>
+<td>Hadoop运行环境</td>
+<td>用来定义Hadoop运行环境相关的配置信息，如JAVA_HOME</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>伪分布式部署模式</strong></p>
+<p>伪分布式部署模式是指在一台主机上来模拟多个主机的运行方式。启动四个进程：DataNode、NameNode、TaskTracker,和JobTracker。</p>
+<p>该模式与单机模式的主要区别是增加了代码调试功能，允许进行内存检查，使用HDFS进行输入与输出，和与守护进程之间进行交互。与完全分布式模式非常接近，通常使用该模式进行Hadoop程序开发和测试。</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数文件</strong></th>
+<th><strong>配置对象</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>hadoop-env.sh</strong></td>
+<td>Hadoop运行环境</td>
+<td>用来定义Hadoop运行环境相关的配置信息</td>
+</tr>
+<tr>
+<td><strong>hdfs-site.xml</strong></td>
+<td>HDFS</td>
+<td>Hadoop守护进程的配置项，包括NameNode和DataNode的存放位置、文件副本的个数、文件的读取权限、SecondaryNameNode等</td>
+</tr>
+<tr>
+<td><strong>core-site.xml</strong></td>
+<td>集群全局参数</td>
+<td>Hadoop Core的配置项，用于定义系统级别的参数，如HDFS  URL、MapReduce常用的I&#x2F;O设置、Hadoop的临时目录等</td>
+</tr>
+<tr>
+<td><strong>mapred-site.xml</strong></td>
+<td>MapReduce参数</td>
+<td>MapReduce守护进程的配置项，包括JobTracker和TaskTracker等。</td>
+</tr>
+<tr>
+<td><strong>yarn-site.xml</strong></td>
+<td>集群资源管理系统参数</td>
+<td>配置ResourceManager、NodeManager的通信端口、Web监控端口等</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>完全分布式模式</strong></p>
+<p>在该模式下，通常用几十至上百台主机部署组成一个集群环境，集群中的所有主机需要安装JDK和Hadoop，守护进程运行在多台主机构建的集群上，构建真正的分布式系统环境来充分利用全部主机的存储与计算能力</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数文件</strong></th>
+<th><strong>配置对象</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>hadoop-env.sh</strong></td>
+<td>Hadoop运行环境</td>
+<td>用来定义Hadoop运行环境相关的配置信息</td>
+</tr>
+<tr>
+<td><strong>hdfs-site.xml</strong></td>
+<td>HDFS</td>
+<td>Hadoop守护进程的配置项，包括NameNode和DataNode的存放位置、文件副本的个数、文件的读取权限、SecondaryNameNode等</td>
+</tr>
+<tr>
+<td><strong>core-site.xml</strong></td>
+<td>集群全局参数</td>
+<td>Hadoop Core的配置项，用于定义系统级别的参数，如HDFS  URL、MapReduce常用的I&#x2F;O设置、Hadoop的临时目录等</td>
+</tr>
+<tr>
+<td><strong>mapred-site.xml</strong></td>
+<td>MapReduce参数</td>
+<td>MapReduce守护进程的配置项，包括JobTracker和TaskTracker等。</td>
+</tr>
+<tr>
+<td><strong>yarn-site.xml</strong></td>
+<td>集群资源管理系统参数</td>
+<td>配置ResourceManager、NodeManager的通信端口、Web监控端口等</td>
+</tr>
+<tr>
+<td><strong>masters</strong></td>
+<td>主节点参数</td>
+<td>运行SecondaryNameNode的机器列表（每行一个）</td>
+</tr>
+<tr>
+<td><strong>slaves</strong></td>
+<td>从节点参数</td>
+<td>运行DataNode和TaskTracker的机器列表（每行一个）</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<p>&#x3D;&#x3D;部署Hadoop集群时需要配置的两个重要文件及其中重要的属性&#x3D;&#x3D;</p>
+<p>core-site和hdfs-site在&#x2F;etc&#x2F;hadoop&#x2F;core-site.xml</p>
+<p><strong>core-site.xml</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;   //其他临时目录的父目录</span><br><span class="line">        &lt;value&gt;file:/usr/local/java/hadoop/Hadoop-3.1.3/tmp&lt;/value&gt;</span><br><span class="line">        &lt;description&gt;Abase for other temporary directories.&lt;/description&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt; //设置默认的HDFS端口</span><br><span class="line">        &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>hdfs-site.xml</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;    //数据复制的副本数，默认为3</span><br><span class="line">        &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;  //namenode保存元数据的位置</span><br><span class="line">        &lt;value&gt;file:/usr/local/java/hadoop/hadoop-3.1.3/tmp/dfs/name&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;  //本地文件系统数据节点的路径</span><br><span class="line">        &lt;value&gt;file:/usr/local/java/hadoop/Hadoop-3.1.3/tmp/dfs/data&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><p>dfs.block.size用来设置分布式系统单个文件块的大小，默认hadoop2.x是64M，默认hadoop3.x是128M。</p>
+</li>
+<li><p>dfs.heartbeat.interval用来设置DataNode节点的心跳检测时间的间隔（秒为单位）。默认3秒</p>
+</li>
+<li><p>dfs.namenode.handler.count用来设置NameNode节点启动后的线程数量。</p>
+</li>
+</ul>
+</blockquote>
+<p>如备份数量、名称节点数据的存储位置、数据节点数据的存储位置等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br><span class="line">cd /usr/local/java/hadoop/hadoop-3.1.3</span><br><span class="line">./sbin/start-dfs.sh</span><br><span class="line">./sbin/start-all.sh </span><br><span class="line">./sbin/stop-dfs.sh</span><br><span class="line">./sbin/stop-all.sh //sbin目录下</span><br><span class="line">jps                //检测hadoop服务是否正常启动</span><br><span class="line">./bin/hadoop version</span><br></pre></td></tr></table></figure>
+
+<p><strong>正常启动Hadoop服务需要启动的进程</strong></p>
+<p>NameNode、DataNode 和 SecondaryNameNode (rm zookeeper)</p>
+<p><strong>在hadoop1.x和Hadoop3.x中利用web界面查看时默认的端口号</strong></p>
+<p>Hadoop3.x：<a target="_blank" rel="noopener" href="http://localhost:9870/">http://localhost:9870</a> 查看NameNode和Datanode信息，还可以在线查看 HDFS 中的文件<br>Hadoop1.x：50070</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在HDFS上进行操作三者存在一些区别：</span><br><span class="line">1）hadoop fs适用于任何不同的文件系统，比如本地文件系统和HDFS文件系统。</span><br><span class="line">2）hadoop dfs只能适用于HDFS文件系统。</span><br><span class="line">3）hdfs dfs跟hadoop dfs的命令作用一样，也只能适用于HDFS文件系统。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/hdfs dfs -ls</span><br></pre></td></tr></table></figure>
+
+<p><strong>如何在Hadoop中增加&#x2F;删除节点？</strong></p>
+<p>增加：有需要配置的环境，与其他节点一致，免密登录SSH(Ping通)，Master Slave文件</p>
+<p>删除：将该节点断开，心跳信号断开</p>
+<h1 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h1><h2 id="3-1-HDFS简介"><a href="#3-1-HDFS简介" class="headerlink" title="3.1 HDFS简介"></a>3.1 HDFS简介</h2><h3 id="3-1-1-HDFS概念"><a href="#3-1-1-HDFS概念" class="headerlink" title="3.1.1 HDFS概念"></a>3.1.1 HDFS概念</h3><p>分布式文件系统指的是通过计算机网络相互连接的多个分布式部署的网络节点上所提供的文件系统管理，通过目录树来定位文件，物理存储资源存储在集群上。负责整个分布式系统的数据存储管理、文件管理及错误处理等工作。</p>
+<h3 id="3-1-2-HDFS的优势和不足"><a href="#3-1-2-HDFS的优势和不足" class="headerlink" title="3.1.2 HDFS的优势和不足"></a>3.1.2 HDFS的优势和不足</h3><table>
+<thead>
+<tr>
+<th><strong>HDFS优势</strong></th>
+<th><strong>HDFS不足</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>采用冗余数据备份，单个节点故障不易丢失数据，容错能力强。</td>
+<td>不适合低延时（实时）数据的访问。</td>
+</tr>
+<tr>
+<td>支持TB&#x2F;PB级大文件或百万以上数量数据集的处理。</td>
+<td>无法高效存储大量小文件数据，吞吐效率低。</td>
+</tr>
+<tr>
+<td>兼容通用及廉价计算机硬件进行部署，具有强大的跨平台兼容性。</td>
+<td>不支持多用户并发写入和数据文件任意修改。</td>
+</tr>
+<tr>
+<td>具有高可扩展性，可以水平扩展到任意数量的节点。</td>
+<td></td>
+</tr>
+<tr>
+<td>可以采用数据流方式访问文件系统。文件模型具有简单一致性。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="3-1-3-HDFS基本结构"><a href="#3-1-3-HDFS基本结构" class="headerlink" title="3.1.3 HDFS基本结构"></a>3.1.3 HDFS基本结构</h3><p>HDFS的体系结构由数据组和管理组两部分组成。</p>
+<ul>
+<li><p>按照功能划分</p>
+<ul>
+<li>数据组主要包括文件存储的相关流程及组件</li>
+<li>管理组主要由一系列数据管理操作组成，如数据读取、写入、截断、删除等。</li>
+</ul>
+</li>
+<li><p>按照组件划分</p>
+<ul>
+<li>数据组包括数据块、复制、检查点和文件元数据的组件.</li>
+<li>管理组中包括NameNode、DataNode、JournalNode和Zookeeper.</li>
+</ul>
+</li>
+</ul>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231222151918589.png" alt="image-20231222151918589" style="zoom: 67%;" />
+
+<h3 id="3-1-4-HDFS的主要特性"><a href="#3-1-4-HDFS的主要特性" class="headerlink" title="3.1.4 HDFS的主要特性"></a>3.1.4 HDFS的主要特性</h3><ol>
+<li>数据存储具有分布性。</li>
+<li>数据访问具有透明性。</li>
+<li>数据块的冗余存储具有容错性。</li>
+<li>具有对流式数据的访问性。</li>
+<li>集群具有良好的可伸缩性。</li>
+<li>主节点具备高可用性。</li>
+</ol>
+<h2 id="3-2-HDFS-3-x架构及各组件作用"><a href="#3-2-HDFS-3-x架构及各组件作用" class="headerlink" title="3.2 HDFS 3.x架构及各组件作用"></a>3.2 HDFS 3.x架构及各组件作用</h2><h3 id="3-2-1-名称节点（NameNode）"><a href="#3-2-1-名称节点（NameNode）" class="headerlink" title="&#x3D;&#x3D;3.2.1 名称节点（NameNode）&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.2.1 <strong>名称节点（NameNode）</strong>&#x3D;&#x3D;</h3><p><strong>名称节点主要功能:</strong></p>
+<ol>
+<li>管理文件系统命名空间，命名空间负责维护集群所有文件和目录列表。包含各种数据块相互关联的所有元数据信息，还负责维护所有数据块及其所在存储节点的列表。</li>
+<li>控制对数据的所有操作。在HDFS上的所有操作，首先通过NameNode，然后再传到Hadoop的相关组件。 </li>
+<li>向客户端提供系统数据块信息，以及应该从哪个数据块进行读&#x2F;写。</li>
+<li>负责向DataNode发出一些特殊命令，如：删除损坏的数据块。</li>
+<li>在内存中还维护一个inode的数据结构。inode包含关于文件和目录的所有信息。</li>
+<li>是客户端所有文件读写请求的接口。</li>
+<li>执行与文件系统有关的典型操作，如文件打开&#x2F;关闭、目录重命名等。</li>
+<li>SecondaryNameNode保存NameNode的快照，在主名称节点失效时，用SecondaryNameNode替换主名称节点。在一段固定的时间后保存主名称节点的快照信息到目录中。这些快照称为检查点，可用于在主名称节点发生故障时的重启。</li>
+</ol>
+<p><strong>名称节点的基本数据结构及各自的作用</strong></p>
+<p>包括命名空间和文件块block管理</p>
+<h4 id="1-命名空间"><a href="#1-命名空间" class="headerlink" title="1.命名空间"></a>1.命名空间</h4><p>维护整个文件系统树及文件&#x2F;目录的元信息和文件数据块索引</p>
+<blockquote>
+<p>这些信息以三种文件形式存储在本地文件系统中：文件系统名称空间，FSImage(命名空间镜像)，EditLog(空间镜像编辑日志)</p>
+</blockquote>
+<p><strong>FSImage文件</strong></p>
+<p>FSImage是文件系统在某个时间点的状态信息(整个文件系统的快照)，包含DataNode文件块映射关系和命名空间信息，存储在NameNode本地文件系统中</p>
+<p><strong>EditLog</strong></p>
+<p>记录文件系统对所有文件的创建删除等操作，包含最后一个FSImage文件创建后对每个HDFS文件所作的操作记录，用于定期和当前的FSImage合并成最新的FSImage镜像，保证NameNode元数据信息的完整，存储在NameNode本地和共享存储系统QJM中。</p>
+<p>EditLog文件有两种状态：inprocess(正在写的日志文件)和finalized(写完的日志文件)</p>
+<p>FSImage文件有两种状态: finalized(已经持久化磁盘)和checkpoint(合并中的FSImage)</p>
+<h4 id="2-文件块Block管理"><a href="#2-文件块Block管理" class="headerlink" title="2.文件块Block管理"></a>2.文件块Block管理</h4><p>NameNode记录着每个Block所在的DataNode的位置信息，元数据信息包括：</p>
+<ul>
+<li>文件名到数据块的映射</li>
+<li>block到DataNode列表的映射:通过DataNode上报给NameNode建立。</li>
+<li>NameNode执行文件系统操作，例如打开、关闭、重命名文件，同时确定文件数据块到具体DataNode的映射。</li>
+</ul>
+<h3 id="3-2-2-第二名称节点（Secondary-NameNode）"><a href="#3-2-2-第二名称节点（Secondary-NameNode）" class="headerlink" title="&#x3D;&#x3D;3.2.2 第二名称节点（Secondary NameNode）&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.2.2 <strong>第二名称节点（Secondary NameNode）</strong>&#x3D;&#x3D;</h3><p><strong>作用</strong></p>
+<ul>
+<li>定期获得FSImage和EditLog进行合并，生成新的FSImage，清空原EditLog，把新的FSImage发给NameNode更新。</li>
+<li>使EditLog大小保持在限制范围内</li>
+<li>减轻NameNode的负担(不用同时合并和提供服务)</li>
+<li>减少了重新启动NameNode消耗的启动时间</li>
+<li>冷备份：一旦HDFS的NameNode失效，用SNN进行数据恢复，不会造成NameNode重启时，长时间不可访问的情况</li>
+</ul>
+<p><strong>Secondary NameNode的工作原理</strong></p>
+<ol>
+<li>SecondaryNameNode请求和NameNode通信，创建新的EditLog，并将新生成的操作记录写入。</li>
+<li>SecondaryNameNode通过HTTP GET方式从NameNode上读取FSImage和EditLog。</li>
+<li>SecondaryNameNode将下载的FSImage载入内存，执行EditLog文件中的各项更新操作，将EditLog和FSImage合并，生成新的FSImage（检查点）。</li>
+<li>SecondaryNameNode会通过HTTP POST方式，将新的FSImage传到NameNode替换旧的FSImage，用新的EditLog替换旧的EditLog。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\soul\AppData\Roaming\Typora\typora-user-images\image-20231222202530012.png" alt="image-20231222202530012"></p>
+<h3 id="3-2-3-数据节点（DataNode）"><a href="#3-2-3-数据节点（DataNode）" class="headerlink" title="&#x3D;&#x3D;3.2.3 数据节点（DataNode）&#x3D;&#x3D;"></a>&#x3D;&#x3D;3.2.3 <strong>数据节点（DataNode）</strong>&#x3D;&#x3D;</h3><p>作用(工作)：</p>
+<ol>
+<li>DataNode从NameNode或HDFS客户端接收指令，执行相应的数据块操作（增删改等）。客户端向NameNode发送一个请求，NameNode返回一组读写DataNode的操作来响应。然后，DataNode打开一个socket连接，让客户端从它的存储中对数据块进行读写。</li>
+<li>DataNode按所配置的时间间隔，周期性地将自己所存储的块的列表信息发送给NameNode，更新NameNode上的映射表。</li>
+<li>DataNode需要定期向NameNode发送一个心跳信号保持联系(3秒)，让NameNode了解DataNode是否正常工作。</li>
+<li>每个数据块对应一个元数据信息文件。一个DataNode接收来自另一个DataNode的数据块写请求，DataNode定期向NameNode发送块报告，以使NameNode中每个块的位置及其它信息都保持最新。</li>
+</ol>
+<h3 id="3-3-3-日志节点（Journal-Node）"><a href="#3-3-3-日志节点（Journal-Node）" class="headerlink" title="3.3.3 日志节点（Journal Node）"></a>3.3.3 <strong>日志节点（Journal Node）</strong></h3><p><strong>概念和作用</strong></p>
+<p>JournalNode是HA集群中ANN和SNN之间元数据共享的传输介质，主要用于两个NameNode之间保持EditLog的共享同步。   </p>
+<p>维护NameNode的高可用性，就需要管理ANN和SNN之间的编辑日志EditLog和HDFS元数据，在发生故障时可以迅速切换，保证最新的命名空间。负责存储NameNode的EditLog。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231222205647624.png" alt="image-20231222205647624"></p>
+<h3 id="3-3-4-ZKFC"><a href="#3-3-4-ZKFC" class="headerlink" title="3.3.4 ZKFC"></a>3.3.4 ZKFC</h3><blockquote>
+<p>什么是ZKFC，全称，其主要作用</p>
+</blockquote>
+<p>Zookeeper故障转移控制器(Zookeeper Failover Controller进程)</p>
+<p>分布式协调服务，HA中的一部分，实现自动化的故障转移，是在NameNode服务器上安装的一个客户端。</p>
+<ol>
+<li><p><strong>健康监测</strong></p>
+<p>每台运行NameNode的机器有一个ZKFC，一对一关系。</p>
+<p>ZKFC通过定期的运行ping信号来监测NameNode运行状况。</p>
+</li>
+<li><p><strong>ZooKeeper会话管理</strong></p>
+<p>当本地NameNode是健康的，ZKFC将在ZooKeeper中打开一个会话；</p>
+<p>如果本地NameNode是活动的，将在Zookeeper服务器上创建一个特殊的锁znode（临时的，会话期满后自动删除）</p>
+</li>
+<li><p><strong>基于ZooKeeper的选举</strong></p>
+<p>如果本地NameNode健康，而ZKFC认为目前没有其他节点持有锁，它本身就会尝试获取锁。如果成功，那么它已经“赢得选举”，并负责运行故障转移以使其本地NameNode活动。</p>
+</li>
+</ol>
+<h3 id="3-3-5-日志管理器"><a href="#3-3-5-日志管理器" class="headerlink" title="3.3.5 日志管理器"></a>3.3.5 日志管理器</h3><p><strong>QJM英文全称</strong>：Quorum Journal Manager</p>
+<p><strong>概念</strong></p>
+<p>QJM是由多个JournalNodes组成的JN集群，每个JN保存同样的EditLog副本，一般运行奇数个JournalNodes，至少3个。当运行N个Journal Nodes时，系统能够最多承受（N-1）&#x2F;2个容错次数，并持续保持正常运作。</p>
+<p>QJM负责协调和管理HDFS中的NameNode的编辑日志。它使用多数投票的机制来确保在故障时不会丢失关键的元数据信息。</p>
+<p><strong>工作原理</strong>：基于 QJM 共享存储的数据同步机制</p>
+<ul>
+<li>当ActiveNameNode执行任何有关命名空间的修改，它要告知JN集群中一半以上的JNs进程；</li>
+<li>而Standby NameNode密切关注集群中Journal Nodes的变化，从Journal Nodes中读取从ANN发送过来的信息，监控EditLog变化，并更新其内部命名空间。</li>
+<li>一旦ANN遇到错误，SNN需要已经从Journal Nodes中读出全部EditLog日志，保证在故障切换发生前其NameNodes的状态已经完全同步，然后，SNN再切换成Active状态。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231222194623711.png" alt="image-20231222194623711"></p>
+<h2 id="3-3-HDFS高可用性"><a href="#3-3-HDFS高可用性" class="headerlink" title="3.3 HDFS高可用性"></a>3.3 HDFS高可用性</h2><p><strong>Hadoop3.x如何实现集群的高可用性？</strong></p>
+<p><strong>Hadoop1.x中的单点故障问题存在的原因，在Hadoop3.x中是如何解决的？</strong></p>
+<p><strong>SNN</strong></p>
+<p>只有一个NameNode,失效单点故障，2.0引入了StandByNameNode,Active NameNode作为主节点，始终处于活动状态，负责集群中的客户机请求；StandBy NameNode作为从节点，始终处于备用状态，始终保持其状态与Active NameNode同步，以便在发生故障时提供快速的故障转移。</p>
+<p>3.0引入多个备用NameNode，使用日志管理器QJM作为共享存储组件，搭建奇数个日志节点JournalNodes，实现主备NameNode的元数据操作信息同步，获取最新的EditLog，并更新FSImage镜像</p>
+<p>ZKFC作为独立的进程运行，对NameNode的主备切换进行总体控制，它不仅能够及时监测到NameNode的健康状况，而且能够在Active NameNode发生故障时，借助Zookeeper实现自动主备选举和切换。</p>
+<p><strong>共享存储系统</strong></p>
+<p>保存NameNode产生的所有HDFS元数据，ANN和SNN通过共享存储系统实现元数据的同步。</p>
+<p>ANN向共享存储系统写EditLog，StandBy NameNode读取EditLog并执行，进而实现状态的同步。</p>
+<p>ANN和 SNN共享HDFS的数据块和DataNode之间的映射关系，DataNode会同时向ANN和SNN上报数据块位置信息。</p>
+<h2 id="3-4-主备NameNode切换的流程"><a href="#3-4-主备NameNode切换的流程" class="headerlink" title="3.4 主备NameNode切换的流程"></a>3.4 主备NameNode切换的流程</h2><p>ZKFC，HealthMonito和ActiveStandbyElector(主备选举器)协同实现</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231222213832165.png" alt="image-20231222213832165"></p>
+<ol>
+<li>主备状态监控：HealthMonitor初始化完成后启动内部线程定时调用对应NameNode的RPC接口，对NameNode的健康状态检测。</li>
+<li>状态变化回调：HealthMonitor如果检测到NameNode的健康状态发生变化，会回调ZKFC注册的相应方法进行处理。</li>
+<li>需要主备选举：如果ZKFC判断需要进行主备切换，会使用ASE来进行自动主备选举。</li>
+<li>通过ZK完成主备选举：ASE与Zookeeper交互完成自动的主备选举。</li>
+<li>返回ZK选举结果：Zookeeper集群将主备选举的结果返回给ASE。</li>
+<li>通知主备选举结果状态：ASE在主备选举完成后，回调ZKFC的相应方法来通知当前的NameNode成为主NameNode或备用NameNode。</li>
+<li>切换主备状态：ZKFC调用对应NameNode的HA RPC接口的方法将NameNode转换为Active状态或Standby状态。</li>
+</ol>
+<h2 id="3-5-HDFS读数据的过程"><a href="#3-5-HDFS读数据的过程" class="headerlink" title="3.5 HDFS读数据的过程"></a>3.5 HDFS读数据的过程</h2><ol>
+<li>HDFS客户端创建DistributedFileSystem类的一个实例，执行open()方法请求打开一个文件。</li>
+<li>DistributedFileSystem实例通过RPC向NameNode请求得到Block的位置信息，结果返回多个DataNode的位置信息。</li>
+<li>客户端通过FSDataInputStream对象请求读取read()数据，该对象会被封装成DFSInputStream对象，管理DataNode和NameNode的I&#x2F;O数据流。客户端调用read()方法系统会根据所请求的数据副本所在的位置选择离客户端最近的DataNode。</li>
+<li>DistributedFileSystem类返回一个DFSInputStream对象，管理集群中的DateNode，当收到read()请求后找出首个文件数据块所在的DataNode节点并读取。</li>
+<li>首个数据块读取完成后，DFSInputStream关闭与该DataNode的连接，并重复调用read()函数，接着读取下一个数据块，直至读完。</li>
+<li>每读取完一个文件块都要进行Checksum验证，一旦从DataNode上读取数据出现了错误，客户端首先告知NameNode，并查找该数据块在集群数据节点上的其它位置信息以继续读取。</li>
+<li>当前数据块被正确读取完毕后，关闭当前的DataNode节点链接并寻找下一个待读取的DataNode节点。如果文件读取还没有完成，DFSInputStream会继续从Namenode上读取下一批文件块的位置信息继续读取数据。</li>
+<li>客户端读取完后，将调用FSDataInputStream的close()方法关闭所有的数据流读取。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231222195447937.png" alt="image-20231222195447937"></p>
+<h2 id="3-6-HDFS写数据的过程"><a href="#3-6-HDFS写数据的过程" class="headerlink" title="3.6 HDFS写数据的过程"></a>3.6 HDFS写数据的过程</h2><ol>
+<li>客户端调用DistributedFileSystem类中的create()方法创建文件，创建一个文件输出流对象（FSDataOutputStream）。</li>
+<li>FSDataOutputStream对象向远程的NameNode发出RPC调用请求，NameNode检查该待写入文件是否存在及客户端的写入权限，检查通过之后，在NameNode上创建一个写入文件的元数据。</li>
+<li>客户端通过调用FSDataOutputStream对象的write()方法请求写数据，先载入数据到缓冲区中，然后切分成大小相等的数据块。</li>
+<li>每个数据块按照NameNode上的节点分配传输数据块到对应的DataNode上。</li>
+<li>数据节点依次反向返回确认信息给第一个数据节点，并将所有的确认信息返回。</li>
+<li>文件写入完成后，客户端将调用close()方法关闭FSDataOutputStream。</li>
+<li>最后，客户端调用complete()方法通知NameNode文件写入成功。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231222195615685.png" alt="image-20231222195615685"></p>
+<h2 id="3-7-HDFS联邦机制及其作用"><a href="#3-7-HDFS联邦机制及其作用" class="headerlink" title="3.7 HDFS联邦机制及其作用"></a>3.7 HDFS联邦机制及其作用</h2><p>HDFS 联邦提供了一种解决单组NameNode局限性问题的水平扩展方案</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231223142808081.png" alt="image-20231223142808081"></p>
+<p>HDFS联邦使用使用多组名称节点和名称空间，所有的名称节点相互独立，构成联邦，各自分工独立管理自己的区域，无需互相协调。</p>
+<p>Federation的方案，由多组NameNode在一个集群中共同提供服务，每个NameNode拥有一部分NameSpace，工作互相独立，互不影响，主要优点包括：</p>
+<ol>
+<li>提高了命名空间的伸缩性。</li>
+<li>提升了名称节点文件系统的吞吐量。</li>
+<li>实现了多用户的隔离性。</li>
+</ol>
+<h1 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h1><h2 id="4-1-MapReduce1-0缺陷"><a href="#4-1-MapReduce1-0缺陷" class="headerlink" title="4.1 MapReduce1.0缺陷"></a>4.1 MapReduce1.0缺陷</h2><p><strong>MapReduce1.0体系结构中存在哪些缺陷</strong></p>
+<p>Hadoop1.0由HDFS和MapReduce组成，MapReduce由一个JobTracker和多个TaskTracker组成</p>
+<p>JobTracker是MapReduce框架的中心，主要负责作业的调度&#x2F;监控和集群资源的管理；TaskTracker负责执行JobTracker指派的具体任务</p>
+<ol>
+<li><p><strong>扩展性差</strong></p>
+<p>1.0中，JobTracker同时兼备了集群资源的管理和作业的调度与控制两大功能，使得JobTracker赋予的功能过多、负载过重。造成很大的内存消耗，同时也增加了JobTracker失效的风险，严重制约Hadoop集群的扩展性。</p>
+</li>
+<li><p><strong>可靠性差</strong></p>
+<p>MRv1采用Master&#x2F;Slave结构，而系统中只有一个JobTrackerr负责所有MapReduce作业的调度，因此，会存在单点故障问题,导致整个集群不可用。</p>
+</li>
+<li><p><strong>资源利用率低</strong></p>
+<p>MRv1采用了基于槽位的资源分配模型，需要为map任务和reduce任务预先配置task tracker槽位(粗粒度的资源划分单位)，通常一个任务不会用完槽位对应的所有资源，但是其他任务也无法使用这些空闲资源。<br>此外，MapReduce将槽位分为MapSlot和ReduceSlot两种，且不允许它们之间共享，常常会导致一种槽位资源紧张而另一种槽位闲置的情况出现</p>
+</li>
+<li><p><strong>无法支持多种计算框架</strong></p>
+<p>有多种计算框架例如Map Reduce、Spark、Storm等，解决不同问题。如果为每种计算框架都配备一套Hadoop集群，会浪费大量资源而且不经济，Hadoop1.0未能够将资源管理与应用程序分开，使得Hadoop1.0不能支持多种计算框架并存。</p>
+</li>
+<li><p><strong>非MapReduce作业</strong></p>
+<p>出现很多新需求如图形处理，实时分析，非MapReduce作业无法在MRV1中处理</p>
+</li>
+</ol>
+<h2 id="4-2-Yarn具有的优势"><a href="#4-2-Yarn具有的优势" class="headerlink" title="4.2 Yarn具有的优势"></a>4.2 Yarn具有的优势</h2><ol>
+<li><strong>共享集群资源</strong></li>
+</ol>
+<p>  Hadoop2.0将所有的计算框架都部署在同一个集群上，通过共享集群资源的模式，由Yarn对资源进行统一管理，可以使得空闲资源得以更有效地应用，达到集群总体资源充分利用。</p>
+<ol start="2">
+<li><strong>节省成本</strong></li>
+</ol>
+<p>  1.0中每种计算框架都配备一个集群，每个集群都需要管理人员；而2.0使用“多个框架一个集群”模式，集群数量减少，人力资源成本也相应减少。也节省很多的硬件设备采购成本。</p>
+<ol start="3">
+<li><strong>共享数据</strong></li>
+</ol>
+<p>  1.0中，数据通过网络传输等方式在集群之间进行共享<br>  但随着应用数据量的增加，开销变大，yarn的引入，基于多种计算框架的应用程序可以在集群内部共享数据，不仅节约成本，还能增强应用程序性能。</p>
+<h2 id="4-3-Yarn体系结构及各组件作用"><a href="#4-3-Yarn体系结构及各组件作用" class="headerlink" title="4.3 Yarn体系结构及各组件作用"></a>4.3 Yarn体系结构及各组件作用</h2><ol>
+<li><p>全局资源管理器（Resource Manager，RM）</p>
+<ul>
+<li>调度器(Scheduler)</li>
+<li>应用程序管理器(Applications Manager，ASM)</li>
+</ul>
+</li>
+<li><p>节点管理器（Node manager）</p>
+</li>
+<li><p>应用程序主机（Application Master）</p>
+</li>
+<li><p>容器（Container）</p>
+</li>
+<li><p>YARN通信协议-RPC协议</p>
+</li>
+<li><p><strong>Resource Manager</strong>：是一个主守护进程，负责整个集群系统的资源管理和分配。客户端在执行计算任务时会将计算作业请求提交到ResourceManager，然后由ResourceManager来调度这些计算任务在集群当中运行。</p>
+<ul>
+<li>**调度器(Scheduler)**：根据容量、队列等限制条件将系统中的资源分配给各个正在运行的应用程序</li>
+<li><strong>Applications Manager，ASM</strong>：负责管理整个系统中所有应用程序包括：Application Master、监控Application Master运行状态并在失败时重新启动它等。</li>
+</ul>
+</li>
+<li><p><strong>Node manager</strong>：</p>
+<p><strong>①</strong> 负责根据Resource Manager的指令进行启动和执行容器 </p>
+<p><strong>②</strong> 负责节点资源的监控和管理，以心跳的方式定期向Resource Manager汇报本节点的资源使用情况和在本节点上的计算任务在各个Container中的运行状态</p>
+</li>
+<li><p><strong>Application Master</strong>：</p>
+<p><strong>①</strong> 与Resource Manager 的调度器协商以获取容器；</p>
+<p><strong>②</strong> 与Node Manager通信以启动&#x2F;停止任务；</p>
+<p><strong>③</strong> 监控所有任务运行状态，并在任务运行失败时，重新为任务申请资源并重启任务</p>
+</li>
+<li><p><strong>container</strong>：真正执行任务的是container，包括各种资源如内存、CPU、磁盘、网络</p>
+</li>
+<li><p><strong>RPC协议</strong>：连接任何两个需相互通信的组件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231223152356308.png" alt="image-20231223152356308"></p>
+</li>
+</ol>
+<h2 id="4-4-其它"><a href="#4-4-其它" class="headerlink" title="4.4 其它"></a>4.4 其它</h2><p><strong>在HDFS、YARN和MapReduce中均采用master&#x2F;slave结构，其中的master节点和slave节点分别是什么？</strong></p>
+<p>HDFS：NameNode和DataNode </p>
+<p>YARN：ResourceManager和NodeManager</p>
+<p>MapReduce：JobTracker和TaskTracker</p>
+<p><strong>Yarn中的调度器的分类</strong></p>
+<p>FIFO调度器 计算能力调度器 公平调度器</p>
+<h1 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h1><h2 id="5-1-体系结构及各组件作用"><a href="#5-1-体系结构及各组件作用" class="headerlink" title="5.1 体系结构及各组件作用"></a>5.1 体系结构及各组件作用</h2><p><strong>物理实体结构</strong></p>
+<ol>
+<li><strong>Client(客户端)</strong>:负责提交作业给JobTracker和查看作业当前运行的状态和结果</li>
+<li>**JobTracker(作业跟踪器)**：负责资源监控、作业调度以及与TaskTracker的通信等工作。<ul>
+<li>JobTracker监控所有的TaskTracker及作业健康状况，一旦发现失败的作业，将开启容错机制，转移任务到其他节点执行；</li>
+<li>JobTracker还监控任务执行、资源利用等情况，传输给任务调度器，而任务调度器会根据资源使用情况来分配任务，</li>
+</ul>
+</li>
+<li>**TaskTracker(任务跟踪器)**：<ul>
+<li>TaskTracker在接受JobTracker分配的作业后，开始执行每个任务。它会周期性地通过“心跳”信号将本节点上的资源使用情况及任务运行情况汇报给JobTracker，也会执行JobTracker发送过来的命令，如启动新任务、杀死任务等。</li>
+<li>TaskTracker通过参数配置slot数目可限定Task的并发量。一个slot称为“资源作业槽”，表示本节点上的计算资源（slot是CPU、内存等划分的基本单位。一个Task只有获得了一个slot后才能运行。</li>
+<li>TaskTracker负责将空闲slot分配给MapReduce的Task使用</li>
+</ul>
+</li>
+<li>**Task(任务)**：可以分为Map Task和Reduce Task，分别负责执行Map任务和Reduce任务。</li>
+</ol>
+<p><strong>逻辑实体结构</strong></p>
+<p>输入分片（input split）、map阶段、combiner阶段、shuffle阶段、reduce阶段和output阶段。</p>
+<ol>
+<li><strong>input split</strong>：map计算之前，程序会根据输入文件计算split，每个input split针对一个map任务。input split存储的并非是数据本身，而是一个分片长度和一个记录数据的位置的数组。</li>
+<li><strong>map阶段</strong>：执行map函数。</li>
+<li><strong>combiner阶段</strong>：这是一个可选择的函数，实质上是一种reduce操作。在map计算出中间文件前做一个合并重复key值的操作。</li>
+<li><strong>shuffle阶段</strong>：<ul>
+<li>从map输出开始，包括系统执行排序即传送map输出到reduce作为输入的过程。</li>
+<li>针对map输出的key进行排序又叫sort阶段。map端shuffle，就是利用combiner对数据进行预排序，利用内存缓冲区来完成。</li>
+<li>reduce端的shuffle包括复制数据和归并数据，最终产生一个reduce输入文件。</li>
+<li>shuffle过程有许多可调优的参数来提高MapReduce的性能，其总原则就是给shuffle过程尽量多的内存空间。</li>
+</ul>
+</li>
+<li><strong>reduce阶段</strong>：执行reduce函数并存到hdfs文件系统。</li>
+<li><strong>output阶段</strong>：输出最后结果。</li>
+</ol>
+<h2 id="5-2-数据本地化"><a href="#5-2-数据本地化" class="headerlink" title="5.2 数据本地化"></a>5.2 数据本地化</h2><p><strong>MapReduce的数据本地化如何解释？本地计算有什么好处？</strong></p>
+<p>即是计算向数据靠拢，数据本地化是指把计算移动到数据所在节点上进行执行的过程，也就是通常所说的“移动计算而不是移动数据”。移动计算比移动数据具有更大的优势，它可以降低网络开销，增加系统的整体吞吐量。通过最大限度地利用节点上的本地数据，可以减少作业执行时间，提高整体性能。</p>
+<p><strong>MapReduce中Map任务和Reduce任务的数量如何确定</strong></p>
+<p><strong>Map任务的数量</strong></p>
+<p>Hadoop为每个split创建一个Map任务，split 的多少决定了Map任务的数目</p>
+<p><strong>Reduce任务的数量</strong></p>
+<p>最优的Reduce任务个数取决于集群中可用的reduce slot的数目</p>
+<p>通常设置比reduce任务槽数目稍微小一些的Reduce任务个数（这样可以预留一些系统资源处理可能发生的错误）</p>
+<h2 id="5-3-作业执行过程"><a href="#5-3-作业执行过程" class="headerlink" title="5.3 作业执行过程"></a>5.3 作业执行过程</h2><p><strong>MapReduce作业执行的过程（结合着Yarn的资源管理和HDFS的存储管理，如何描述？）</strong></p>
+<ol>
+<li><p>客户端向一个Hadoop集群发出启动作业的请求。</p>
+</li>
+<li><p>上传并复制运行作业所需要的资源文件到HDFS中，包括MapReduce程序打包的JAR文件、配置文件和客户端计算得到的输入split。</p>
+</li>
+<li><p>JobTracker收到作业执行请求后，由作业调度器根据所用的调度算法对作业进行调度执行。</p>
+<p>TaskTracker根据主机计算资源数量来分配map slot和reduce slot。</p>
+<p>map任务的分配采用“数据本地化”的方式，即将map任务分配给包含该map任务要处理的数据块的TaskTracker上，同时将程序的JAR包复制到该TaskTracker上进行执行，实现计算任务向数据靠拢。</p>
+<p>分配reduce任务时并不考虑数据本地化。</p>
+</li>
+<li><p>TaskTracker定期通过心跳服务向JobTracker发送信息，包括Map和Reduce任务完成情况的信息。</p>
+<p>当JobTracker收到作业的最后一个任务完成消息时，设置作业为完成状态。JobTracker确定所有任务完成，并告知客户端作业已完成。</p>
+</li>
+</ol>
+<h2 id="5-4-Shuffle过程"><a href="#5-4-Shuffle过程" class="headerlink" title="5.4 Shuffle过程"></a>5.4 Shuffle过程</h2><p><strong>Map端的Shuffle过程</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231223171848812.png" alt="image-20231223171848812"></p>
+<p>每个Map任务分配一个缓存(默认100MB)     设置溢写比例0.8    分区默认采用哈希函数</p>
+<p>排序是默认的操作   排序后可以合并（Combine）</p>
+<p>合并不能改变最终结果  在Map任务全部结束之前进行归并</p>
+<p>归并得到一个大的文件，放在本地磁盘</p>
+<p>文件归并时，如果溢写文件数量大于预定值（默认是3）则可以再次启动Combiner</p>
+<p>JobTracker会一直监测Map任务的执行，并通知Reduce任务来领取数据</p>
+<p><strong>Reduce端的Shuffle过程</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231223172111166.png" alt="image-20231223172111166"></p>
+<p>Reduce任务通过RPC向JobTracker询问Map任务是否已经完成，若完成，则领取数据</p>
+<p>Reduce领取数据先放入缓存，来自不同Map机器，先归并，再合并，写入磁盘</p>
+<p>多个溢写文件归并成一个或多个大文件，文件中的键值对是排序的</p>
+<p>当数据很少时，不需要溢写到磁盘，直接在缓存中归并，然后输出给Reduce</p>
+<h2 id="5-5-编程设计"><a href="#5-5-编程设计" class="headerlink" title="5.5 编程设计"></a>5.5 编程设计</h2><p><strong>使用MapReduce思想编程设计，如单词计数、topN、连接操作等</strong></p>
+<h3 id="5-5-1-WordCount"><a href="#5-5-1-WordCount" class="headerlink" title="5.5.1.WordCount"></a>5.5.1.WordCount</h3><p>① 将文件拆分成splits，将文件按行分割形成&lt;key,value&gt;对，发给MapReduce。key值包括了回车所占的字符数，value为字符</p>
+<p>② Hadoop为每个分片创建一个map任务，将分割好的&lt;key,value&gt;对交给用户定义的map方法进行处理，生成新的&lt;key,value&gt;对</p>
+<p>③ 得到map方法输出的&lt;key,value&gt;对后，Mapper会将它们按照key值进行排序，若用户定义了Combiner时，执行Combine过程，将key相同value值累加，map和reduce之间的数据流被称为shuffle</p>
+<p>④ Reducer先对从Mapper接收的数据进行排序，再交reduce方法处理，得到新的&lt;key,value&gt;对输出。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/v2-6122f317f893a78bb9a4611314e0a419_r.jpg" alt="img" style="zoom: 33%;" /><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/v2-ff4b5eefe3949975a59a447a4e89fc3b_720w.webp" style="zoom:67%;" /></p>
+<h3 id="5-5-2-topN"><a href="#5-5-2-topN" class="headerlink" title="5.5.2 topN"></a>5.5.2 topN</h3><ol>
+<li><strong>Map阶段前的准备：</strong> 将数据划分成多个分片。每个分片上都会运行一个Map任务。</li>
+<li><strong>Map阶段：</strong> 每个Mapper需要为输入数据中的每个元素标记一个键值对，其中键是一个虚拟键，而值是实际的数据元素。这个虚拟键的目的是确保所有数据都会被发送到同一个Reducer。Map任务可以进行排序后每个map任务进行局部topN，得到N个键值对。</li>
+<li><strong>排序和Shuffle阶段：</strong> 在Map阶段结束后，所有的键值对都会被按照键进行排序，然后根据键的哈希值被分配到不同的Reducer。由于在Map阶段使用的虚拟键，相同数据元素的键值对将会被发送到同一个Reducer。</li>
+<li><strong>Reducer阶段：</strong> 在Reducer阶段，数据进行排序以找到Top N。Reducer会维护一个大小为N的优先队列，然后依次处理输入数据，将元素插入队列，并在必要时弹出队列中的最小元素。最终，队列中的元素即为Top N。</li>
+</ol>
+<h3 id="5-5-3-连接操作"><a href="#5-5-3-连接操作" class="headerlink" title="5.5.3 连接操作"></a>5.5.3 连接操作</h3><p>假设有关系R(A，B)和S(B,C)，对二者进行自然连接操作</p>
+<p>使用Map过程，把来自R的每个元组&lt;a,b&gt;转换成一个键值对&lt;b, &lt;R,a&gt;&gt;，其中的键就是属性B的值。把关系R包含到值中，这样做使得我们可以在Reduce阶段，只把那些来自R的元组和来自S的元组进行匹配。类似地，使用Map过程，把来自S的每个元组&lt;b,c&gt;，转换成一个键值对&lt;b,&lt;S,c&gt;&gt;</p>
+<p>所有具有相同B值的元组被发送到同一个Reduce进程中，Reduce进程的任务是，把来自关系R和S的、具有相同属性B值的元组进行合并</p>
+<p>Reduce进程的输出则是连接后的元组&lt;a,b,c&gt;，输出被写到一个单独的输出文件中</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/image-20231223195328254.png" alt="image-20231223195328254"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://matriy330.github.io">Matriy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://matriy330.github.io/67914616/">http://matriy330.github.io/67914616/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://matriy330.github.io" target="_blank">Matriy's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3/">开发相关</a></div><div class="post-share"><div class="social-share" data-image="/img/tx.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/zsm.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zsm.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/zfb.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zfb.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/105c1343/" title="JavaSe"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/java.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-27</div><div class="info-item-2">JavaSe</div></div><div class="info-2"><div class="info-item-1">JavaSe一、Java简介1.C&#x2F;S,B&#x2F;S...</div></div></div></a><a class="pagination-related" href="/5321d6b2/" title="Cookie与Session"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250228123117476.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-07</div><div class="info-item-2">Cookie与Session</div></div><div class="info-2"><div class="info-item-1">Cookie与Session一、Cookie Cookie 是服务器通知客户端保存键值对的一种技术。 客户端有了 Cookie 后，每次请求都发送给服务器。 每个 Cookie 的大小不能超过 4kb  1.1 Cookie的创建 123456789101112protected void createCookie(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException &#123;    //1 创建 Cookie 对象    Cookie cookie = new Cookie(&quot;key4&quot;, &quot;value4&quot;);    //2 通知客户端保存 Cookie    resp.addCookie(cookie);    //1 创建 Cookie 对象    Cookie cookie1 = new Cookie(&quot;key5&quot;, &quot;value5&quot;);    //2 通知客户端保存...</div></div></div></a><a class="pagination-related" href="/2305179f/" title="EL 表达式 与 JSTL 标签库"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212161227897.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-05</div><div class="info-item-2">EL 表达式 与 JSTL 标签库</div></div><div class="info-2"><div class="info-item-1">EL 表达式 与 JSTL 标签库一、EL表达式1.1 EL 表达式简介EL 表达式的全称是：Expression Language。是表达式语言。 EL 表达式的作用：EL 表达式主要是代替 jsp 页面中的表达式脚本在 jsp 页面中进行数据的输出。   因为 EL 表达式在输出数据的时候，要比 jsp 的表达式脚本要简洁很多。  EL 表达式的格式是：${表达式} EL 表达式在输出 null 值的时候，输出的是空串。jsp 表达式脚本输出 null 值的时候，输出的是 null 字符串。 对比如下: 12345678&lt;body&gt;    &lt;%   		 request.setAttribute(&quot;key&quot;,&quot;值&quot;);    %&gt;表达式脚本输出 key 的值是：    &lt;%=request.getAttribute(&quot;key1&quot;)==null?&quot;&quot;:request.getAttribute(&quot;key1&quot;)%&gt;&lt;br/&gt;   ...</div></div></div></a><a class="pagination-related" href="/51b209a5/" title="Filter 过滤器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212221643043.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-03</div><div class="info-item-2">Filter 过滤器</div></div><div class="info-2"><div class="info-item-1">Filter 过滤器 Filter 过滤器它是 JavaWeb 的三大组件之一。三大组件分别是：Servlet 程序、Listener 监听器、Filter 过滤器 Filter 过滤器它是 JavaEE 的规范。也就是接口 Filter 过滤器它的作用是：拦截请求，过滤响应。  拦截请求常见的应用场景有： 1、权限检查 2、日记操作 3、事务管理……等等 1.Filter入门案例要求：在你的 web 工程下，有一个 admin 目录。这个 admin 目录下的所有资源（html 页面、jpg 图片、jsp 文件、等等）都必须是用户登录之后才允许访问。 思考：根据之前我们学过内容。我们知道，用户登录之后都会把用户登录的信息保存到 Session 域中。所以要检查用户是否登录，可以判断 Session 中否包含有用户登录的信息即可！！！ 12345678&lt;%        Object user = session.getAttribute(&quot;user&quot;);        // 如果等于 null，说明还没有登录        if (user ==...</div></div></div></a><a class="pagination-related" href="/a1ede006/" title="HTTP"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212062044940.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-01</div><div class="info-item-2">HTTP</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/8847f08a/" title="JSON&amp;&amp;AJAX"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212221800343.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-28</div><div class="info-item-2">JSON&amp;&amp;AJAX</div></div><div class="info-2"><div class="info-item-1">JSON&amp;&amp;AJAX一、JSON1.1 json简介JSON (JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON采用完全独立于语言的文本格式，而且很多语言都提供了对 json 的支持（包括 C, C++, C#, Java, JavaScript, Perl, Python等）。 这样就使得 JSON 成为理想的数据交换格式。 json 是一种轻量级的数据交换格式。  轻量级指的是跟 xml 做比较。数据交换指的是客户端和服务器之间业务数据的传递格式。  1.2 JSON 在 JavaScript 中的使用json 是由键值对组成，并且由花括号（大括号）包围。每个键由引号引起来，键和值之间使用冒号进行分隔，多组键值对之间进行逗号进行分隔。 1234567891011121314151617var jsonObj = &#123;    &quot;key1&quot;:12,    &quot;key2&quot;:&quot;abc&quot;,   ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Matriy</div><div class="author-info-description">不积硅步，无以至千里</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Matriy330"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">我是一个网安小白，一名安卓逆向工程师，Web安全开发工程师，二进制学习者</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop%E5%85%A5%E9%97%A8"><span class="toc-text">Hadoop入门</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E5%9E%8B"><span class="toc-text">题型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0"><span class="toc-text">第一章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E6%A6%82%E5%BF%B5%E3%80%81%E7%B1%BB%E5%9E%8B"><span class="toc-text">1.1 大数据的概念、类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-text">1.2 大数据的特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E8%AE%A1%E7%AE%97%E6%A8%A1%E5%BC%8F"><span class="toc-text">1.3 大数据的计算模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E5%A4%A7%E6%95%B0%E6%8D%AE%E3%80%81%E4%BA%91%E8%AE%A1%E7%AE%97%E5%92%8C%E7%89%A9%E8%81%94%E7%BD%91%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB"><span class="toc-text">1.4 大数据、云计算和物联网之间的区别和联系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-Hadoop%E7%9A%84%E4%B8%89%E7%A7%8D%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF"><span class="toc-text">1.5 Hadoop的三种关键技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-Hadoop1-0%EF%BC%8C-Hadoop2-0%E5%92%8CHadoop3-x%E5%8C%BA%E5%88%AB"><span class="toc-text">1.6 Hadoop1.0， Hadoop2.0和Hadoop3.x区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-MapReduce%E7%BC%96%E7%A8%8B%E4%B8%BB%E8%A6%81%E5%8E%9F%E5%88%99"><span class="toc-text">1.7 MapReduce编程主要原则</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0"><span class="toc-text">第二章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%B8%B8%E7%94%A8linux%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%BF%E7%94%A8-HDFS"><span class="toc-text">2.1 常用linux命令的使用(HDFS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Vi%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81%E5%8F%8A%E8%BD%AC%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-text">2.2 Vi三种状态及转换方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E4%B8%89%E7%A7%8D%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%85%B6%E7%89%B9%E7%82%B9"><span class="toc-text">2.3 三种部署方式及其特点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0"><span class="toc-text">第三章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-HDFS%E7%AE%80%E4%BB%8B"><span class="toc-text">3.1 HDFS简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1-HDFS%E6%A6%82%E5%BF%B5"><span class="toc-text">3.1.1 HDFS概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-2-HDFS%E7%9A%84%E4%BC%98%E5%8A%BF%E5%92%8C%E4%B8%8D%E8%B6%B3"><span class="toc-text">3.1.2 HDFS的优势和不足</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-3-HDFS%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-text">3.1.3 HDFS基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-4-HDFS%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E6%80%A7"><span class="toc-text">3.1.4 HDFS的主要特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-HDFS-3-x%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%90%84%E7%BB%84%E4%BB%B6%E4%BD%9C%E7%94%A8"><span class="toc-text">3.2 HDFS 3.x架构及各组件作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-%E5%90%8D%E7%A7%B0%E8%8A%82%E7%82%B9%EF%BC%88NameNode%EF%BC%89"><span class="toc-text">&#x3D;&#x3D;3.2.1 名称节点（NameNode）&#x3D;&#x3D;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-text">1.命名空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%96%87%E4%BB%B6%E5%9D%97Block%E7%AE%A1%E7%90%86"><span class="toc-text">2.文件块Block管理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-%E7%AC%AC%E4%BA%8C%E5%90%8D%E7%A7%B0%E8%8A%82%E7%82%B9%EF%BC%88Secondary-NameNode%EF%BC%89"><span class="toc-text">&#x3D;&#x3D;3.2.2 第二名称节点（Secondary NameNode）&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-3-%E6%95%B0%E6%8D%AE%E8%8A%82%E7%82%B9%EF%BC%88DataNode%EF%BC%89"><span class="toc-text">&#x3D;&#x3D;3.2.3 数据节点（DataNode）&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-3-%E6%97%A5%E5%BF%97%E8%8A%82%E7%82%B9%EF%BC%88Journal-Node%EF%BC%89"><span class="toc-text">3.3.3 日志节点（Journal Node）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-4-ZKFC"><span class="toc-text">3.3.4 ZKFC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-5-%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">3.3.5 日志管理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-HDFS%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7"><span class="toc-text">3.3 HDFS高可用性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E4%B8%BB%E5%A4%87NameNode%E5%88%87%E6%8D%A2%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-text">3.4 主备NameNode切换的流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-HDFS%E8%AF%BB%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">3.5 HDFS读数据的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-HDFS%E5%86%99%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">3.6 HDFS写数据的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-7-HDFS%E8%81%94%E9%82%A6%E6%9C%BA%E5%88%B6%E5%8F%8A%E5%85%B6%E4%BD%9C%E7%94%A8"><span class="toc-text">3.7 HDFS联邦机制及其作用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0"><span class="toc-text">第四章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-MapReduce1-0%E7%BC%BA%E9%99%B7"><span class="toc-text">4.1 MapReduce1.0缺陷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-Yarn%E5%85%B7%E6%9C%89%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-text">4.2 Yarn具有的优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-Yarn%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%90%84%E7%BB%84%E4%BB%B6%E4%BD%9C%E7%94%A8"><span class="toc-text">4.3 Yarn体系结构及各组件作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E5%85%B6%E5%AE%83"><span class="toc-text">4.4 其它</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0"><span class="toc-text">第五章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%90%84%E7%BB%84%E4%BB%B6%E4%BD%9C%E7%94%A8"><span class="toc-text">5.1 体系结构及各组件作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E6%95%B0%E6%8D%AE%E6%9C%AC%E5%9C%B0%E5%8C%96"><span class="toc-text">5.2 数据本地化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-%E4%BD%9C%E4%B8%9A%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">5.3 作业执行过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-Shuffle%E8%BF%87%E7%A8%8B"><span class="toc-text">5.4 Shuffle过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-%E7%BC%96%E7%A8%8B%E8%AE%BE%E8%AE%A1"><span class="toc-text">5.5 编程设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-1-WordCount"><span class="toc-text">5.5.1.WordCount</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-2-topN"><span class="toc-text">5.5.2 topN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-3-%E8%BF%9E%E6%8E%A5%E6%93%8D%E4%BD%9C"><span class="toc-text">5.5.3 连接操作</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/850e6e3/" title="Magisk学习简介"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Magisk学习简介"/></a><div class="content"><a class="title" href="/850e6e3/" title="Magisk学习简介">Magisk学习简介</a><time datetime="2025-05-12T16:00:00.000Z" title="发表于 2025-05-13 00:00:00">2025-05-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录Frida spawn模式hook失败的问题(禁用usap)"/></a><div class="content"><a class="title" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)">记录Frida spawn模式hook失败的问题(禁用usap)</a><time datetime="2025-05-11T16:00:00.000Z" title="发表于 2025-05-12 00:00:00">2025-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录一次安装Frida14.2.18的坑和解决方法"/></a><div class="content"><a class="title" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法">记录一次安装Frida14.2.18的坑和解决方法</a><time datetime="2025-05-10T16:00:00.000Z" title="发表于 2025-05-11 00:00:00">2025-05-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/1610ef8a/" title="Android逆向18-Unicorn"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向18-Unicorn"/></a><div class="content"><a class="title" href="/1610ef8a/" title="Android逆向18-Unicorn">Android逆向18-Unicorn</a><time datetime="2025-05-09T16:00:00.000Z" title="发表于 2025-05-10 00:00:00">2025-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/c2ef4741/" title="Android逆向17-抓包进阶"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向17-抓包进阶"/></a><div class="content"><a class="title" href="/c2ef4741/" title="Android逆向17-抓包进阶">Android逆向17-抓包进阶</a><time datetime="2025-05-08T16:00:00.000Z" title="发表于 2025-05-09 00:00:00">2025-05-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Matriy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px"target="_blank" href="https://hexo.io/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px"target="_blank" href="https://butterfly.js.org/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px"target="_blank" href="https://www.jsdelivr.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用 Jsdelivr 为静态资源提供CDN加速" alt="Jsdelivr"></a><a style="margin-inline:5px"target="_blank" href="https://github.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px"target="_blank"href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p> <p>Hi, welcome to Matriy's <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="/js/anzhiyu.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

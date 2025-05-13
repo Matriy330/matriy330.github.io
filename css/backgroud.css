@@ -1,0 +1,32 @@
+:root {
+    --light_bg_color: rgba(255, 255, 255, 0.6);
+    --dark_bg_color: rgba(18, 18, 18, 0.8);
+    --light_page_color: rgba(255, 255, 255, 0.5);
+    --dark_page_color: rgba(18, 18, 18, 0.8);
+}
+
+/* 文章 */
+[data-theme="dark"] .post>.layout>#post,#recent-posts>.recent-post-item,.read-mode .layout>#post {
+    background: var(--dark_bg_color);
+}
+
+/* aside card */
+[data-theme="dark"] #aside-content .card-widget {
+    background: var(--dark_bg_color);
+}
+
+/* aside card */
+[data-theme="light"] #aside-content .card-widget {
+    background: var(--light_bg_color);
+}
+
+
+[data-theme="light"] #recent-posts>.recent-post-item,.post>.layout>#post,.read-mode .layout>#post {
+    background: var(--light_bg_color);
+}
+
+.loading-img {
+    background: url(../img/tx.jpg) no-repeat center center;
+    background-size: cover;
+  }
+

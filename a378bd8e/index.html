@@ -1,0 +1,762 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Python | Matriy's blog</title><meta name="author" content="Matriy"><meta name="copyright" content="Matriy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Python一、数据类型、运算符、字符串string,int,float,+-，*,&#x2F;,&#x2F;&#x2F;(整除),%，**指数 1234567print(type(&#x27;abc&#x27;))int(x)#类型转换为intfloat(x)str(x)print(10**10)#100name&#x3D;&quot;888&quot;print(&quot;ABC&quot;+name">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="http://matriy330.github.io/a378bd8e/index.html">
+<meta property="og:site_name" content="Matriy&#39;s blog">
+<meta property="og:description" content="Python一、数据类型、运算符、字符串string,int,float,+-，*,&#x2F;,&#x2F;&#x2F;(整除),%，**指数 1234567print(type(&#x27;abc&#x27;))int(x)#类型转换为intfloat(x)str(x)print(10**10)#100name&#x3D;&quot;888&quot;print(&quot;ABC&quot;+name">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250228121423618.png">
+<meta property="article:published_time" content="2025-02-21T05:46:12.000Z">
+<meta property="article:modified_time" content="2025-02-28T05:22:23.029Z">
+<meta property="article:author" content="Matriy">
+<meta property="article:tag" content="开发相关">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250228121423618.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Python",
+  "url": "http://matriy330.github.io/a378bd8e/",
+  "image": "https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250228121423618.png",
+  "datePublished": "2025-02-21T05:46:12.000Z",
+  "dateModified": "2025-02-28T05:22:23.029Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Matriy",
+      "url": "http://matriy330.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="canonical" href="http://matriy330.github.io/a378bd8e/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="G-ShTqjjywiLkL87Rg0PaiSsDVYymWStdQUO1wrM_VY"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":30,"languages":{"author":"作者: Matriy","link":"链接: ","source":"来源: Matriy's blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}
+</script><link rel="stylesheet" href="/css/custom.css"><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Python',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="an_music_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Matriy's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Python</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Python</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-21T05:46:12.000Z" title="发表于 2025-02-21 13:46:12">2025-02-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-28T05:22:23.029Z" title="更新于 2025-02-28 13:22:23">2025-02-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/others/">others</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/a378bd8e/#post-comment"><span id="twikoo-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><h1 id="一、数据类型、运算符、字符串"><a href="#一、数据类型、运算符、字符串" class="headerlink" title="一、数据类型、运算符、字符串"></a>一、数据类型、运算符、字符串</h1><p>string,int,float,+-，*,&#x2F;,&#x2F;&#x2F;(整除),%，**指数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(<span class="string">&#x27;abc&#x27;</span>))</span><br><span class="line"><span class="built_in">int</span>(x)<span class="comment">#类型转换为int</span></span><br><span class="line"><span class="built_in">float</span>(x)</span><br><span class="line"><span class="built_in">str</span>(x)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">10</span>**<span class="number">10</span>)<span class="comment">#100</span></span><br><span class="line">name=<span class="string">&quot;888&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;ABC&quot;</span>+name+<span class="string">&quot;666&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>字符串格式化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name=<span class="string">&quot;luhao&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;555%s&quot;</span> %name)</span><br><span class="line">location=<span class="string">&quot;HZ&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;555%sin%s&quot;</span> %(name,location))</span><br><span class="line">staic= <span class="number">7</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;666<span class="subst">&#123;name&#125;</span><span class="subst">&#123;staic&#125;</span>&quot;</span>)<span class="comment">#快速格式化</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>格式符号</th>
+<th>转化</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%s</td>
+<td>将内容转换成字符串，放入占位位置</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>将内容转换成整数，放入占位位置</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>将内容转换成浮点型，放入占位位置</td>
+</tr>
+</tbody></table>
+<p>我们可以使用辅助符号”m.n”来控制数据的宽度和精度</p>
+<p>• m，控制宽度，要求是数字（很少使用）,设置的宽度小于数字自身，不生效</p>
+<p>•.n，控制小数点精度，要求是数字，会进行小数的四舍五入</p>
+<blockquote>
+<p>•%5d：表示将整数的宽度控制在5位，如数字11，被设置为5d，就会变成：空格空格空格11，用三个空格补足宽度。</p>
+<p>•%5.2f：表示将宽度控制为5，将小数点精度设置为2</p>
+<p>   小数点和小数部分也算入宽度计算。如，对11.345设置了%7.2f 后，结果是：空格 空格11.35。2个空格补足宽度，小数部分限制2位精度后，四舍五入为 .35</p>
+<p>•%.2f：表示不限制宽度，只设置小数点精度为2，如11.345设置%.2f后，结果是11.35</p>
+</blockquote>
+<p>输入语句:</p>
+<p>input()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=<span class="built_in">input</span>(<span class="string">&quot;请输入:&quot;</span>)<span class="comment">#括号内是默认值</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二、判断、循环语句、函数"><a href="#二、判断、循环语句、函数" class="headerlink" title="二、判断、循环语句、函数"></a>二、判断、循环语句、函数</h1><p>if..else</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="number">10.135</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;555+%5.2f&quot;</span>%a)</span><br><span class="line"><span class="keyword">if</span> a&lt;<span class="number">10</span> :</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">6</span>)</span><br><span class="line"><span class="keyword">elif</span> a&gt;<span class="number">10</span> :</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">3</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>while循环</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> age &gt;-<span class="number">1</span> :</span><br><span class="line">    age+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>for循环</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">money=<span class="string">&quot;itheima&quot;</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> moneys:</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10</span>,<span class="number">1</span>)<span class="comment">#n1-n2,step 1</span></span><br><span class="line">	<span class="built_in">print</span>(x)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)<span class="comment">#0-10</span></span><br><span class="line">	<span class="built_in">print</span>(x)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10</span>)<span class="comment">#1-10</span></span><br><span class="line">	<span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure>
+
+<p>continue and break</p>
+<p>函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">countlen2</span>(<span class="params">data</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param data:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">global</span> count<span class="comment">#全局变量</span></span><br><span class="line">    count=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> data:</span><br><span class="line">        count+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> count</span><br><span class="line"><span class="built_in">len</span> = countlen(<span class="string">&quot;ITHEIMA&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果有两个return 只用第一个</p>
+</li>
+<li><p>多个返回值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">count</span>(<span class="params">date</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>,<span class="number">2</span></span><br><span class="line">a=count(<span class="number">1</span>)</span><br><span class="line">b=count(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(a)<span class="comment">#(1,2)</span></span><br><span class="line"><span class="built_in">print</span>(b)<span class="comment">#(1,2)</span></span><br><span class="line">c,d=count(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(c)<span class="comment">#(1)</span></span><br><span class="line"><span class="built_in">print</span>(d)<span class="comment">#(2)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202210241459886.png" alt="图片3"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202210241500596.png" alt="图片4"></p>
+<p><strong>位置传递</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">count2</span>(<span class="params">*args</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> args:</span><br><span class="line">        <span class="built_in">print</span>(i)</span><br><span class="line"></span><br><span class="line">count2(<span class="string">&quot;6&quot;</span>,<span class="string">&quot;梁贺不行&quot;</span>,<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键字传递</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">count3</span>(<span class="params">**kwargs</span>):</span><br><span class="line">    keys=kwargs.keys()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> keys:</span><br><span class="line">        <span class="built_in">print</span>(kwargs[i])</span><br><span class="line"></span><br><span class="line">count3(name=<span class="number">1000</span>,names=<span class="number">1000</span>,name3=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>   参数是“键&#x3D;值”形式的形式的情况下, 所有的“键&#x3D;值”都会被kwargs接受, 同时会根据“键&#x3D;值”组成字典.</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202210241509412.png" alt="图片5"></p>
+<h1 id="三、数据容器"><a href="#三、数据容器" class="headerlink" title="三、数据容器"></a>三、数据容器</h1><h2 id="1-list"><a href="#1-list" class="headerlink" title="1.list"></a>1.list</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mylist=[<span class="string">&#x27;1&#x27;</span>, <span class="number">2</span>, <span class="literal">True</span>]<span class="comment">#类型可不同</span></span><br><span class="line">mylist1=[<span class="string">&quot;1&quot;</span>, [<span class="number">2</span>,<span class="number">1</span>], <span class="literal">True</span>]</span><br><span class="line"><span class="built_in">print</span>(mylist[-<span class="number">1</span>])<span class="comment">#从尾部开始取</span></span><br><span class="line"><span class="built_in">print</span>(mylist1[<span class="number">2</span>][<span class="number">1</span>])</span><br><span class="line">were=mylist.index(<span class="string">&quot;a&quot;</span>)<span class="comment">#查找a在哪个地方</span></span><br><span class="line">mylist.insert(<span class="number">1</span>,<span class="string">&quot;abc&quot;</span>)<span class="comment">#1处差&quot;abc&quot;</span></span><br><span class="line">mylist.append(<span class="number">777</span>)<span class="comment">#尾部添加777</span></span><br><span class="line">mylist.extend(mylist1)<span class="comment">#列表合并</span></span><br><span class="line"><span class="keyword">del</span>  mylist[<span class="number">2</span>]<span class="comment">#删除2处的元素</span></span><br><span class="line">A=mylist.pop(<span class="number">0</span>)<span class="comment">#弹出0给A</span></span><br><span class="line">mylist.remove(<span class="string">&quot;itheima&quot;</span>)</span><br><span class="line"><span class="comment"># 删除第一个出现的该元素</span></span><br><span class="line">mylist.clear()</span><br><span class="line">mylist.count(<span class="string">&quot;itheima&quot;</span>)</span><br><span class="line"><span class="comment"># 计算itheima数量</span></span><br><span class="line">lenss=<span class="built_in">len</span>(mylist)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> mylist:</span><br><span class="line">    <span class="comment">#遍历</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-元组"><a href="#2-元组" class="headerlink" title="2.元组"></a>2.元组</h2><p><strong>不可修改</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>编号</strong></th>
+<th><strong>方法</strong></th>
+<th><strong>作用</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>index()</td>
+<td>查找某个数据，如果数据存在返回对应的下标，否则报错</td>
+</tr>
+<tr>
+<td>2</td>
+<td>count()</td>
+<td>统计某个数据在当前元组出现的次数</td>
+</tr>
+<tr>
+<td>3</td>
+<td>len(元组)</td>
+<td>统计元组内的元素个数</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t1=<span class="built_in">tuple</span>(<span class="number">1</span>,<span class="string">&quot;2&quot;</span>,<span class="number">3</span>)</span><br><span class="line">t2=(<span class="number">1</span>,<span class="string">&quot;3&quot;</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment"># 元组index,count,len,不可修改</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-字符串"><a href="#3-字符串" class="headerlink" title="3.字符串"></a>3.字符串</h2><table>
+<thead>
+<tr>
+<th><strong>编号</strong></th>
+<th><strong>操作</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>字符串[下标]</td>
+<td>根据下标索引取出特定位置字符</td>
+</tr>
+<tr>
+<td>2</td>
+<td>字符串.index(字符串）</td>
+<td>查找给定字符的第一个匹配项的下标</td>
+</tr>
+<tr>
+<td>3</td>
+<td>字符串.replace(字符串1, 字符串2)</td>
+<td>将字符串内的全部字符串1，替换为字符串2  不会修改原字符串，而是得到一个新的</td>
+</tr>
+<tr>
+<td>4</td>
+<td>字符串.split(字符串)</td>
+<td>按照给定字符串，对字符串进行分隔  不会修改原字符串，而是得到一个新的列表</td>
+</tr>
+<tr>
+<td>5</td>
+<td>字符串.strip()  字符串.strip(字符串)</td>
+<td>移除首尾的空格和换行符或指定字符串</td>
+</tr>
+<tr>
+<td>6</td>
+<td>字符串.count(字符串)</td>
+<td>统计字符串内某字符串的出现次数</td>
+</tr>
+<tr>
+<td>7</td>
+<td>len(字符串)</td>
+<td>统计字符串的字符个数</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mystr=<span class="string">&quot;ithrima&quot;</span></span><br><span class="line">STR=mystr[<span class="number">2</span>]</span><br><span class="line">mys=mystr.index(<span class="string">&quot;th&quot;</span>)</span><br><span class="line"><span class="comment"># 查找起始下标</span></span><br><span class="line">mystr.replace(<span class="string">&quot;yh&quot;</span>,<span class="string">&quot;66&quot;</span>)</span><br><span class="line"><span class="comment"># 将yh全部替换为66</span></span><br><span class="line">mylitsbeh=mystr.split(<span class="string">&quot; &quot;</span>)</span><br><span class="line"><span class="comment"># 以空格分割</span></span><br><span class="line"><span class="comment"># strip去除前后空格</span></span><br><span class="line"><span class="comment"># strip(“666&quot;)去除前后指定的666</span></span><br><span class="line">mystr.count(<span class="string">&quot;it&quot;</span>)</span><br><span class="line"><span class="comment"># 计算it出现次数</span></span><br><span class="line"><span class="built_in">len</span>(<span class="string">&quot;mystr&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-序列"><a href="#4-序列" class="headerlink" title="4.序列"></a>4.序列</h2><p>序列的典型特征就是：有序 并可用下标索引，字符串、元组、列表均满足这个要求</p>
+<p><strong>切片</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">new_list = my_list[<span class="number">1</span>:<span class="number">4</span>]	<span class="comment"># 下标1开始，下标4（不含）结束，步长1</span></span><br><span class="line"><span class="built_in">print</span>(new_list)		<span class="comment"># 结果：[2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">my_tuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">new_tuple = my_tuple[:]	<span class="comment"># 从头开始，到最后结束，步长1</span></span><br><span class="line"><span class="built_in">print</span>(new_tuple)	</span><br><span class="line"></span><br><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">new_list = my_list[::<span class="number">2</span>]		<span class="comment"># 从头开始，到最后结束，步长2</span></span><br><span class="line"><span class="built_in">print</span>(new_list)		<span class="comment"># 结果：[1, 3, 5]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">my_str = <span class="string">&quot;12345&quot;</span></span><br><span class="line">new_str = my_str[:<span class="number">4</span>:<span class="number">2</span>]	<span class="comment"># 从头开始，到下标4（不含）结束，步长2</span></span><br><span class="line"><span class="built_in">print</span>(new_str)		<span class="comment"># 结果：&quot;13&quot;</span></span><br><span class="line"></span><br><span class="line">my_str = <span class="string">&quot;12345&quot;</span></span><br><span class="line">new_str = my_str[::-<span class="number">1</span>]	<span class="comment"># 从头（最后）开始，到尾结束，步长-1（倒序）</span></span><br><span class="line"><span class="built_in">print</span>(new_str)		<span class="comment"># 结果：&quot;54321&quot;</span></span><br><span class="line"></span><br><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">new_list = my_list[<span class="number">3</span>:<span class="number">1</span>:-<span class="number">1</span>]	<span class="comment"># 从下标3开始，到下标1（不含）结束，步长-1（倒序）</span></span><br><span class="line"><span class="built_in">print</span>(new_list)		<span class="comment"># 结果：[4, 3]</span></span><br><span class="line"></span><br><span class="line">my_tuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">new_tuple = my_tuple[:<span class="number">1</span>:-<span class="number">2</span>] 	<span class="comment"># 从头（最后）开始，到下标1(不含)结束，步长-2（倒序）</span></span><br><span class="line"><span class="built_in">print</span>(new_tuple)		<span class="comment"># 结果：(5, 3)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-set"><a href="#5-set" class="headerlink" title="5.set"></a>5.set</h2><p>•列表可修改、支持重复元素且有序</p>
+<p>•元组、字符串不可修改、支持重复元素且有序</p>
+<p>无序，不支持下标索引访问</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">my_set=&#123;<span class="string">&quot;Hello&quot;</span>,<span class="string">&quot;world&quot;</span>&#125;</span><br><span class="line">my_set.add(<span class="string">&quot;itheima&quot;</span>)/<span class="comment">#随即插入</span></span><br><span class="line">my_set.remove(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">my_set.pop()<span class="comment">#随即弹出</span></span><br><span class="line">my_set.clear()</span><br><span class="line"></span><br><span class="line">set1=&#123;<span class="number">1</span>,<span class="number">23</span>,<span class="number">4</span>&#125;</span><br><span class="line">set2=&#123;<span class="number">1</span>,<span class="number">4</span>,<span class="number">9</span>&#125;</span><br><span class="line">set1.diffenrence(set2)<span class="comment">#得到差集</span></span><br><span class="line"></span><br><span class="line">set1.difference_update(set2)<span class="comment">#消除相同元素</span></span><br><span class="line">set1.union(set2)<span class="comment">#合并</span></span><br><span class="line"><span class="built_in">len</span>(set1)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th><strong>编号</strong></th>
+<th><strong>操作</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>集合.add(元素)</td>
+<td>集合内添加一个元素</td>
+</tr>
+<tr>
+<td>2</td>
+<td>集合.remove(元素)</td>
+<td>移除集合内指定的元素</td>
+</tr>
+<tr>
+<td>3</td>
+<td>集合.pop()</td>
+<td>从集合中随机取出一个元素</td>
+</tr>
+<tr>
+<td>4</td>
+<td>集合.clear()</td>
+<td>将集合清空</td>
+</tr>
+<tr>
+<td>5</td>
+<td>集合1.difference(集合2)</td>
+<td>得到一个新集合，内含2个集合的差集  原有的2个集合内容不变</td>
+</tr>
+<tr>
+<td>6</td>
+<td>集合1.difference_update(集合2)</td>
+<td>在集合1中，删除集合2中存在的元素  集合1被修改，集合2不变</td>
+</tr>
+<tr>
+<td>7</td>
+<td>集合1.union(集合2)</td>
+<td>得到1个新集合，内含2个集合的全部元素  原有的2个集合内容不变</td>
+</tr>
+<tr>
+<td>8</td>
+<td>len(集合)</td>
+<td>得到一个整数，记录了集合的元素数量</td>
+</tr>
+</tbody></table>
+<h2 id="6-字典"><a href="#6-字典" class="headerlink" title="6.字典"></a>6.字典</h2><p>•Key不可重复，重复会对原有数据覆盖</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202210241447926.png" alt="图片1"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202210241447872.png" alt="图片2"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(stu_score[<span class="string">&quot;王力宏&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(stu_score[<span class="string">&quot;王力宏&quot;</span>][<span class="string">&#x27;语文&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#新增元素</span></span><br><span class="line">stu_score[<span class="string">&quot;卢浩&quot;</span>]=&#123;<span class="string">&quot;语文&quot;</span>:<span class="number">100</span>,<span class="string">&quot;数学&quot;</span>:<span class="number">100</span>,<span class="string">&quot;英语&quot;</span>:<span class="number">100</span>&#125;</span><br><span class="line"><span class="comment">#更新</span></span><br><span class="line">stu_score[<span class="string">&quot;卢浩&quot;</span>]=&#123;<span class="string">&quot;语文&quot;</span>:<span class="number">1000</span>,<span class="string">&quot;数学&quot;</span>:<span class="number">1000</span>,<span class="string">&quot;英语&quot;</span>:<span class="number">1000</span>&#125;</span><br><span class="line"><span class="comment">#删除元素</span></span><br><span class="line">stu_score.pop(<span class="string">&quot;卢浩&quot;</span>)</span><br><span class="line"><span class="comment">#清空字典</span></span><br><span class="line">stu_score.clear()</span><br><span class="line"><span class="comment">#获取全部的key</span></span><br><span class="line">stu_score.keys()</span><br><span class="line"><span class="comment">#遍历字典  语法：for key in 字典.keys()</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th><strong>编号</strong></th>
+<th><strong>操作</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>字典[Key]</td>
+<td>获取指定Key对应的Value值</td>
+</tr>
+<tr>
+<td>2</td>
+<td>字典[Key] &#x3D; Value</td>
+<td>添加或更新键值对</td>
+</tr>
+<tr>
+<td>3</td>
+<td>字典.pop(Key)</td>
+<td>取出Key对应的Value并在字典内删除此Key的键值对</td>
+</tr>
+<tr>
+<td>4</td>
+<td>字典.clear()</td>
+<td>清空字典</td>
+</tr>
+<tr>
+<td>5</td>
+<td>字典.keys()</td>
+<td>获取字典的全部Key，可用于for循环遍历字典</td>
+</tr>
+<tr>
+<td>6</td>
+<td>len(字典)</td>
+<td>计算字典内的元素数量</td>
+</tr>
+</tbody></table>
+<h1 id="四、文件操作、异常、模块"><a href="#四、文件操作、异常、模块" class="headerlink" title="四、文件操作、异常、模块"></a>四、文件操作、异常、模块</h1><table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td>以只读方式打开文件。文件的指针将会放在文件的开头。这是默认模式。</td>
+</tr>
+<tr>
+<td>w</td>
+<td>打开一个文件只用于写入。如果该文件已存在则打开文件，并从开头开始编辑，原有内容会被删除。  如果该文件不存在，创建新文件。</td>
+</tr>
+<tr>
+<td>a</td>
+<td>打开一个文件用于追加。如果该文件已存在，新的内容将会被写入到已有内容之后。  如果该文件不存在，创建新文件进行写入。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件对象  &#x3D; open(file, mode, encoding)</td>
+<td>打开文件获得文件对象</td>
+</tr>
+<tr>
+<td>文件对象.read(num)</td>
+<td>读取指定长度字节  不指定num读取文件全部</td>
+</tr>
+<tr>
+<td>文件对象.readline()</td>
+<td>读取一行</td>
+</tr>
+<tr>
+<td>文件对象.readlines()</td>
+<td>读取全部行，得到列表</td>
+</tr>
+<tr>
+<td>for line in 文件对象</td>
+<td>for循环文件行，一次循环得到一行数据</td>
+</tr>
+<tr>
+<td>文件对象.close()</td>
+<td>关闭文件对象</td>
+</tr>
+<tr>
+<td>with open() as f</td>
+<td>通过with  open语法打开文件，可以自动关闭</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;python.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.readlines()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过在with open的语句块中对文件进行操作</span></span><br><span class="line"><span class="comment"># 可以在操作完成后自动关闭close文件，避免遗忘掉close方法</span></span><br><span class="line"><span class="comment"># 1. 打开文件，通过a模式打开即可</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;python.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.文件写入</span></span><br><span class="line">f.write(<span class="string">&#x27;hello world&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 内容刷新</span></span><br><span class="line">f.flush()</span><br><span class="line"><span class="comment"># 1. 打开文件</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;python.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.文件写入</span></span><br><span class="line">f.write(<span class="string">&#x27;hello world&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 内容刷新</span></span><br><span class="line">f.flush()</span><br></pre></td></tr></table></figure>
+
+<p><strong>异常</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;linux.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;linux.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line"><span class="keyword">except</span> NameError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;name变量名称未定义错误&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">1</span>/<span class="number">0</span>)</span><br><span class="line"><span class="keyword">except</span> (NameError, ZeroDivisionError):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;ZeroDivision错误...&#x27;</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(num)</span><br><span class="line"><span class="keyword">except</span> (NameError, ZeroDivisionError) <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(e)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(e)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;没有异常，真开心&#x27;</span>)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    f.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>import 模块名</li>
+<li>from 模块名 import 类、变量、方法等</li>
+<li>from 模块名 import *</li>
+<li>import 模块名 as 别名(别名.<strong>功能</strong>)</li>
+<li>from 模块名 import 功能名 as 别名(<strong>可直接调用别名</strong>)</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="built_in">print</span>(a + b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只在当前文件中调用该函数，其他导入的文件内不符合该条件，则不执行test函数调用</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    test (<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>_ _all _ _&#x3D;[‘text’] 外部只引入textA模块</p>
+<p>_ _init _ _&#x3D;[‘text’] 外部只引入textA包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install 包名称</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple 包名称</span><br></pre></td></tr></table></figure>
+
+<h1 id="五、python数据处理"><a href="#五、python数据处理" class="headerlink" title="五、python数据处理"></a>五、python数据处理</h1><p>json:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># json数据的格式可以是： </span></span><br><span class="line">&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;admin&quot;</span>,<span class="string">&quot;age&quot;</span>:<span class="number">18</span>&#125; </span><br><span class="line"><span class="comment"># 也可以是：  </span></span><br><span class="line">[&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;admin&quot;</span>,<span class="string">&quot;age&quot;</span>:<span class="number">18</span>&#125;,&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;root&quot;</span>,<span class="string">&quot;age&quot;</span>:<span class="number">16</span>&#125;,&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;张三&quot;</span>,<span class="string">&quot;age&quot;</span>:<span class="number">20</span>&#125;] </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入json模块 </span></span><br><span class="line"><span class="keyword">import</span> json </span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备符合格式json格式要求的python数据 </span></span><br><span class="line">data = [&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;老王&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">16</span>&#125;, &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">20</span>&#125;]</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 通过 json.dumps(data) 方法把python数据转化为了 json数据 </span></span><br><span class="line">data = json.dumps(data) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过 json.loads(data) 方法把json数据转化为了 python数据 </span></span><br><span class="line">data = json.loads(data)</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-折线图"><a href="#1-折线图" class="headerlink" title="1.折线图"></a>1.折线图</h2><p>查看官方示例打开官方画廊：<a target="_blank" rel="noopener" href="https://gallery.pyecharts.org/#/README">https://gallery.pyecharts.org/#/README</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Line</span><br><span class="line"><span class="keyword">from</span> pyecharts.options <span class="keyword">import</span> TitleOpts,LegendOpts,ToolboxOpts,VisualMapOpts</span><br><span class="line">line=Line()</span><br><span class="line">line.add_xaxis([<span class="string">&quot;中国&quot;</span>,<span class="string">&quot;美国&quot;</span>,<span class="string">&quot;英国&quot;</span>])</span><br><span class="line">line.add_yaxis(<span class="string">&quot;GDP&quot;</span>,[<span class="number">30</span>,<span class="number">20</span>,<span class="number">10</span>])</span><br><span class="line">line.set_global_opts(</span><br><span class="line">    title_opts=TitleOpts(<span class="string">&quot;GDP展示&quot;</span>,pos_left=<span class="string">&quot;center&quot;</span>,pos_bottom=<span class="string">&quot;1%&quot;</span>),</span><br><span class="line">    legend_opts=LegendOpts(is_show=<span class="literal">True</span>),</span><br><span class="line">    toolbox_opts=ToolboxOpts(is_show=<span class="literal">True</span>),</span><br><span class="line">    visualmap_opts=VisualMapOpts(is_show=<span class="literal">True</span>)</span><br><span class="line">)</span><br><span class="line">line.render()</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="C:\Users\soul\Desktop\Markdown\python\img\图片6.png" alt="图片6"></p>
+<p><strong>数据处理</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Line</span><br><span class="line"><span class="keyword">from</span> pyecharts.options <span class="keyword">import</span> TitleOpts, LabelOpts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理数据</span></span><br><span class="line">f_us = <span class="built_in">open</span>(<span class="string">&quot;D:/sjfx/美国.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line">us_data = f_us.read()   <span class="comment"># 美国的全部内容</span></span><br><span class="line"></span><br><span class="line">f_jp = <span class="built_in">open</span>(<span class="string">&quot;D:/sjfx/日本.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line">jp_data = f_jp.read()   <span class="comment"># 日本的全部内容</span></span><br><span class="line"></span><br><span class="line">f_in = <span class="built_in">open</span>(<span class="string">&quot;D:/sjfx/印度.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line">in_data = f_in.read()   <span class="comment"># 印度的全部内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 去掉不合JSON规范的开头</span></span><br><span class="line">us_data = us_data.replace(<span class="string">&quot;jsonp_1629344292311_69436(&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">jp_data = jp_data.replace(<span class="string">&quot;jsonp_1629350871167_29498(&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">in_data = in_data.replace(<span class="string">&quot;jsonp_1629350745930_63180(&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去掉不合JSON规范的结尾</span></span><br><span class="line">us_data = us_data[:-<span class="number">2</span>]</span><br><span class="line">jp_data = jp_data[:-<span class="number">2</span>]</span><br><span class="line">in_data = in_data[:-<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># JSON转Python字典</span></span><br><span class="line">us_dict = json.loads(us_data)</span><br><span class="line">jp_dict = json.loads(jp_data)</span><br><span class="line">in_dict = json.loads(in_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取trend key</span></span><br><span class="line">us_trend_data = us_dict[<span class="string">&#x27;data&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;trend&#x27;</span>]</span><br><span class="line">jp_trend_data = jp_dict[<span class="string">&#x27;data&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;trend&#x27;</span>]</span><br><span class="line">in_trend_data = in_dict[<span class="string">&#x27;data&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;trend&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取日期数据，用于x轴，取2020年（到314下标结束）</span></span><br><span class="line">us_x_data = us_trend_data[<span class="string">&#x27;updateDate&#x27;</span>][:<span class="number">314</span>]</span><br><span class="line">jp_x_data = jp_trend_data[<span class="string">&#x27;updateDate&#x27;</span>][:<span class="number">314</span>]</span><br><span class="line">in_x_data = in_trend_data[<span class="string">&#x27;updateDate&#x27;</span>][:<span class="number">314</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取确认数据，用于y轴，取2020年（到314下标结束）</span></span><br><span class="line">us_y_data = us_trend_data[<span class="string">&#x27;list&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;data&#x27;</span>][:<span class="number">314</span>]</span><br><span class="line">jp_y_data = jp_trend_data[<span class="string">&#x27;list&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;data&#x27;</span>][:<span class="number">314</span>]</span><br><span class="line">in_y_data = in_trend_data[<span class="string">&#x27;list&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;data&#x27;</span>][:<span class="number">314</span>]</span><br><span class="line"></span><br><span class="line">line=Line()</span><br><span class="line">line.add_xaxis(us_x_data)   <span class="comment"># x轴是公用的，所以使用一个国家的数据即可</span></span><br><span class="line"><span class="comment"># 添加y轴数据</span></span><br><span class="line">line.add_yaxis(<span class="string">&quot;美国确诊人数&quot;</span>, us_y_data, label_opts=LabelOpts(is_show=<span class="literal">False</span>))     <span class="comment"># 添加美国的y轴数据</span></span><br><span class="line">line.add_yaxis(<span class="string">&quot;日本确诊人数&quot;</span>, jp_y_data, label_opts=LabelOpts(is_show=<span class="literal">False</span>))     <span class="comment"># 添加日本的y轴数据</span></span><br><span class="line">line.add_yaxis(<span class="string">&quot;印度确诊人数&quot;</span>, in_y_data, label_opts=LabelOpts(is_show=<span class="literal">False</span>))     <span class="comment"># 添加印度的y轴数据</span></span><br><span class="line"></span><br><span class="line">line.set_global_opts(</span><br><span class="line">    <span class="comment"># 标题设置</span></span><br><span class="line">    title_opts=TitleOpts(title=<span class="string">&quot;2020年美日印三国确诊人数对比折线图&quot;</span>, pos_left=<span class="string">&quot;center&quot;</span>, pos_bottom=<span class="string">&quot;1%&quot;</span>)</span><br><span class="line">)</span><br><span class="line">line.render()</span><br><span class="line"><span class="comment"># 关闭文件对象</span></span><br><span class="line">f_us.close()</span><br><span class="line">f_jp.close()</span><br><span class="line">f_in.close()</span><br></pre></td></tr></table></figure>
+
+<p><strong>折线图相关配置项</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>配置项</strong></th>
+<th><strong>作用</strong></th>
+<th><strong>代码实例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>init_opts</td>
+<td>对折线图初始化设置宽高</td>
+<td>init_opts&#x3D;opts.InitOpts(width&#x3D;”1600px”,  height&#x3D;”800px”)</td>
+</tr>
+<tr>
+<td>.add_xaxis</td>
+<td>添加x轴数据</td>
+<td>.add_xaxis(列表)</td>
+</tr>
+<tr>
+<td>.add_yaxis</td>
+<td>添加y轴数据</td>
+<td></td>
+</tr>
+</tbody></table>
+<p> <strong>.add_yaxis</strong>相关配置选项</p>
+<table>
+<thead>
+<tr>
+<th><strong>配置项</strong></th>
+<th><strong>作用</strong></th>
+<th><strong>代码实例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>series_name</td>
+<td>设置图例名称</td>
+<td>series_name&#x3D;”美国确诊人数”</td>
+</tr>
+<tr>
+<td>y_axis</td>
+<td>输入y轴数据</td>
+<td>y_axis&#x3D;[“列表”]</td>
+</tr>
+<tr>
+<td>symbol_size</td>
+<td>设置点的大小</td>
+<td>symbol_size&#x3D;10</td>
+</tr>
+<tr>
+<td>label_opts</td>
+<td>标签设置项：不显示标签</td>
+<td>label_opts&#x3D;opts.LabelOpts(is_show&#x3D;False)</td>
+</tr>
+<tr>
+<td>linestyle_opts</td>
+<td>线条宽度和样式</td>
+<td>linestyle_opts&#x3D;opts.LineStyleOpts(width&#x3D;2)</td>
+</tr>
+</tbody></table>
+<p><strong>.set_global_opts</strong>全局配置选项</p>
+<table>
+<thead>
+<tr>
+<th><strong>配置项</strong></th>
+<th><strong>作用</strong></th>
+<th><strong>代码实例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>title_opts</td>
+<td>设置图标题和位置</td>
+<td>title_opts&#x3D;opts.TitleOpts(title&#x3D;”标题”,  pos_left&#x3D;”center”)</td>
+</tr>
+<tr>
+<td>yaxis_opts</td>
+<td>y轴配置项</td>
+<td>yaxis_opts&#x3D;opts.AxisOpts(name&#x3D;”累计确诊人数”)</td>
+</tr>
+<tr>
+<td>xaxis_opts</td>
+<td>x轴配置项</td>
+<td>xaxis_opts&#x3D;opts.AxisOpts(name&#x3D;”时间”)</td>
+</tr>
+<tr>
+<td>legend_opts</td>
+<td>图例配置项</td>
+<td>legend_opts&#x3D;opts.LegendOpts(pos_left&#x3D;’70%’)</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.set_global_opts(</span><br><span class="line">	<span class="comment"># 设置图标题和位置 </span></span><br><span class="line">	title_opts=opts.TitleOpts(title=<span class="string">&quot;2020年 印🇮🇳美🇺🇸日🇯🇵 累计确诊人数对比图&quot;</span>,pos_left=<span class="string">&quot;center&quot;</span>), </span><br><span class="line">	<span class="comment"># x轴配置项 </span></span><br><span class="line">	xaxis_opts=opts.AxisOpts(name=“时间”),    <span class="comment"># 轴标题 </span></span><br><span class="line">	<span class="comment"># y轴配置项 </span></span><br><span class="line">	yaxis_opts=opts.AxisOpts(name=“累计确诊人数”),    <span class="comment"># 轴标题 </span></span><br><span class="line">	<span class="comment"># 图例配置项 </span></span><br><span class="line">	legend_opts=opts.LegendOpts(pos_left=‘<span class="number">70</span>%‘),    <span class="comment"># 图例的位置 </span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-地图"><a href="#2-地图" class="headerlink" title="2.地图"></a>2.地图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Map</span><br><span class="line"><span class="keyword">from</span> pyecharts.options <span class="keyword">import</span> VisualMapOpts</span><br><span class="line"></span><br><span class="line"><span class="built_in">map</span>=Map()</span><br><span class="line"></span><br><span class="line">data= [</span><br><span class="line">    (<span class="string">&quot;北京&quot;</span>,<span class="number">99</span>),</span><br><span class="line">    (<span class="string">&quot;上海&quot;</span>,<span class="number">199</span>),</span><br><span class="line">    (<span class="string">&quot;湖南&quot;</span>,<span class="number">299</span>),</span><br><span class="line">    (<span class="string">&quot;台湾&quot;</span>,<span class="number">399</span>),</span><br><span class="line">    (<span class="string">&quot;广东&quot;</span>,<span class="number">499</span>)</span><br><span class="line">]</span><br><span class="line"><span class="built_in">map</span>.add(<span class="string">&quot;测试地图&quot;</span>,data,<span class="string">&quot;china&quot;</span>)</span><br><span class="line"><span class="built_in">map</span>.set_global_opts(</span><br><span class="line">    visualmap_opts=VisualMapOpts(</span><br><span class="line">        is_show=<span class="literal">True</span>,</span><br><span class="line">        is_piecewise=<span class="literal">True</span>,</span><br><span class="line">        pieces=[</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">1</span>,<span class="string">&quot;max&quot;</span>:<span class="number">9</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;1-9&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#CCFFFF&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">10</span>,<span class="string">&quot;max&quot;</span>:<span class="number">99</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;10-99&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#FF6666&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">100</span>,<span class="string">&quot;max&quot;</span>:<span class="number">500</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;100-500&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#990033&quot;</span>&#125;</span><br><span class="line">        ]</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"><span class="built_in">map</span>.render()</span><br></pre></td></tr></table></figure>
+
+<p><strong>案例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Map</span><br><span class="line"><span class="keyword">from</span> pyecharts.options <span class="keyword">import</span> VisualMapOpts,TitleOpts</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="built_in">map</span>=Map()</span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;D:/sjfx/疫情.txt&quot;</span>, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line">data=f.read()</span><br><span class="line">f.close()</span><br><span class="line">data_json=json.loads(data)</span><br><span class="line">province_data_list=data_json[<span class="string">&quot;areaTree&quot;</span>][<span class="number">0</span>][<span class="string">&quot;children&quot;</span>]</span><br><span class="line"><span class="comment"># print(province_data_list)</span></span><br><span class="line"></span><br><span class="line">data_list=[]</span><br><span class="line"><span class="keyword">for</span> province_data <span class="keyword">in</span> province_data_list:</span><br><span class="line">    province_name=province_data[<span class="string">&quot;name&quot;</span>]</span><br><span class="line">    province_confirm=province_data[<span class="string">&quot;total&quot;</span>][<span class="string">&quot;confirm&quot;</span>]</span><br><span class="line">    data_list.append((province_name,province_confirm))</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(data_list)</span></span><br><span class="line"><span class="built_in">map</span>.add(<span class="string">&quot;各省份确诊人数&quot;</span>,data_list,<span class="string">&quot;china&quot;</span>)</span><br><span class="line"><span class="built_in">map</span>.set_global_opts(</span><br><span class="line">    title_opts=TitleOpts(<span class="string">&quot;全国确诊地图&quot;</span>),</span><br><span class="line">    visualmap_opts=VisualMapOpts(</span><br><span class="line">        is_show=<span class="literal">True</span>,</span><br><span class="line">        is_piecewise=<span class="literal">True</span>,<span class="comment"># is_piecewise : 是否为分段型 </span></span><br><span class="line">        pieces=[</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">1</span>,<span class="string">&quot;max&quot;</span>:<span class="number">99</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;1-99人&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#CCFFFF&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">100</span>,<span class="string">&quot;max&quot;</span>:<span class="number">399</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;100-399人&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#FFFF99&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">400</span>,<span class="string">&quot;max&quot;</span>:<span class="number">999</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;400-599人&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#FF9966&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">1000</span>,<span class="string">&quot;max&quot;</span>:<span class="number">2999</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;1000-2999人&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#FF6666&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">3000</span>,<span class="string">&quot;max&quot;</span>:<span class="number">9999</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;3000-9999人&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#CC3333&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;min&quot;</span>:<span class="number">10000</span>,<span class="string">&quot;label&quot;</span>:<span class="string">&quot;10000+&quot;</span>,<span class="string">&quot;color&quot;</span>:<span class="string">&quot;#990033&quot;</span>&#125;,</span><br><span class="line">        ]</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"><span class="built_in">map</span>.render()</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-柱状图"><a href="#3-柱状图" class="headerlink" title="3.柱状图"></a>3.柱状图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Bar</span><br><span class="line"><span class="keyword">from</span> pyecharts.options <span class="keyword">import</span> LabelOpts</span><br><span class="line">bar=Bar()</span><br><span class="line">bar.add_xaxis([<span class="string">&quot;中国&quot;</span>,<span class="string">&quot;美国&quot;</span>,<span class="string">&quot;英国&quot;</span>])</span><br><span class="line">bar.add_yaxis(<span class="string">&quot;GDP&quot;</span>,[<span class="number">30</span>,<span class="number">20</span>,<span class="number">10</span>],label_opts=LabelOpts(position=<span class="string">&quot;right&quot;</span>))</span><br><span class="line"><span class="comment"># bar.set_global_opts(</span></span><br><span class="line"><span class="comment">#     title_opts=TitleOpts(&quot;&quot;,pos_left=&quot;center&quot;,pos_bottom=&quot;1%&quot;),</span></span><br><span class="line"><span class="comment">#     legend_opts=LegendOpts(is_show=True),</span></span><br><span class="line"><span class="comment">#     toolbox_opts=ToolboxOpts(is_show=True),</span></span><br><span class="line"><span class="comment">#     visualmap_opts=VisualMapOpts(is_show=True)</span></span><br><span class="line"><span class="comment"># )</span></span><br><span class="line">bar.reversal_axis()</span><br><span class="line">bar.render(<span class="string">&quot;展基础柱状图.html&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Bar, Timeline</span><br><span class="line"><span class="keyword">from</span> pyecharts.options <span class="keyword">import</span> LabelOpts</span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;D:/sjfx/1960-2019全球GDP数据.csv&quot;</span>, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;GB2312&quot;</span>)</span><br><span class="line">datalines=f.readlines()</span><br><span class="line">f.close()</span><br><span class="line">datalines.pop(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">data_list = &#123; &#125;</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> datalines:</span><br><span class="line">    year=<span class="built_in">int</span>(line.split(<span class="string">&quot;,&quot;</span>)[<span class="number">0</span>])</span><br><span class="line">    country = line.split(<span class="string">&quot;,&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">    gdp= <span class="built_in">float</span>(line.split(<span class="string">&quot;,&quot;</span>)[<span class="number">2</span>])</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        data_list[year].append([country,gdp])</span><br><span class="line">    <span class="keyword">except</span> KeyError:</span><br><span class="line">        data_list[year]=[]</span><br><span class="line">        data_list[year].append([country, gdp])</span><br><span class="line">timeline=Timeline()</span><br><span class="line">data_keys=data_list.keys()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> data_keys:</span><br><span class="line">    data_list[i].sort(key=<span class="keyword">lambda</span> element:element[<span class="number">1</span>],reverse=<span class="literal">True</span>)</span><br><span class="line">    year_eight=data_list[i][<span class="number">0</span>:<span class="number">8</span>]</span><br><span class="line">    xdata=[]</span><br><span class="line">    ydata=[]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> year_eight:</span><br><span class="line">        xdata.append(j[<span class="number">0</span>])</span><br><span class="line">        ydata.append(j[<span class="number">1</span>]/<span class="number">10000000</span>)</span><br><span class="line">    bar=Bar()</span><br><span class="line">    bar.add_xaxis(xdata)</span><br><span class="line">    xdata.reverse()</span><br><span class="line">    bar.add_yaxis(<span class="string">&quot;GDP(亿元)&quot;</span>,ydata,label_opts=LabelOpts(position=<span class="string">&quot;right&quot;</span>))</span><br><span class="line">    ydata.reverse()</span><br><span class="line">    bar.reversal_axis()</span><br><span class="line">    timeline.add(bar,<span class="built_in">str</span>(i))</span><br><span class="line"></span><br><span class="line">timeline.add_schema(</span><br><span class="line">    play_interval=<span class="number">1000</span>,</span><br><span class="line">    is_timeline_show=<span class="literal">True</span>,</span><br><span class="line">    is_auto_play=<span class="literal">True</span>,</span><br><span class="line">    is_loop_play=<span class="literal">True</span>,</span><br><span class="line">)</span><br><span class="line">timeline.render()</span><br></pre></td></tr></table></figure>
+
+<h1 id="六、面向对象"><a href="#六、面向对象" class="headerlink" title="六、面向对象"></a>六、面向对象</h1><p>python支持多继承</p>
+<p>复写</p>
+<p>一旦复写父类成员，那么类对象调用成员的时候，就会调用复写后的新成员</p>
+<p>如果需要使用被复写的父类的成员，需要特殊的调用方式:</p>
+<p>方式1：</p>
+<p>•调用父类成员</p>
+<p>   使用成员变量：父类名.成员变量</p>
+<p>   使用成员方法：父类名.成员方法(self)</p>
+<p>方式2：</p>
+<p>•使用super()调用父类成员</p>
+<p>   使用成员变量：super().成员变量</p>
+<p>   使用成员方法：super().成员方法()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">animal</span>:</span><br><span class="line">    <span class="comment"># 成员变量</span></span><br><span class="line">    name=<span class="literal">None</span></span><br><span class="line">    age=<span class="literal">None</span></span><br><span class="line">    hobby=<span class="literal">None</span></span><br><span class="line">    __height=<span class="literal">None</span></span><br><span class="line">    <span class="comment"># 构造方法, 有了可省略成员变量定义</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,name,age,hobby</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name=name</span><br><span class="line">        <span class="variable language_">self</span>.age = age</span><br><span class="line">        <span class="variable language_">self</span>.hobby = hobby</span><br><span class="line">    <span class="comment"># 成员方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self,name</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span>在跑&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>也在跑&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#魔法方法,toString</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span>年龄<span class="subst">&#123;self.age&#125;</span>,爱好是<span class="subst">&#123;self.hobby&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__lt__</span>(<span class="params">self, other</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.age&lt;other.age</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__le__</span>(<span class="params">self, other</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.age&lt;=other.age</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__eq__</span>(<span class="params">self, other</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.age==other.age</span><br><span class="line">    <span class="comment"># 私有方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__walk</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;小梁贺在走&quot;</span>)</span><br><span class="line"></span><br><span class="line">animals=animal(<span class="string">&quot;小梁贺&quot;</span>,<span class="number">19</span>,<span class="string">&quot;吃饭&quot;</span>)</span><br><span class="line">animals.run(<span class="string">&quot;梁贺&quot;</span>)</span><br><span class="line">animals.age=<span class="number">20</span></span><br><span class="line"><span class="comment"># animals.walk</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(animals)</span><br><span class="line">animalss=animal(<span class="string">&quot;中梁贺&quot;</span>,<span class="number">21</span>,<span class="string">&quot;吃饭&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(animals.__lt__(animalss))</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>(<span class="title class_ inherited__">animal</span>):</span><br><span class="line">    <span class="comment"># name=None</span></span><br><span class="line">    <span class="comment"># age=None</span></span><br><span class="line">    <span class="comment"># hobby=None</span></span><br><span class="line">    legNumber=<span class="literal">None</span></span><br><span class="line">    <span class="comment"># def __init__(self,name,age,hobby):</span></span><br><span class="line">    <span class="comment">#     self.name=name</span></span><br><span class="line">    <span class="comment">#     self.age = age</span></span><br><span class="line">    <span class="comment">#     self.hobby = hobby</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 复写</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span>在跑&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Cat</span>(<span class="title class_ inherited__">animal</span>):</span><br><span class="line">    legNumber=<span class="literal">None</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span>在跑&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;================&quot;</span>)</span><br><span class="line">smallDog=Dog(<span class="string">&quot;梁小贺&quot;</span>,<span class="number">22</span>,<span class="string">&quot;吃饭&quot;</span>)</span><br><span class="line">smallDog.run()</span><br><span class="line"></span><br><span class="line">smallCat=Cat(<span class="string">&quot;梁小贺&quot;</span>,<span class="number">22</span>,<span class="string">&quot;吃饭&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 类型注解</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var_1: <span class="built_in">int</span>=<span class="number">10</span></span><br><span class="line">var_2: <span class="built_in">float</span>=<span class="number">10.0</span></span><br><span class="line">var_3:  <span class="built_in">int</span>=<span class="number">10.0</span></span><br><span class="line"><span class="built_in">print</span>(var_1)</span><br><span class="line"><span class="comment"># 类型注解错了也没关系</span></span><br><span class="line"><span class="built_in">print</span>(var_3)</span><br><span class="line"></span><br><span class="line">var_4:<span class="built_in">list</span>[<span class="built_in">int</span>,<span class="built_in">str</span>]=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="string">&quot;NAME&quot;</span>]</span><br><span class="line">var_4.append(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Stu</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 标识符，确保语法正确</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var_5=random.randint(<span class="number">1</span>,<span class="number">10</span>)<span class="comment">#type:int</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># var_6=json.loads()#dict[str,int]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fly</span>(<span class="params">name: <span class="built_in">str</span>,age: <span class="built_in">int</span>,data: <span class="built_in">list</span>[<span class="built_in">int</span>]</span>)-&gt;<span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;梁贺is fly&quot;</span></span><br><span class="line"></span><br><span class="line">act=fly(<span class="string">&quot;lianghe&quot;</span>,<span class="number">19</span>,[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span> <span class="type">Union</span></span><br><span class="line"><span class="comment"># my_list: list[Union[str,int]]=[1,2,&quot;itheima&quot;]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">make_noise</span>(<span class="params">animal: animal</span>):</span><br><span class="line">    animal.run()</span><br><span class="line"></span><br><span class="line">make_noise(smallCat)</span><br><span class="line">make_noise(smallDog)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 接口 抽象类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AC</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cool</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;制冷&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">M_AC</span>(<span class="title class_ inherited__">AC</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cool</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;制冷&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://matriy330.github.io">Matriy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://matriy330.github.io/a378bd8e/">http://matriy330.github.io/a378bd8e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://matriy330.github.io" target="_blank">Matriy's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3/">开发相关</a></div><div class="post-share"><div class="social-share" data-image="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250228121423618.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/zsm.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zsm.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/zfb.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zfb.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/105c1343/" title="JavaSe"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/java.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-27</div><div class="info-item-2">JavaSe</div></div><div class="info-2"><div class="info-item-1">JavaSe一、Java简介1.C&#x2F;S,B&#x2F;S...</div></div></div></a><a class="pagination-related" href="/5321d6b2/" title="Cookie与Session"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250228123117476.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-07</div><div class="info-item-2">Cookie与Session</div></div><div class="info-2"><div class="info-item-1">Cookie与Session一、Cookie Cookie 是服务器通知客户端保存键值对的一种技术。 客户端有了 Cookie 后，每次请求都发送给服务器。 每个 Cookie 的大小不能超过 4kb  1.1 Cookie的创建 123456789101112protected void createCookie(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException &#123;    //1 创建 Cookie 对象    Cookie cookie = new Cookie(&quot;key4&quot;, &quot;value4&quot;);    //2 通知客户端保存 Cookie    resp.addCookie(cookie);    //1 创建 Cookie 对象    Cookie cookie1 = new Cookie(&quot;key5&quot;, &quot;value5&quot;);    //2 通知客户端保存...</div></div></div></a><a class="pagination-related" href="/2305179f/" title="EL 表达式 与 JSTL 标签库"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212161227897.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-05</div><div class="info-item-2">EL 表达式 与 JSTL 标签库</div></div><div class="info-2"><div class="info-item-1">EL 表达式 与 JSTL 标签库一、EL表达式1.1 EL 表达式简介EL 表达式的全称是：Expression Language。是表达式语言。 EL 表达式的作用：EL 表达式主要是代替 jsp 页面中的表达式脚本在 jsp 页面中进行数据的输出。   因为 EL 表达式在输出数据的时候，要比 jsp 的表达式脚本要简洁很多。  EL 表达式的格式是：${表达式} EL 表达式在输出 null 值的时候，输出的是空串。jsp 表达式脚本输出 null 值的时候，输出的是 null 字符串。 对比如下: 12345678&lt;body&gt;    &lt;%   		 request.setAttribute(&quot;key&quot;,&quot;值&quot;);    %&gt;表达式脚本输出 key 的值是：    &lt;%=request.getAttribute(&quot;key1&quot;)==null?&quot;&quot;:request.getAttribute(&quot;key1&quot;)%&gt;&lt;br/&gt;   ...</div></div></div></a><a class="pagination-related" href="/51b209a5/" title="Filter 过滤器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212221643043.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-03</div><div class="info-item-2">Filter 过滤器</div></div><div class="info-2"><div class="info-item-1">Filter 过滤器 Filter 过滤器它是 JavaWeb 的三大组件之一。三大组件分别是：Servlet 程序、Listener 监听器、Filter 过滤器 Filter 过滤器它是 JavaEE 的规范。也就是接口 Filter 过滤器它的作用是：拦截请求，过滤响应。  拦截请求常见的应用场景有： 1、权限检查 2、日记操作 3、事务管理……等等 1.Filter入门案例要求：在你的 web 工程下，有一个 admin 目录。这个 admin 目录下的所有资源（html 页面、jpg 图片、jsp 文件、等等）都必须是用户登录之后才允许访问。 思考：根据之前我们学过内容。我们知道，用户登录之后都会把用户登录的信息保存到 Session 域中。所以要检查用户是否登录，可以判断 Session 中否包含有用户登录的信息即可！！！ 12345678&lt;%        Object user = session.getAttribute(&quot;user&quot;);        // 如果等于 null，说明还没有登录        if (user ==...</div></div></div></a><a class="pagination-related" href="/a1ede006/" title="HTTP"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212062044940.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-01</div><div class="info-item-2">HTTP</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/8847f08a/" title="JSON&amp;&amp;AJAX"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/blogimgs/202212221800343.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-28</div><div class="info-item-2">JSON&amp;&amp;AJAX</div></div><div class="info-2"><div class="info-item-1">JSON&amp;&amp;AJAX一、JSON1.1 json简介JSON (JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON采用完全独立于语言的文本格式，而且很多语言都提供了对 json 的支持（包括 C, C++, C#, Java, JavaScript, Perl, Python等）。 这样就使得 JSON 成为理想的数据交换格式。 json 是一种轻量级的数据交换格式。  轻量级指的是跟 xml 做比较。数据交换指的是客户端和服务器之间业务数据的传递格式。  1.2 JSON 在 JavaScript 中的使用json 是由键值对组成，并且由花括号（大括号）包围。每个键由引号引起来，键和值之间使用冒号进行分隔，多组键值对之间进行逗号进行分隔。 1234567891011121314151617var jsonObj = &#123;    &quot;key1&quot;:12,    &quot;key2&quot;:&quot;abc&quot;,   ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Matriy</div><div class="author-info-description">不积硅步，无以至千里</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Matriy330"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">我是一个网安小白，一名安卓逆向工程师，Web安全开发工程师，二进制学习者</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python"><span class="toc-text">Python</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">一、数据类型、运算符、字符串</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%88%A4%E6%96%AD%E3%80%81%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E3%80%81%E5%87%BD%E6%95%B0"><span class="toc-text">二、判断、循环语句、函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">三、数据容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-list"><span class="toc-text">1.list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%85%83%E7%BB%84"><span class="toc-text">2.元组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">3.字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%BA%8F%E5%88%97"><span class="toc-text">4.序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-set"><span class="toc-text">5.set</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%AD%97%E5%85%B8"><span class="toc-text">6.字典</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E3%80%81%E5%BC%82%E5%B8%B8%E3%80%81%E6%A8%A1%E5%9D%97"><span class="toc-text">四、文件操作、异常、模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81python%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-text">五、python数据处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8A%98%E7%BA%BF%E5%9B%BE"><span class="toc-text">1.折线图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9C%B0%E5%9B%BE"><span class="toc-text">2.地图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9F%B1%E7%8A%B6%E5%9B%BE"><span class="toc-text">3.柱状图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-text">六、面向对象</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/850e6e3/" title="Magisk学习简介"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Magisk学习简介"/></a><div class="content"><a class="title" href="/850e6e3/" title="Magisk学习简介">Magisk学习简介</a><time datetime="2025-05-12T16:00:00.000Z" title="发表于 2025-05-13 00:00:00">2025-05-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录Frida spawn模式hook失败的问题(禁用usap)"/></a><div class="content"><a class="title" href="/6a5921fa/" title="记录Frida spawn模式hook失败的问题(禁用usap)">记录Frida spawn模式hook失败的问题(禁用usap)</a><time datetime="2025-05-11T16:00:00.000Z" title="发表于 2025-05-12 00:00:00">2025-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录一次安装Frida14.2.18的坑和解决方法"/></a><div class="content"><a class="title" href="/efdb165f/" title="记录一次安装Frida14.2.18的坑和解决方法">记录一次安装Frida14.2.18的坑和解决方法</a><time datetime="2025-05-10T16:00:00.000Z" title="发表于 2025-05-11 00:00:00">2025-05-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/1610ef8a/" title="Android逆向18-Unicorn"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向18-Unicorn"/></a><div class="content"><a class="title" href="/1610ef8a/" title="Android逆向18-Unicorn">Android逆向18-Unicorn</a><time datetime="2025-05-09T16:00:00.000Z" title="发表于 2025-05-10 00:00:00">2025-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/c2ef4741/" title="Android逆向17-抓包进阶"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android逆向17-抓包进阶"/></a><div class="content"><a class="title" href="/c2ef4741/" title="Android逆向17-抓包进阶">Android逆向17-抓包进阶</a><time datetime="2025-05-08T16:00:00.000Z" title="发表于 2025-05-09 00:00:00">2025-05-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Matriy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px"target="_blank" href="https://hexo.io/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px"target="_blank" href="https://butterfly.js.org/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px"target="_blank" href="https://www.jsdelivr.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用 Jsdelivr 为静态资源提供CDN加速" alt="Jsdelivr"></a><a style="margin-inline:5px"target="_blank" href="https://github.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px"target="_blank"href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p> <p>Hi, welcome to Matriy's <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="/js/anzhiyu.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,29 @@
+/* 覆盖页脚背景颜色 */
+#footer {
+    background: transparent !important; /* 移除页脚背景颜色 */
+    box-shadow: none; /* 可选：移除页脚阴影 */
+}
+
+
+/* Fiveth: 修改加载动画的图片源，以及背景颜色 */
+.loading-bg{
+  background: #374151 !important;
+}
+.loading-img {
+  background: url(/img/tx.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+#post-info {
+  vertical-align: middle;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+#page-header.post-bg {
+  height: 400px; 
+}
+
+.full_page {
+  height: 100vh !important;
+}
