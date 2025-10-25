@@ -144,7 +144,8 @@
   isHighlightShrink: false,
   isToc: false,
   pageType: 'page'
-}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"></head><style type="text/css">#posts-chart,#posts-calendar,#categories-chart,#categories-radar,#tags-chart{width: 100%;height: 300px;margin: 0.5rem auto;padding: 0.5rem;display: flex;}</style><script type="text/javascript" data-pjax="" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Matriy's blog" type="application/atom+xml">
+</head><style type="text/css">#posts-chart,#posts-calendar,#categories-chart,#categories-radar,#tags-chart{width: 100%;height: 300px;margin: 0.5rem auto;padding: 0.5rem;display: flex;}</style><script type="text/javascript" data-pjax="" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
   endLoading: () => {
     document.body.style.overflow = 'auto';
     document.getElementById('loading-box').classList.add("loaded")
@@ -193,7 +194,7 @@ btf.addGlobalFn('pjaxSend', () => {
                 type: 'pie',
                 radius: '75%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"CTF wp","value":35},{"name":"Android","value":21},{"name":"others","value":45},{"name":"Re","value":69},{"name":"web","value":38},{"name":"pwn","value":19}],
+                data: [{"name":"CTF wp","value":35},{"name":"others","value":45},{"name":"Android","value":21},{"name":"Re","value":69},{"name":"web","value":38},{"name":"pwn","value":19}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -227,7 +228,7 @@ btf.addGlobalFn('pjaxSend', () => {
                     color: color
                 }
             },
-            indicator: [{"name":"CTF wp","max":88},{"name":"Android","max":88},{"name":"others","max":88},{"name":"Re","max":88},{"name":"web","max":88},{"name":"pwn","max":88}],
+            indicator: [{"name":"CTF wp","max":88},{"name":"others","max":88},{"name":"Android","max":88},{"name":"Re","max":88},{"name":"web","max":88},{"name":"pwn","max":88}],
             nameGap: 5,
             center: ['50%','55%'],
             radius: '75%',
@@ -239,7 +240,7 @@ btf.addGlobalFn('pjaxSend', () => {
             itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data : [
                 {
-                    value : [35,21,45,69,38,19],
+                    value : [35,45,21,69,38,19],
                     // name : 'Categories:'
                     name: '✒️文章篇数'
                 }
