@@ -1,0 +1,528 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>NSSCTF 2025 re wp | Matriy's blog</title><meta name="author" content="Matriy"><meta name="copyright" content="Matriy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="NSSCTF 2025 re wpez_teaez_tea不ez 没改附件版本： 动调有几个地方需要绕过 对isDebuggerPrensent进行交叉引用，对isDebuggerPrensent的绕过方法基本是改zf标志位，此外还有一个地方绕过需要把0x70改成0x71修改寄存器  此题别用patch方法，因为上面那个0xcccc貌似是crc校验      同时看到这有个exit也交叉引用下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSSCTF 2025 re wp">
+<meta property="og:url" content="http://matriy330.github.io/f925a96f/index.html">
+<meta property="og:site_name" content="Matriy&#39;s blog">
+<meta property="og:description" content="NSSCTF 2025 re wpez_teaez_tea不ez 没改附件版本： 动调有几个地方需要绕过 对isDebuggerPrensent进行交叉引用，对isDebuggerPrensent的绕过方法基本是改zf标志位，此外还有一个地方绕过需要把0x70改成0x71修改寄存器  此题别用patch方法，因为上面那个0xcccc貌似是crc校验      同时看到这有个exit也交叉引用下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://matriy330.github.io/img/tx.jpg">
+<meta property="article:published_time" content="2025-11-05T13:45:34.000Z">
+<meta property="article:modified_time" content="2025-11-05T13:46:03.753Z">
+<meta property="article:author" content="Matriy">
+<meta property="article:tag" content="wp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://matriy330.github.io/img/tx.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "NSSCTF 2025 re wp",
+  "url": "http://matriy330.github.io/f925a96f/",
+  "image": "http://matriy330.github.io/img/tx.jpg",
+  "datePublished": "2025-11-05T13:45:34.000Z",
+  "dateModified": "2025-11-05T13:46:03.753Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Matriy",
+      "url": "http://matriy330.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="canonical" href="http://matriy330.github.io/f925a96f/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="G-ShTqjjywiLkL87Rg0PaiSsDVYymWStdQUO1wrM_VY"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":30,"languages":{"author":"作者: Matriy","link":"链接: ","source":"来源: Matriy's blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}
+</script><link rel="stylesheet" href="/css/custom.css"><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'NSSCTF 2025 re wp',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Matriy's blog" type="application/atom+xml">
+</head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="an_music_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">230</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Matriy's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">NSSCTF 2025 re wp</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">NSSCTF 2025 re wp</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-05T13:45:34.000Z" title="发表于 2025-11-05 21:45:34">2025-11-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-05T13:46:03.753Z" title="更新于 2025-11-05 21:46:03">2025-11-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF-wp/">CTF wp</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/f925a96f/#post-comment"><span id="twikoo-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="NSSCTF-2025-re-wp"><a href="#NSSCTF-2025-re-wp" class="headerlink" title="NSSCTF 2025 re wp"></a>NSSCTF 2025 re wp</h1><h2 id="ez-tea"><a href="#ez-tea" class="headerlink" title="ez_tea"></a>ez_tea</h2><p>ez_tea不ez</p>
+<p>没改附件版本：</p>
+<p>动调有几个地方需要绕过</p>
+<p>对isDebuggerPrensent进行交叉引用，对isDebuggerPrensent的绕过方法基本是改zf标志位，此外还有一个地方绕过需要把0x70改成0x71修改寄存器</p>
+<blockquote>
+<p>此题别用patch方法，因为上面那个0xcccc貌似是crc校验</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052015148.png" alt="image-20251103223128204"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052017526.png" alt="image-20251105201744462"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052017146.png" alt="image-20251105201759098"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052018924.png" alt="image-20251105201819875"></p>
+<p>同时看到这有个exit也交叉引用下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052020159.png" alt="image-20251105202022110"></p>
+<p>这里也有个exit</p>
+<p>绕过后经过动调发现，这个方法会对key进行修改，我们可以断再fmt这个方法上就可以发现dst的地址是key的地址</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052015126.png" alt="image-20251103223427732"></p>
+<blockquote>
+<p>这块如何修改的key? 是tea_encrypt_wrapper这个方法的机器码值+78然后patch到了key</p>
+</blockquote>
+<p><strong>另一种发现hook的方法</strong>，当你写了解密脚本发现不对，可以到处交叉引用看看</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052015112.png" alt="image-20251103223633887"></p>
+<p>可以返现这个方法被神奇的其它地方交叉引用了</p>
+<p>最后写解密脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">delta = <span class="number">0x0D000721</span></span><br><span class="line">rounds = <span class="number">32</span></span><br><span class="line">key_ascii = <span class="string">&quot;1384774E4E13CFC3&quot;</span></span><br><span class="line">key_bytes = key_ascii.encode(<span class="string">&quot;ascii&quot;</span>)</span><br><span class="line">key_words = [<span class="built_in">int</span>.from_bytes(key_bytes[i:i + <span class="number">4</span>], <span class="string">&quot;little&quot;</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">16</span>, <span class="number">4</span>)]</span><br><span class="line"></span><br><span class="line">cipher = <span class="built_in">bytes</span>([</span><br><span class="line">    <span class="number">0x7d</span>, <span class="number">0x91</span>, <span class="number">0xeb</span>, <span class="number">0x59</span>, <span class="number">0x8d</span>, <span class="number">0xd1</span>, <span class="number">0xf9</span>, <span class="number">0x47</span>,</span><br><span class="line">    <span class="number">0x86</span>, <span class="number">0x76</span>, <span class="number">0xef</span>, <span class="number">0xcd</span>, <span class="number">0xa1</span>, <span class="number">0x6b</span>, <span class="number">0x07</span>, <span class="number">0x6f</span>,</span><br><span class="line">    <span class="number">0xb8</span>, <span class="number">0x3e</span>, <span class="number">0x6a</span>, <span class="number">0x04</span>, <span class="number">0x5f</span>, <span class="number">0x63</span>, <span class="number">0xbb</span>, <span class="number">0x21</span>,</span><br><span class="line">    <span class="number">0x69</span>, <span class="number">0xc3</span>, <span class="number">0x34</span>, <span class="number">0xa3</span>, <span class="number">0x07</span>, <span class="number">0x64</span>, <span class="number">0x33</span>, <span class="number">0xde</span>,</span><br><span class="line">    <span class="number">0xf6</span>, <span class="number">0x70</span>, <span class="number">0xec</span>, <span class="number">0x4d</span>, <span class="number">0x5b</span>, <span class="number">0x7e</span>, <span class="number">0x2b</span>, <span class="number">0x33</span>,</span><br><span class="line">    <span class="number">0xcc</span>, <span class="number">0xa7</span>, <span class="number">0xd3</span>, <span class="number">0x4a</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>,</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tea_decrypt_block</span>(<span class="params">v0, v1</span>):</span><br><span class="line">    total = (delta * rounds) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(rounds):</span><br><span class="line">        idx2 = (((total &gt;&gt; <span class="number">11</span>) &amp; <span class="number">0xFF</span>) ^ <span class="number">1</span>) &amp; <span class="number">3</span></span><br><span class="line">        mix2 = (key_words[idx2] + ((v0 &lt;&lt; <span class="number">4</span>) &amp; <span class="number">0xFFFFFFFF</span>)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">        v1 = (v1 - (((v0 &gt;&gt; <span class="number">5</span>) ^ mix2) &amp; <span class="number">0xFFFFFFFF</span>)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">        idx1 = (total &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span></span><br><span class="line">        mix1 = (key_words[idx1] + ((v1 &lt;&lt; <span class="number">4</span>) &amp; <span class="number">0xFFFFFFFF</span>)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">        v0 = (v0 - (((v1 &gt;&gt; <span class="number">5</span>) ^ mix1) &amp; <span class="number">0xFFFFFFFF</span>)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">        total = (total - delta) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">    <span class="keyword">return</span> v0, v1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mutated = <span class="built_in">bytearray</span>()</span><br><span class="line"><span class="keyword">for</span> off <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(cipher), <span class="number">8</span>):</span><br><span class="line">    w0 = <span class="built_in">int</span>.from_bytes(cipher[off:off + <span class="number">4</span>], <span class="string">&quot;little&quot;</span>)</span><br><span class="line">    w1 = <span class="built_in">int</span>.from_bytes(cipher[off + <span class="number">4</span>:off + <span class="number">8</span>], <span class="string">&quot;little&quot;</span>)</span><br><span class="line">    p0, p1 = tea_decrypt_block(w0, w1)</span><br><span class="line">    mutated.extend(p0.to_bytes(<span class="number">4</span>, <span class="string">&quot;little&quot;</span>))</span><br><span class="line">    mutated.extend(p1.to_bytes(<span class="number">4</span>, <span class="string">&quot;little&quot;</span>))</span><br><span class="line"></span><br><span class="line">plain = <span class="built_in">bytearray</span>(<span class="built_in">len</span>(mutated))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(mutated), <span class="number">2</span>):</span><br><span class="line">    b0 = mutated[i]</span><br><span class="line">    b1 = mutated[i + <span class="number">1</span>]</span><br><span class="line">    plain[i] = ((b0 ^ <span class="number">0x72</span>) - <span class="number">1</span>) &amp; <span class="number">0xFF</span></span><br><span class="line">    plain[i + <span class="number">1</span>] = ((b1 ^ <span class="number">0x02</span>) + <span class="number">2</span>) &amp; <span class="number">0xFF</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;flag bytes (hex):&quot;</span>, plain.<span class="built_in">hex</span>())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;flag (latin-1):&quot;</span>, plain.decode(<span class="string">&quot;latin-1&quot;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>flag (latin-1): NSSCTF{13ce5888-01b4-4287-8593-eb975ab6cf{±­F\¡Æ</p>
+<p>有点怪</p>
+<p>看了下密文可能是4个0000000字节搞的鬼</p>
+<p>可以爆破，一开始有一个爆破思路因为是诸字节爆破，我们可以使用测信道攻击，因为诸位比较，提前一位退出和新比较一位退出的时间上有区别，我们计算这个时间长度来判别即可</p>
+<p>后来验证不行</p>
+<p>第二个方法是爆破，因为一开始没看出来只觉得有点眼熟，后来看出来了是个uuid，对比下就知道还少两个字节，因此其实只有两个字节需要爆破，再加上最后的}就行了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052015140.png" alt="image-20251103224311574"></p>
+<p>爆破exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line">BINARY = <span class="string">&quot;./ez_tea.exe&quot;</span>  <span class="comment"># 目标程序路径</span></span><br><span class="line">PREFIX = <span class="string">&quot;NSSCTF&#123;13ce5888-01b4-4287-8593-eb975ab6cf&quot;</span></span><br><span class="line">CHARSET = <span class="string">&quot;abcdefghijklmnopqrstuvwxyz0123456789&quot;</span></span><br><span class="line">LAST_CHAR = <span class="string">&quot;&#125;&quot;</span>  <span class="comment"># 最后一位固定</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_candidate</span>(<span class="params">candidate: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">    proc = subprocess.run(</span><br><span class="line">        [BINARY],</span><br><span class="line">        <span class="built_in">input</span>=candidate.encode(<span class="string">&quot;latin-1&quot;</span>, errors=<span class="string">&quot;ignore&quot;</span>),</span><br><span class="line">        stdout=subprocess.PIPE,</span><br><span class="line">        stderr=subprocess.PIPE,</span><br><span class="line">        check=<span class="literal">False</span>,</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> <span class="string">b&quot;Good&quot;</span> <span class="keyword">in</span> (proc.stdout + proc.stderr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">for</span> tail <span class="keyword">in</span> itertools.product(CHARSET, repeat=<span class="number">2</span>):</span><br><span class="line">        candidate = PREFIX + <span class="string">&quot;&quot;</span>.join(tail) + LAST_CHAR</span><br><span class="line">        <span class="keyword">if</span> run_candidate(candidate):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[+] Hit: <span class="subst">&#123;candidate&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[-] <span class="subst">&#123;candidate&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;枚举完毕仍未命中，请检查前缀或字符集。&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>[+] Hit: NSSCTF{13ce5888-01b4-4287-8593-eb975ab6cf6a}</p>
+<h1 id="runner"><a href="#runner" class="headerlink" title="runner"></a>runner</h1><h2 id="解法1：跑图"><a href="#解法1：跑图" class="headerlink" title="解法1：跑图"></a>解法1：跑图</h2><p>不如直接跑图快</p>
+<p><a target="_blank" rel="noopener" href="https://merri.cx/qrazybox/">QRazyBox - QR Code Analysis and Recovery Toolkit</a></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052123159.png" alt="image-20251105212313982"></p>
+<h2 id="解法2：分析dat"><a href="#解法2：分析dat" class="headerlink" title="解法2：分析dat"></a>解法2：分析dat</h2><p>非预期</p>
+<p>直接看globalxxx.dat</p>
+<p>因为assertstudio解出来没有二维码资源说明是动态生成的，一般在这个文件中，直接滑能找到大面积的01，写个脚本可以提取恢复</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052046761.png" alt="image-20251105204657663"></p>
+<h2 id="解法3：静态分析"><a href="#解法3：静态分析" class="headerlink" title="解法3：静态分析"></a>解法3：静态分析</h2><p>太详细的步骤没有保存</p>
+<blockquote>
+<p>关于il2cppDump的使用可以看<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/15811">unity引擎基于Windows下的il2cpp逆向初探——以CTF赛题为例-先知社区</a></p>
+</blockquote>
+<p>一般pc逆向的il2cpp的unity，主逻辑在GameAssembly.dll里，但是发现有upx，直接脱壳失败</p>
+<p>看了下发现了，居然魔改了</p>
+<p>用010editor打开然后把里面的NSS标志恢复成UPX就行了</p>
+<p>然后直接脱壳，拖入ida即可静态分析</p>
+<p>静态分析大部分没有函数名</p>
+<p>因为il2cpp的unity函数名等资源都在globalxxx.dat中</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052052232.png" alt="image-20251105205203134"></p>
+<p>我们直接用il2cppDump这个工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Perfare/Il2CppDumper">Perfare&#x2F;Il2CppDumper: Unity il2cpp reverse engineer</a></p>
+<p>执行Il2CppDumper.exe GameAssembly.dll 这类命令</p>
+<p>即可dump出一个dump.cs和一堆dll</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052055886.png" alt="image-20251105205509816"></p>
+<p>比较重要的的就这个Assembly-CSharp.dll</p>
+<p>直接dnspy64打开</p>
+<p>我们直接ctrl+alt+f搜索qrcode类似这种</p>
+<p>可以搜到</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052056139.png" alt="image-20251105205655991"></p>
+<p>然后这几个地址比较重要可能是构建二维码的地方</p>
+<p>然后把dump出来的dump.cs和script.json导入(用于恢复函数名和符号，这个过程可能比较久，耐心等待)</p>
+<blockquote>
+<p>具体怎么导入不介绍，可以看il2cppdump的使用，就是上面的那个先知的链接</p>
+</blockquote>
+<p>下面的截图是我的分析过程，但是做题的时候没保存，所以我后面重新截了，但是做题时其实是有函数名的</p>
+<p>上面几个地址此时有用了</p>
+<p>我们可以依次跳转到这几个函数分析</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052104023.png" alt="image-20251105210444925"></p>
+<p>具体我后面分析出来是这样的：</p>
+<p>生成二维码的核心在 QRCodeBuilder（GameAssembly.dll 中的 sub_1808118B0 和 sub_180810F90）。构造函数里把一个 29×29 的常量矩阵塞进 qrMatrix，ConstructQRCode 再按矩阵值实例化黑&#x2F;白模块。借定位常量矩阵</p>
+<p>QRCodeBuilder::.ctor 调用 sub_181652960，后者沿 IL2CPP 元数据把字段初值拷到 qrMatrix。</p>
+<p>使用采样脚本扫描 global-metadata.dat 的默认值段，发现长为 29×29、元素仅 0&#x2F;1 的块起始索引为 19740（整数视图），即矩阵。</p>
+<p>QRCodeBuilder.qrMatrix 是 int[,]，初值并不在 Assembly-CSharp.dll 里，而是存放在 IL2CPP 的全局元数据段（相当于 C# 的 static readonly 初始化块）中。构造函数 GameAssembly.dll:0x1808118B0 调用 sub_181652960，该函数沿元数据读取字段默认值，把一块连续内存写进 qrMatrix。</p>
+<p><strong>矩阵的出处与定位</strong></p>
+<p>QRCodeBuilder.qrMatrix 是 int[,]，初值并不在 Assembly-CSharp.dll 里，而是存放在 IL2CPP 的全局元数据段（相当于 C# 的 static readonly 初始化块）中。</p>
+<p>具体来说：</p>
+<ol>
+<li>script.json让我们知道 QRCodeBuilder 的字段顺序与 qrMatrix 的类型，从而确定它使用了字段默认值（FieldRVA）。</li>
+<li>global-metadata.dat 头部第 18、19 项是 “Field &amp; Parameter Default Value Data”的偏移与长度。扫描这一段时我查找 841 (&#x3D;29×29) 个 32 位整数全部为 0&#x2F;1 的区块；正好在偏移 data_offset + 19740*4 处找到独一无二的块，这就是 qrMatrix 的初始内容。之所以能定位到索引 19740，是因为 Il2CppDumper 的 FieldRVA</li>
+</ol>
+<p>sub_181652960 为什么判定为把字段默认值抄进 qrMatrix?</p>
+<p>在 GameAssembly.dll:0x1808118B0（QRCodeBuilder::.ctor）里，r9 被赋为 qrMatrix，随后调用 sub_181652960(r9, qword_182F726A8, …)。</p>
+<p>反编译 sub_181652960 可见，它先调用 sub_181633EE0 &#x2F; sub_18180BD40 检查数组状态，之后求得一个临时数组并调用 sub_181652A40。</p>
+<p>sub_181652A40 直接把两个指针传给 sub_1805CA600，而 sub_1805CA600 里先取 arg1 的数组句柄，再调用 sub_180450230(arg2)——这是 Unity&#x2F;IL2CPP 的“读取 FieldRVA 数据”例程。它往下会调用 sub_180558480 → sub_1805584E0 -&gt; (中间可能还有两个函数) → sub_180769120，正是枚举 global-metadata.dat 元数据并按字段索引取默认值的标准流程。因此可以确认 sub_181652960 就是在把元数据里预存的 int[,] 常量搬到 qrMatrix。</p>
+<p><strong>data_offset 的来源与数值</strong></p>
+<p>global-metadata.dat 头部是 32 个 uint32。第 18、19 个元素分别是 FieldAndParameterDefaultValueDataOffset 和 FieldAndParameterDefaultValueDataCount。</p>
+<p>用 Python 解出的值：</p>
+<p>field_and_param_default_data_offset &#x3D; struct.unpack_from(“&lt;I”, meta, 18<em>4)[0]  # &#x3D; 1782496</em></p>
+<p>field_and_param_default_data_size   &#x3D; struct.unpack_from(“&lt;I”, meta, 19*4)[0]  # &#x3D; 89632</p>
+<p>这就是我代码里 data_offset 的来源，它不是扫描出来的，而是直接从元数据头读取的标准字段。</p>
+<p>为什么定位到 data_offset + 19740*4</p>
+<ul>
+<li>19740 是 qrMatrix 的 FieldRVA 在默认值数组中的索引，Il2CppDumper 会在 script.json 的 ScriptMetadataMethod &#x2F; ScriptMethod 等条目里把同一块地址列出来。</li>
+<li>我第一遍是扫整段默认值数据，把所有“连续 841 个 uint32 只含 0&#x2F;1”的片段列出来，确实只有索引 19740 附近满足条件（对应 29×29 阵列）。之后把这个索引写死在脚本里，方便重复利用。</li>
+<li>结合 sub_181652960 的调用链，就能确认这块数据正好就是构造函数读取的二维码矩阵。</li>
+</ul>
+<p>我怎么知道怎么知道第 18、19 个元素分别是 FieldAndParameterDefaultValueDataOffset 和FieldAndParameterDefaultValueDataCount指向二维码的地方</p>
+<p>那两个数不是随便猜的，而是来自 Unity&#x2F;IL2CPP 的公开结构：global-metadata.dat 文件开头固定是 32 个 uint32，顺序在 Unity 官方的 Il2CppGlobalMetadataHeader（il2cpp&#x2F;libil2cpp&#x2F;vm&#x2F;GlobalMetadata.h）里写得一清二楚。第 18、19 个成员就叫 fieldAndParameterDefaultValueDataOffset&#x2F;Count，说的是“字段默认值与参数默认值的数据区”在文件里的起始位置和长度。</p>
+<p>二维码为什么会在这里？因为 QRCodeBuilder.qrMatrix 是个 int[,] 字段，Il2CPP 在生成原生代码时把它当成“带初值的数组字段”，这类字段的初始内容会被落到 FieldAndParameterDefaultValueData 段。构造函数 sub_181652960 → sub_1805CA600 → sub_180450230 → sub_180558480 … 的链条正是 Il2CPP 的“从 metadata 里读FieldRVA，拷贝默认值到托管对象”逻辑，说明 qrMatrix 的实际数据就存放在该段。</p>
+<p>  所以流程是：</p>
+<ol>
+<li>按官方结构读取 header，得到 fieldAndParameterDefaultValueDataOffset（&#x3D;1782496）和 fieldAndParameterDefaultValueDataSize。</li>
+<li>在这段数据里寻找 29×29（&#x3D;841）个 uint32 全部为 0&#x2F;1 的块；Il2CppDumper 给出的 FieldRVA 索引 (script.json) 也会指向同一个位置，于是能确认这就是 qrMatrix 的初始值。</li>
+<li>再用从 metadata 里取出的偏移（例如 offset &#x3D; data_offset + 19740*4）去读取整块数据，生成二维码矩阵。</li>
+</ol>
+<p>换句话说：第 18、19 个字段并不是我推出来的，而是 Unity 在元数据格式里就定义好的；二维码位于那段，是因为 QRCodeBuilder.qrMatrix 属于“带默认值的字段”，Il2CPP 的写法就是把这些默认值统一放在这个段里</p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 1) 读出 29x29 的二维码矩阵（整型 0/1）</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">META_PATH = Path(<span class="string">&quot;global-metadata.dat&quot;</span>)</span><br><span class="line"><span class="keyword">assert</span> META_PATH.exists(), <span class="string">&quot;global-metadata.dat not found in current dir&quot;</span></span><br><span class="line"></span><br><span class="line">meta = META_PATH.read_bytes()</span><br><span class="line"></span><br><span class="line"><span class="comment"># metadata header: see Il2Cpp global-metadata layout</span></span><br><span class="line">field_and_param_default_data_offset = struct.unpack_from(<span class="string">&quot;&lt;I&quot;</span>, meta, <span class="number">18</span> * <span class="number">4</span>)[<span class="number">0</span>]</span><br><span class="line">field_and_param_default_data_size = struct.unpack_from(<span class="string">&quot;&lt;I&quot;</span>, meta, <span class="number">19</span> * <span class="number">4</span>)[<span class="number">0</span>]</span><br><span class="line">field_and_param_default_data = meta[</span><br><span class="line">                               field_and_param_default_data_offset:</span><br><span class="line">                               field_and_param_default_data_offset + field_and_param_default_data_size</span><br><span class="line">                               ]</span><br><span class="line"></span><br><span class="line">SIZE = <span class="number">29</span></span><br><span class="line">BLOCK_INTS = SIZE * SIZE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个索引 19740 就是 FieldRVA 的条目指到的地方；也可以通过脚本扫描所有 0/1 区块得到</span></span><br><span class="line">start_index = <span class="number">19740</span></span><br><span class="line"></span><br><span class="line">block = struct.unpack_from(</span><br><span class="line">    <span class="string">f&quot;&lt;<span class="subst">&#123;BLOCK_INTS&#125;</span>I&quot;</span>,</span><br><span class="line">    field_and_param_default_data,</span><br><span class="line">    start_index * <span class="number">4</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">matrix = np.array(block, dtype=np.uint8).reshape((SIZE, SIZE))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2) 生成几张帮助分析的图片</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">write_qr</span>(<span class="params">arr: np.ndarray, path: Path, scale: <span class="built_in">int</span> = <span class="number">20</span></span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;把 0/1 阵列保存成放大后的黑白 PNG.&quot;&quot;&quot;</span></span><br><span class="line">    img = np.where(arr == <span class="number">1</span>, <span class="number">0</span>, <span class="number">255</span>).astype(np.uint8)</span><br><span class="line">    img = cv2.resize(img, (SIZE * scale, SIZE * scale), interpolation=cv2.INTER_NEAREST)</span><br><span class="line">    cv2.imwrite(<span class="built_in">str</span>(path), img)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 原始矩阵直接存成二维码（1 表示黑模块）</span></span><br><span class="line">write_qr(matrix, Path(<span class="string">&quot;qr_final.png&quot;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;处理完成，已生成 qr_final.png &quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(<span class="number">1782496</span>+ <span class="number">19740</span>*<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052114898.png" alt="image-20251105211440808"></p>
+<p>扫出的flag</p>
+<p>NSSCTF{f7c244c0-5f43-4829-83da-ebbc713324f5}</p>
+<h2 id="解法4：CE动调-半静态"><a href="#解法4：CE动调-半静态" class="headerlink" title="解法4：CE动调+半静态"></a>解法4：CE动调+半静态</h2><p>其实跟静态分析没啥区别了，不知道有没有更好的方法</p>
+<p>就是之前静态分析完，基于这些知识我们去ce下断点dump这个矩阵</p>
+<p>之前的静态分析已经知道了偏移和 RVA。</p>
+<p>要拿到在 Unity 游戏里，<code>QRCodeBuilder</code> 脚本实例中的字段：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this + 0x48 → qrMatrix (int[,])</span><br></pre></td></tr></table></figure>
+
+<p>构建二维码时，这个 <code>qrMatrix</code> 会被填满，然后立刻被释放。</p>
+<p>所以流程是：</p>
+<ol>
+<li><strong>Attach 游戏进程</strong></li>
+<li><strong>找到 GameAssembly.dll 基址</strong></li>
+<li><strong>在 ConstructQRCode (0x810F90)</strong> 附近下断</li>
+<li><strong>查看 this 指针</strong></li>
+<li><strong>顺着 this+0x48 拿出矩阵地址</strong></li>
+<li><strong>Dump 出矩阵内容</strong></li>
+</ol>
+<p>第一步：Attach 游戏进程</p>
+<p>先启动游戏，但不要进入地图</p>
+<ol>
+<li>打开 CE；</li>
+<li>点左上角；</li>
+<li>成功后 CE 窗口左下角会显示「附加到进程」，选<strong>attach</strong>。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052123519.png" alt="image-20251105212352395"></p>
+<p><strong>拿 GameAssembly.dll 基址</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052127702.png" alt="image-20251105212747610"></p>
+<ol>
+<li>在 CE 里打开「内存视图」（Memory View）；</li>
+<li>菜单栏 <code>View → Memory Regions</code>；</li>
+<li>找到一行名字含有 <code>GameAssembly.dll</code>；</li>
+<li>记下它的起始地址（如7FF864330000 ）；这就是模块基址。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052128311.png" alt="image-20251105212835208"></p>
+<p><strong>第三步：跳到 ConstructQRCode</strong></p>
+<p> RVA 是 <code>0x810F90</code>。在 CE 的汇编窗口（Memory View）里按：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+G → 输入 GameAssembly.dll+810F90</span><br></pre></td></tr></table></figure>
+
+<p>这就是函数入口（<code>QRCodeBuilder.ConstructQRCode()</code>）。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052129997.png" alt="image-20251105212940801"></p>
+<p><strong>第四步：下断点</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052130731.png" alt="image-20251105213002640"></p>
+<p>右键第一条指令 → 「断点 → 在此处设置断点」。</p>
+<p>然后：</p>
+<ol>
+<li>回到游戏；</li>
+<li>做那个动作让二维码生成（Enter）；</li>
+<li>游戏会在断点处<strong>暂停</strong>。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052130682.png" alt="image-20251105213049463"></p>
+<p><strong>第五步：看 this 指针（RCX）</strong></p>
+<p>在 CE 的 <strong>寄存器窗口</strong>：</p>
+<ul>
+<li>找 <code>RCX</code>。在 IL2CPP 下，<code>RCX</code> 通常是 <code>this</code> 指针（对象指针）。</li>
+<li>右键 <code>RCX</code> → 「在内存中查看此地址」。</li>
+</ul>
+<p>这就是 <code>QRCodeBuilder</code> 实例。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052131969.png" alt="image-20251105213115888"></p>
+<p><strong>第六步：看字段偏移</strong></p>
+<p>在「内存视图」里：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">this + 0x20 → blackMaterial</span><br><span class="line">this + 0x28 → whiteMaterial</span><br><span class="line">this + 0x30 → moduleSize</span><br><span class="line">this + 0x34 → origin</span><br><span class="line">this + 0x40 → thickness</span><br><span class="line">this + 0x48 → qrMatrix</span><br></pre></td></tr></table></figure>
+
+<p>直接在 CE 里：</p>
+<ol>
+<li><p>右键 → 「转到地址」；</p>
+</li>
+<li><p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCX+48</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>看这一处存的 8 字节内容，就是一个<strong>指针</strong>（qrMatrix 对象地址）。</p>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052135975.png" alt="image-20251105213503882"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052135908.png" alt="image-20251105213517821"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052135876.png" alt="image-20251105213543762"></p>
+<p>可以看到下面全是01字节</p>
+<p><strong>第七步：跟进 qrMatrix</strong></p>
+<p>右键这 8 字节 → 「在内存中查看此地址」。这里是 <code>int[,]</code> 结构体：</p>
+<p>一般是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">00: vtable指针</span><br><span class="line">08: rank (维度)</span><br><span class="line">10: length1</span><br><span class="line">14: length2</span><br><span class="line">18: 数据区...</span><br></pre></td></tr></table></figure>
+
+<p>（不同 Unity 版本可能略有不同）</p>
+<p>能看到成片的 <code>00 00 00 00</code> &#x2F; <code>01 00 00 00</code> 模式，这就是二维码的黑白格。</p>
+<p><strong>第八步：dump</strong></p>
+<p>save指定内存区域</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052136460.png" alt="image-20251105213644382"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052137632.png" alt="image-20251105213734518"></p>
+<p>这个49 03 是<strong>元素总数 <code>0x349 = 841</code>（小端的 <code>49 03 00 00</code>）</strong>，841 是 29×29，说明这是一个 29×29 的二维码矩阵</p>
+<p>我们从这四个字节后开始dump</p>
+<p>定位到 <code>49 03 00 00</code> 这一段的地址是 **<code>200D898A018</code>**。这说明这是二维码矩阵数据前面的计数字段（841个元素）。</p>
+<p>我们要从它<strong>后面紧接着的 <code>01 00 00 00 ...</code> 开始 dump</strong>，长度大约 841 × 4 字节。</p>
+<p>自己算下，然后填进去就可以dump了</p>
+<p>把ce的头去掉就是这样的</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052143344.png" alt="image-20251105214357210"></p>
+<p>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">dump_path = Path(<span class="string">&quot;dump.bin&quot;</span>)      <span class="comment"># 你的dump文件</span></span><br><span class="line">out_path  = Path(<span class="string">&quot;qr.png&quot;</span>)</span><br><span class="line"></span><br><span class="line">SIZE = <span class="number">29</span></span><br><span class="line">COUNT = SIZE * SIZE  <span class="comment"># 841</span></span><br><span class="line"></span><br><span class="line">raw = dump_path.read_bytes()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">extract_segment</span>(<span class="params">data: <span class="built_in">bytes</span>, count: <span class="built_in">int</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;在所有字节对齐(0..3)下，寻找长度为 count、元素仅为&#123;0,1&#125;的 int32 段&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> align <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(data) - align &lt; <span class="number">4</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="comment"># 裁成4字节对齐长度</span></span><br><span class="line">        usable = data[align: <span class="built_in">len</span>(data) - ((<span class="built_in">len</span>(data) - align) % <span class="number">4</span>)]</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(usable) &lt; <span class="number">4</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        ints = np.frombuffer(usable, dtype=<span class="string">&quot;&lt;i4&quot;</span>)</span><br><span class="line">        <span class="comment"># 完全匹配</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(ints) == count <span class="keyword">and</span> np.<span class="built_in">all</span>((ints == <span class="number">0</span>) | (ints == <span class="number">1</span>)):</span><br><span class="line">            <span class="keyword">return</span> ints</span><br><span class="line">        <span class="comment"># 滑窗搜索</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(ints) &gt;= count:</span><br><span class="line">            mask01 = (ints == <span class="number">0</span>) | (ints == <span class="number">1</span>)</span><br><span class="line">            valid = mask01.astype(np.int32)</span><br><span class="line">            csum = np.cumsum(valid)</span><br><span class="line">            wins = csum[count-<span class="number">1</span>:] - np.concatenate(([<span class="number">0</span>], csum[:-count]))</span><br><span class="line">            idxs = np.where(wins == count)[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">if</span> idxs.size &gt; <span class="number">0</span>:</span><br><span class="line">                start = <span class="built_in">int</span>(idxs[<span class="number">0</span>])</span><br><span class="line">                <span class="keyword">return</span> ints[start:start+count]</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">seg = extract_segment(raw, COUNT)</span><br><span class="line"><span class="keyword">if</span> seg <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">raise</span> RuntimeError(<span class="string">&quot;未在 dump 中找到连续的 0/1 int32 段；请检查 dump 起点/长度&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1 -&gt; 黑(0)，0 -&gt; 白(255)</span></span><br><span class="line">matrix = seg.reshape(SIZE, SIZE).astype(np.uint8)</span><br><span class="line">img = np.where(matrix == <span class="number">1</span>, <span class="number">0</span>, <span class="number">255</span>).astype(np.uint8)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 放大保存</span></span><br><span class="line">scale = <span class="number">20</span></span><br><span class="line">img_big = cv2.resize(img, (SIZE*scale, SIZE*scale), interpolation=cv2.INTER_NEAREST)</span><br><span class="line">cv2.imwrite(<span class="built_in">str</span>(out_path), img_big)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;saved&quot;</span>, out_path)</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511052144289.png" alt="image-20251105214442184"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://matriy330.github.io">Matriy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://matriy330.github.io/f925a96f/">http://matriy330.github.io/f925a96f/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://matriy330.github.io" target="_blank">Matriy's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/wp/">wp</a></div><div class="post-share"><div class="social-share" data-image="/img/tx.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/zsm.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zsm.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/zfb.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zfb.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/f31bf17e/" title="2025 UCSC CTF WriteUp"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/a01a8f5e-5a94-4f0d-9016-1c2c7a0bfb39.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-20</div><div class="info-item-2">2025 UCSC CTF WriteUp</div></div><div class="info-2"><div class="info-item-1">2025 UCSC CTF wp  Reverseeasy_re-ucsc简单异或 1234enc = &#x27;&#x27;&#x27;n=&lt;;:h2&lt;&#x27;?8:?&#x27;9hl9&#x27;h:l&gt;&#x27;2&gt;&gt;2&gt;hk=&gt;;:?&#x27;&#x27;&#x27;for i in range(0,len(enc)):    print(chr(ord(enc[i]) ^ 10),end=&#x27;&#x27;)  flag{d7610b86-5205-3bf3-b0f4-84484ba74105} EZ_debug-ucscdebug能看结果，下断点道最后就行，直接看 123for i in range(0,len(enc)):    print(chr(enc[i]),end=&#x27;&#x27;)  flag{709e9bdd-0858-9750-8c37-9b135b31f16d} simplere-ucsc...</div></div></div></a><a class="pagination-related" href="/9f6ee0bf/" title="BUUCTF-re-page1"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250108211506668.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-25</div><div class="info-item-2">BUUCTF-re-page1</div></div><div class="info-2"><div class="info-item-1">BUUCTF-re-page1easyre 提交 reverse1跟进Str2，加flag   瞎了，上面还有个如果是o就换成0，改一改提交 {hell0_w0rld} reverse2flag：{hacking_for_fun} 但做了替换  flag{hack1ng_fo1_fun} 内涵的软件DBAPP{49d3c93df25caad81232130f3d2ebfad} flag{49d3c93df25caad81232130f3d2ebfad} 新年快乐upx壳，工具脱壳 xor 有个异或逻辑 跟进global  12345678910111213enc = [  0x66, 0x0A, 0x6B, 0x0C, 0x77, 0x26, 0x4F, 0x2E, 0x40, 0x11,  0x78, 0x0D, 0x5A, 0x3B, 0x55, 0x11, 0x70, 0x19, 0x46, 0x1F,  0x76, 0x22, 0x4D, 0x23, 0x44, 0x0E, 0x67, 0x06, 0x68, 0x0F,  0x47, 0x32, 0x4F]for i...</div></div></div></a><a class="pagination-related" href="/c510533a/" title="DASCTF 2024最后一战 wp(复现)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/image-20250506151553502.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-03</div><div class="info-item-2">DASCTF 2024最后一战 wp(复现)</div></div><div class="info-2"><div class="info-item-1">DASCTF 2024最后一战 wp(复现)checkin 访问即可  西湖论剑邀请函获取器get_env(name &#x3D; “FLAG”)即可 Webconst_python123456# 假设存在如下路由处理@app.route(&#x27;/load&#x27;)def load_data():    data = base64.b64decode(request.cookies.get(&#x27;data&#x27;))    obj = pickle.loads(data)     return &quot;Loaded&quot;  题目导入了 pickle、base64 等模块，且存在动态数据处理逻辑（如 Session 管理、身份验证），可能通过反序列化传递对象。 Pickle 协议的本质：Pickle 不是简单的数据序列化，而是能重建任意对象的协议。反序列化时会自动调用 __reduce__ 方法，该方法返回一个可执行函数和参数元组。 在线反弹shell生成工具 – Zgao’s...</div></div></div></a><a class="pagination-related" href="/2ade85f8/" title="DASCTF 2023 10 wp"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-03</div><div class="info-item-2">DASCTF 2023 10 wp</div></div><div class="info-2"><div class="info-item-1">DASCTF 2023 10 wpauuuu3通过解析autoit动态脚本语言执行命令，先安装这个工具 https://github.com/nazywam/AutoIt-Ripper 在Scripts文件夹中找到autoit-ripper.exe程序，按照语法输入得到script.au3文件 得到的au3文件分析加密的流程: 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849Func ENC ( $DATA , $KEY )	$DATA = Binary ( $DATA )	Local $DATALEN = BinaryLen ( $DATA )	If $DATALEN = 0 Then		Return &quot;&quot;	ElseIf $DATALEN &lt; 8 Then		$DATALEN = 8	EndIf	Local $OPCODE =...</div></div></div></a><a class="pagination-related" href="/fab00bb3/" title="GeekGame 2025 re wp"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-25</div><div class="info-item-2">GeekGame 2025 re wp</div></div><div class="info-2"><div class="info-item-1">GeekGame 2025 re wp签到 在线网站把所有帧提出来，第一个帧是背景可以写个妙妙小脚本 1234567891011121314151617181920212223242526272829from PIL import Image, ImageChopsimport numpy as np# 文件名background_path = &quot;1.png&quot;layers = [f&quot;&#123;i&#125;.png&quot; for i in range(2, 10)]# 读取背景图background = Image.open(background_path).convert(&quot;L&quot;)  # 转灰度# 初始化一个全白背景result = Image.new(&quot;L&quot;, background.size, 255)# 处理每一层for path in layers:    img = Image.open(path).convert(&quot;L&quot;)    # 与背景做差    diff =...</div></div></div></a><a class="pagination-related" href="/f1dd543a/" title="DASCTF 2025上半年赛-re"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/1.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-02</div><div class="info-item-2">DASCTF 2025上半年赛-re</div></div><div class="info-2"><div class="info-item-1">DASCTF 2025上半年赛-re鱼音乐直接解Exe后pyc反编译得到 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071# uncompyle6 version 3.9.2# Python bytecode version base 3.8.0 (3413)# Decompiled from: Python 3.6.12 (default, Feb  9 2021, 09:19:15)# [GCC 8.3.0]# Embedded file name: main.pyimport sys, osfrom PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QLabel, QVBoxLayout, QFileDialog, QMessageBoxfrom...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Matriy</div><div class="author-info-description">不积硅步，无以至千里</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">230</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Matriy330"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">正在学习安卓逆向 (*^_^*)</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NSSCTF-2025-re-wp"><span class="toc-text">NSSCTF 2025 re wp</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ez-tea"><span class="toc-text">ez_tea</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#runner"><span class="toc-text">runner</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%951%EF%BC%9A%E8%B7%91%E5%9B%BE"><span class="toc-text">解法1：跑图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%952%EF%BC%9A%E5%88%86%E6%9E%90dat"><span class="toc-text">解法2：分析dat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%953%EF%BC%9A%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90"><span class="toc-text">解法3：静态分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%954%EF%BC%9ACE%E5%8A%A8%E8%B0%83-%E5%8D%8A%E9%9D%99%E6%80%81"><span class="toc-text">解法4：CE动调+半静态</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/f925a96f/" title="NSSCTF 2025 re wp">NSSCTF 2025 re wp</a><time datetime="2025-11-05T13:45:34.000Z" title="发表于 2025-11-05 21:45:34">2025-11-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/b6dfbc54/" title="一道题浅析LD_PRELOAD文件劫持 /proc/self/status反反调试">一道题浅析LD_PRELOAD文件劫持 /proc/self/status反反调试</a><time datetime="2025-10-26T11:32:14.000Z" title="发表于 2025-10-26 19:32:14">2025-10-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/fab00bb3/" title="GeekGame 2025 re wp">GeekGame 2025 re wp</a><time datetime="2025-10-25T10:22:34.000Z" title="发表于 2025-10-25 18:22:34">2025-10-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/519e5256/" title="SUSCTF 2025 wp">SUSCTF 2025 wp</a><time datetime="2025-10-18T15:00:00.000Z" title="发表于 2025-10-18 23:00:00">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/791560d6/" title="UE4逆向初探-OverWatch">UE4逆向初探-OverWatch</a><time datetime="2025-10-14T15:07:30.000Z" title="发表于 2025-10-14 23:07:30">2025-10-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Matriy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px"target="_blank" href="https://hexo.io/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px"target="_blank" href="https://butterfly.js.org/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px"target="_blank" href="https://www.jsdelivr.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用 Jsdelivr 为静态资源提供CDN加速" alt="Jsdelivr"></a><a style="margin-inline:5px"target="_blank" href="https://github.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px"target="_blank"href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p> <p>Hi, welcome to Matriy's <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="/js/anzhiyu.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
