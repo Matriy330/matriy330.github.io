@@ -1,0 +1,566 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>某习惯app的脱壳分析与破解 | Matriy's blog</title><meta name="author" content="Matriy"><meta name="copyright" content="Matriy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="某习惯app的脱壳分析与破解参考了下面的博文学习 某习惯app的Signature分析与vip破解 | twogoat&#x2F;showmakerの小站  需要app名联系我  几种常见的脱壳相关工具反编译： Jdax：https:&#x2F;&#x2F;github.com&#x2F;skylot&#x2F;jadx  同时支持命令行和图形界面，能以最简便的方式完成apk的反编译操作。  jd-gui：http:&#x2F;&#x2F;jd.benow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="某习惯app的脱壳分析与破解">
+<meta property="og:url" content="http://matriy330.github.io/f441fea0/index.html">
+<meta property="og:site_name" content="Matriy&#39;s blog">
+<meta property="og:description" content="某习惯app的脱壳分析与破解参考了下面的博文学习 某习惯app的Signature分析与vip破解 | twogoat&#x2F;showmakerの小站  需要app名联系我  几种常见的脱壳相关工具反编译： Jdax：https:&#x2F;&#x2F;github.com&#x2F;skylot&#x2F;jadx  同时支持命令行和图形界面，能以最简便的方式完成apk的反编译操作。  jd-gui：http:&#x2F;&#x2F;jd.benow">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://matriy.oss-cn-beijing.aliyuncs.com/202511171930791.jpg">
+<meta property="article:published_time" content="2025-11-17T11:29:00.000Z">
+<meta property="article:modified_time" content="2025-11-17T11:30:33.484Z">
+<meta property="article:author" content="Matriy">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://matriy.oss-cn-beijing.aliyuncs.com/202511171930791.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "某习惯app的脱壳分析与破解",
+  "url": "http://matriy330.github.io/f441fea0/",
+  "image": "https://matriy.oss-cn-beijing.aliyuncs.com/202511171930791.jpg",
+  "datePublished": "2025-11-17T11:29:00.000Z",
+  "dateModified": "2025-11-17T11:30:33.484Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Matriy",
+      "url": "http://matriy330.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="canonical" href="http://matriy330.github.io/f441fea0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="G-ShTqjjywiLkL87Rg0PaiSsDVYymWStdQUO1wrM_VY"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":30,"languages":{"author":"作者: Matriy","link":"链接: ","source":"来源: Matriy's blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}
+</script><link rel="stylesheet" href="/css/custom.css"><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '某习惯app的脱壳分析与破解',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cursor.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/music.css"><link rel="stylesheet" href="/css/comment.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Matriy's blog" type="application/atom+xml">
+</head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="an_music_bg" style="background-image: url(/img/bg.jpeg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">238</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Matriy's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">某习惯app的脱壳分析与破解</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">某习惯app的脱壳分析与破解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-17T11:29:00.000Z" title="发表于 2025-11-17 19:29:00">2025-11-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-17T11:30:33.484Z" title="更新于 2025-11-17 19:30:33">2025-11-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/f441fea0/#post-comment"><span id="twikoo-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="某习惯app的脱壳分析与破解"><a href="#某习惯app的脱壳分析与破解" class="headerlink" title="某习惯app的脱壳分析与破解"></a>某习惯app的脱壳分析与破解</h1><p>参考了下面的博文学习</p>
+<p><a target="_blank" rel="noopener" href="https://twogoat.github.io/2025/05/10/%E6%9F%90%E4%B9%A0%E6%83%AFapp%E7%9A%84Signature%E5%88%86%E6%9E%90%E4%B8%8Evip%E7%A0%B4%E8%A7%A3/#%E8%84%B1%E5%A3%B3">某习惯app的Signature分析与vip破解 | twogoat&#x2F;showmakerの小站</a></p>
+<blockquote>
+<p>需要app名联系我</p>
+</blockquote>
+<h2 id="几种常见的脱壳相关工具"><a href="#几种常见的脱壳相关工具" class="headerlink" title="几种常见的脱壳相关工具"></a>几种常见的脱壳相关工具</h2><p>反编译：</p>
+<p><strong>Jdax</strong>：<a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">https://github.com/skylot/jadx</a></p>
+<blockquote>
+<p>同时支持命令行和图形界面，能以最简便的方式完成apk的反编译操作。</p>
+</blockquote>
+<p>jd-gui：<a target="_blank" rel="noopener" href="http://jd.benow.ca/">http://jd.benow.ca/</a></p>
+<blockquote>
+<p>类似jadx</p>
+</blockquote>
+<p>Dex2jar：<a target="_blank" rel="noopener" href="http://sourceforge.net/projects/dex2jar/files/">http://sourceforge.net/projects/dex2jar/files/</a></p>
+<blockquote>
+<p>类似jadx</p>
+</blockquote>
+<p>ApkTool :<a target="_blank" rel="noopener" href="https://bitbucket.org/iBotPeaches/apktool/downloads/">https://bitbucket.org/iBotPeaches/apktool/downloads/</a></p>
+<p>ApkTool 的最重要的两个作用是解包和打包 ;</p>
+<blockquote>
+<p>解包 : 拿到 APK 文件 , 如果按照 zip 格式解压出来 , xml 文件都是乱码 ; APK 文件打包时 , 会将 xml 文件进行压缩转为二进制文件 , 以减小体积 ; 解包时 , 必须使用 ApkTool 解包工具 , 将二进制数据格式的 xml 文件转为 文本 xml 文件 , 才能获取刻度的 xml 文件 ;</p>
+<p>打包 : 将使用 ApkTool 工具解包后的零散文件 , 再次打包成 APK 文件 ,</p>
+</blockquote>
+<p><strong>Frida脱壳工具</strong></p>
+<p>FRIDA-DEXDump： <a target="_blank" rel="noopener" href="https://github.com/hluwa/FRIDA-DEXDump">https://github.com/hluwa/FRIDA-DEXDump</a></p>
+<h2 id="脱壳"><a href="#脱壳" class="headerlink" title="脱壳"></a>脱壳</h2><p>MT管理器可以看到是有360加固的</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511092143603.png" alt="image-20251109214311529"></p>
+<table>
+<thead>
+<tr>
+<th align="left">公司名称</th>
+<th align="left">对应的壳包名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">爱加密</td>
+<td align="left">libexec.so,libexecmain.so，ijiami.dat</td>
+</tr>
+<tr>
+<td align="left">梆梆</td>
+<td align="left">libsecexe.so,libsecmain.so , libDexHelper.so libSecShell.so</td>
+</tr>
+<tr>
+<td align="left">360</td>
+<td align="left">libprotectClass.so,libjiagu.so，libjiagu_art.so，libjiagu_x86.so</td>
+</tr>
+<tr>
+<td align="left">百度</td>
+<td align="left">libbaiduprotect.so</td>
+</tr>
+<tr>
+<td align="left">腾讯</td>
+<td align="left">libshellx-2.10.6.0.so，libBugly.so，libtup.so, libexec.so，libshell.so，stub_tengxun</td>
+</tr>
+<tr>
+<td align="left">网易易盾</td>
+<td align="left">libnesec.so</td>
+</tr>
+</tbody></table>
+<p>用查壳工具，发现是360加固</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/moyuwa/ApkCheckPack">moyuwa&#x2F;ApkCheckPack: apk加固特征检查工具，汇总收集已知特征和手动收集大家提交的app加固特征，全网最全开源加固特征，支持40个厂商的加固检测，欢迎大家提交无法识别的app</a></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511092148557.png" alt="image-20251109214807495"></p>
+<p>frida-ps -Ua</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511092219084.png" alt="image-20251109221946043"></p>
+<blockquote>
+<p>我用的frida版本是frida16.4.2 用17的高版本 启动frida 会出现白屏</p>
+</blockquote>
+<p>直接frida-dexdump -U -f xxxx -o E:\Desktop\dump\</p>
+<p>或者直接frida-dexdump -FU -o E:\Desktop\dump\</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">指定App的应用名称：frida-dexdump -U -n 保利票务</span><br><span class="line">指定App的应用进程ID：frida-dexdump -U -p 3302</span><br><span class="line">指定App的应用包名：frida-dexdump -U -f com.iCitySuzhou.suzhou001</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511101455819.png" alt="image-20251110145509746"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511101047986.png" alt="image-20251110104750933"></p>
+<p>全部拖入jadx</p>
+<p>注意的是，这里需要为no</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511101447116.png" alt="image-20251110144710025"></p>
+<h2 id="请求Signature分析"><a href="#请求Signature分析" class="headerlink" title="请求Signature分析"></a>请求Signature分析</h2><p>配一下小黄鸟或者burp抓包环境</p>
+<blockquote>
+<p>小黄鸟我这配了有点问题，因此用burp</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yangykaifa/p/19176514">完整教程：【burp手机真机抓包】Burp Suite 在真机（Android and IOS）抓包手机APP + 微信小程序详细教程 - yangykaifa - 博客园</a></p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171335630.png" alt="image-20251117133538530"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171345233.png" alt="image-20251117134523148"></p>
+<p>可以看到一些信息，测试下接口，随便点一些东西找一下post</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171453468.png" alt="image-20251117145333383"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171355428.png" alt="image-20251117135507377"></p>
+<p>根据几个接口定位到</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171505417.png" alt="image-20251117150503317"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171512509.png" alt="image-20251117151231426"></p>
+<p>跟踪到</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171517369.png" alt="image-20251117151722293"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171519842.png" alt="image-20251117151914779"></p>
+<blockquote>
+<p>其实就是分析activateCode</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">findViewById(R$id.sms1).setOnClickListener(<span class="keyword">new</span> <span class="title class_">a</span>());</span><br><span class="line">findViewById(R$id.activationCodeBtn).setOnClickListener(<span class="keyword">new</span> <span class="title class_">View</span>.OnClickListener() &#123; <span class="comment">// from class: p1.w4</span></span><br><span class="line">    <span class="meta">@Override</span> <span class="comment">// android.view.View.OnClickListener</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View view)</span> &#123;</span><br><span class="line">        GenerateActionCodeActivity.<span class="built_in">this</span>.O(view);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>调用O</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* JADX INFO: Access modifiers changed from: private */</span></span><br><span class="line"><span class="keyword">public</span> <span class="comment">/* synthetic */</span> <span class="keyword">void</span> <span class="title function_">O</span><span class="params">(View view)</span> &#123;</span><br><span class="line">    Q();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">Q</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">MaterialDialog</span>.Builder(<span class="built_in">this</span>).G(<span class="string">&quot;兑换会员&quot;</span>).l(<span class="string">&quot;请输入激活码&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="keyword">new</span> <span class="title class_">MaterialDialog</span>.f() &#123; <span class="comment">// from class: p1.y4</span></span><br><span class="line">        <span class="meta">@Override</span> <span class="comment">// com.afollestad.materialdialogs.MaterialDialog.f</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">onInput</span><span class="params">(MaterialDialog materialDialog, CharSequence charSequence)</span> &#123;</span><br><span class="line">            GenerateActionCodeActivity.<span class="built_in">this</span>.P(materialDialog, charSequence);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).E();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="comment">/* synthetic */</span> <span class="keyword">void</span> <span class="title function_">P</span><span class="params">(MaterialDialog materialDialog, CharSequence charSequence)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!TextUtils.isEmpty(charSequence)) &#123;</span><br><span class="line">        M(charSequence.toString().trim());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">M</span><span class="params">(String str)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">str2</span> <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;activeCode\&quot;:\&quot;&quot;</span> + str + <span class="string">&quot;\&quot;&#125;&quot;</span>;</span><br><span class="line">    i9.a.l(a.e.f22775v).m3292upJson(str2).execute(<span class="keyword">new</span> <span class="title class_">c</span>(String.class, str2));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>调用“兑换激活码”的接口</strong></p>
+<p>i9.a.l(a.e.f22775v)是构造请求对象</p>
+<p>执行请求（execute），并传入回调,new 就是“创建一个处理器对象”,创建一个回调处理器，网络请求结束后由它处理结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">c</span> <span class="keyword">extends</span> <span class="title class_">DailyCallBack</span>&lt;String&gt; &#123;</span><br><span class="line">    c(Class cls, String str) &#123;</span><br><span class="line">        <span class="built_in">super</span>(cls, str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="comment">// com.itally.base.data.DailyCallBack</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">loadSuccess</span><span class="params">(DailyResponse&lt;String&gt; dailyResponse)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (dailyResponse.isSuccessCode()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        q4.o.a().d(GenerateActionCodeActivity.<span class="built_in">this</span>, !TextUtils.isEmpty(dailyResponse.getMsg()) ? dailyResponse.getMsg() : <span class="string">&quot;兑换失败～&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="comment">// m9.a, m9.b</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(u9.e&lt;DailyResponse&lt;String&gt;&gt; eVar)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onError(eVar);</span><br><span class="line">        q4.o.a().d(GenerateActionCodeActivity.<span class="built_in">this</span>, <span class="string">&quot;兑换失败～&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>因此可以跟踪到DailyCallBack</p>
+<p><strong>DailyCallBack 是所有网络请求的回调类，负责：</strong></p>
+<ol>
+<li><strong>发请求前自动生成签名 (signature)</strong></li>
+<li><strong>统一设置请求头（时间戳、nonce 等）</strong></li>
+<li><strong>统一 JSON 解析 DailyResponse<T></strong></li>
+<li><strong>拦截</strong></li>
+</ol>
+<p>第一部分：构造函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public DailyCallBack(Class cls, String str) &#123;</span><br><span class="line">    this.aClass = cls;</span><br><span class="line">    this.content = str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>aClass 是返回数据的类型，例如 ActiveCode.classcontent 是你发送的 JSON（请求体）</p>
+<p><strong>content 会被写入签名算法中，这是重点！</strong></p>
+<p>第二部分：onStart() —— 请求开始前自动生成签名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onStart(cVar) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>做了几件重要事：</p>
+<p>添加时间戳</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String valueOf = String.valueOf(z8.c.a());</span><br><span class="line">cVar.headers(&quot;timestamp&quot;, valueOf);</span><br></pre></td></tr></table></figure>
+
+<p>生成随机 nonce</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uuid = UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;);</span><br><span class="line">cVar.headers(&quot;nonce&quot;, uuid);</span><br></pre></td></tr></table></figure>
+
+<p><strong>准备签名字段</strong></p>
+<p>签名字段包括：</p>
+<ul>
+<li>请求体 JSON：<code>this.content</code></li>
+<li>header 里的 channel</li>
+<li>deviceinfo</li>
+<li>platform</li>
+<li>clientversion</li>
+<li>deviceid</li>
+<li>timestamp</li>
+<li>nonce</li>
+</ul>
+<p>按顺序加入 list：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">arrayList.add(this.content);   //请求体</span><br><span class="line">arrayList.add(channel)</span><br><span class="line">arrayList.add(deviceinfo)</span><br><span class="line">arrayList.add(platform)</span><br><span class="line">arrayList.add(clientversion)</span><br><span class="line">arrayList.add(deviceid)</span><br><span class="line">arrayList.add(timestamp)</span><br><span class="line">arrayList.add(nonce)</span><br></pre></td></tr></table></figure>
+
+<p>排序（按字典序）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Collections.sort(arrayList);</span><br></pre></td></tr></table></figure>
+
+<p>拼接成大字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (String str : arrayList) &#123;</span><br><span class="line">    stringBuffer.append(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用 KEY”签名”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String e10 = d.e(KEY.getBytes(), stringBuffer.toString().getBytes());</span><br></pre></td></tr></table></figure>
+
+<p>这里 KEY 是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">06fdrlDr625oTBbW</span><br></pre></td></tr></table></figure>
+
+<p>这就是 <strong>签名密钥</strong>。</p>
+<p>签名算法是 d.e() </p>
+<p>放入请求头</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cVar.headers(&quot;signature&quot;, e10);</span><br></pre></td></tr></table></figure>
+
+<p>看到这里，你应该已经明白：</p>
+<p>想伪造 API，就必须伪造 signature，因为服务器一定会验证 signature。</p>
+<p>幸运的是：</p>
+<ul>
+<li><strong>KEY 是硬编码的</strong></li>
+<li><strong>签名算法 d.e() 也在 APK 中</strong></li>
+</ul>
+<p>完全可以：</p>
+<ul>
+<li>逆向 d.e() 算法</li>
+<li>自己用 Python&#x2F;JS 生成 signature</li>
+<li>或用 Frida hook d.e() 拿返回值</li>
+<li>或直接篡改 signature 验证逻辑（patch）</li>
+</ul>
+<p><strong>第三部分：onSuccess</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void onSuccess(e&lt;DailyResponse&lt;T&gt;&gt; eVar) &#123;</span><br><span class="line">    loadSuccess(eVar.a());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就是把解析结果交给业务层。</p>
+<p><strong>第四部分：convertResponse —— JSON 解析器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DailyResponse&lt;T&gt; dailyResponse2 =</span><br><span class="line">    JSON.parseObject(json, new TypeReference&lt;DailyResponse&lt;T&gt;&gt;(this.aClass)&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>返回结构是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;code&quot;: 0,</span><br><span class="line">    &quot;msg&quot;: &quot;success&quot;,</span><br><span class="line">    &quot;data&quot;: &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果 code 是 401：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EventBus.post(new Respons401(...));</span><br></pre></td></tr></table></figure>
+
+<p>也可以伪造成功返回</p>
+<p>只要你 hook：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DailyResponse.getCode() 返回 0</span><br><span class="line">DailyResponse.isSuccessCode() 返回 true</span><br></pre></td></tr></table></figure>
+
+<p>整个 APP 就认为激活成功。</p>
+<p>题外话，如果不是硬编码的key有什么对抗手段?</p>
+<p><strong>方案 1：将签名逻辑放到服务器（完全不在客户端处理）</strong>（最安全）</p>
+<p>客户端不做加密、不做签名，只做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 身份凭证（token）</span><br><span class="line">- 基本参数</span><br></pre></td></tr></table></figure>
+
+<p>方案 2：使用短时效动态秘钥（临时 key）</p>
+<p>流程如下：</p>
+<ol>
+<li>客户端启动时向服务器请求一个临时 key</li>
+<li>服务器返回一个 <strong>5 秒有效&#x2F;一次性 key</strong></li>
+<li>客户端用临时 key 生成 signature</li>
+<li>key 过期自动失效</li>
+</ol>
+<p>方案 3：使用“服务端签名 + 前端签名混合模式”（抗伪造）</p>
+<p>客户端只参与一部分签名，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">signature = HMAC(server_key, server_data) + MD5(client_data)</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<ul>
+<li>客户端参与“弱签名”</li>
+<li>服务器做核心签名</li>
+</ul>
+<p>算法追踪到</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171611092.png" alt="image-20251117161130977"></p>
+<p>是一个标准 HMAC-SHA256 签名工具类</p>
+<p>这里直接改了下<a target="_blank" rel="noopener" href="https://twogoat.github.io/2025/05/10/%E6%9F%90%E4%B9%A0%E6%83%AFapp%E7%9A%84Signature%E5%88%86%E6%9E%90%E4%B8%8Evip%E7%A0%B4%E8%A7%A3/#%E8%AF%B7%E6%B1%82Signature%E5%88%86%E6%9E%90">某习惯app的Signature分析与vip破解 | twogoat&#x2F;showmakerの小站</a></p>
+<p>的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="comment"># 请求 URL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getSignature</span>(<span class="params">headers, data</span>):</span><br><span class="line">    <span class="comment"># 请求体</span></span><br><span class="line">    param_list = []</span><br><span class="line"></span><br><span class="line">    param_list.append(headers[<span class="string">&#x27;Channel&#x27;</span>])</span><br><span class="line">    param_list.append(headers[<span class="string">&#x27;Deviceinfo&#x27;</span>])</span><br><span class="line">    param_list.append(headers[<span class="string">&#x27;Deviceid&#x27;</span>])</span><br><span class="line">    param_list.append(headers[<span class="string">&#x27;Clientversion&#x27;</span>])</span><br><span class="line">    param_list.append(headers[<span class="string">&#x27;Nonce&#x27;</span>])</span><br><span class="line">    param_list.append(headers[<span class="string">&#x27;Platform&#x27;</span>])</span><br><span class="line">    param_list.append(headers[<span class="string">&#x27;Timestamp&#x27;</span>])</span><br><span class="line">    param_list.append(data)</span><br><span class="line">    param_list.sort()</span><br><span class="line">    param_str = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">str</span>(item) <span class="keyword">for</span> item <span class="keyword">in</span> param_list)</span><br><span class="line">    key = <span class="string">b&quot;06fdrlDr625oTBbW&quot;</span></span><br><span class="line">    message = (param_str).encode()</span><br><span class="line">    hmac_sha256 = hmac.new(key, message, hashlib.sha256)</span><br><span class="line">    <span class="keyword">return</span> hmac_sha256.hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 请求头</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.8&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;okhttp-okgo/jeasonlzy&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Channel&#x27;</span>: <span class="string">&#x27;_vivo&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Deviceinfo&#x27;</span>: <span class="string">&#x27;Xiaomi|M2102K1AC|13&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Platform&#x27;</span>: <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Clientversion&#x27;</span>: <span class="string">&#x27;6.27.7&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Deviceid&#x27;</span>: <span class="string">&#x27;ffffffffd3a80c14d3a80c1400000000&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Token&#x27;</span>: <span class="string">&#x27;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4M2RkZTRlY2Y4ZjE0ZGIyYTM2ZjUzODY2NjA1NjdjYSIsImlhdCI6MTc2MzM1NzU5Nn0.1dapuoDHVTwoWNf-EpA8PomGXru3qw2vG1NLp5PuvdPfrqjQG5sTK2cSkNdhwEE2te3s-DA0XjwDWdoa8lp7PA&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Timestamp&#x27;</span>: <span class="built_in">str</span>(<span class="built_in">int</span>(time.time())),</span><br><span class="line">    <span class="string">&#x27;Nonce&#x27;</span>: <span class="built_in">str</span>(uuid.uuid4()).replace(<span class="string">&quot;-&quot;</span>, <span class="string">&quot;&quot;</span>),</span><br><span class="line">    <span class="string">&#x27;Signature&#x27;</span>: <span class="literal">None</span>,</span><br><span class="line">    <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json;charset=utf-8&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate, br&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;activeCode&quot;</span>: <span class="string">&quot;1919810&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data = json.dumps(data).replace(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">Signature = getSignature(headers, data)</span><br><span class="line"><span class="built_in">print</span>(Signature)</span><br><span class="line">headers[<span class="string">&#x27;Signature&#x27;</span>] = Signature</span><br><span class="line"><span class="comment">#print(headers)</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://xianbeikeji.com/daily/app/user/exchangeActiveCode&#x27;</span></span><br><span class="line"></span><br><span class="line">response = requests.post(url, headers=headers, data=data)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.status_code)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171638344.png" alt="image-20251117163815268"></p>
+<h2 id="Vip破解"><a href="#Vip破解" class="headerlink" title="Vip破解"></a>Vip破解</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171642098.png" alt="image-20251117164210017"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171642495.png" alt="image-20251117164218360"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171643636.png" alt="image-20251117164315509"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171644203.png" alt="image-20251117164421075"></p>
+<p>我们不应该hook isVip()，为什么在另一篇里讲过了</p>
+<blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171653968.png" alt="image-20251117165308868"></p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">hook_user</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">var</span> <span class="title class_">User</span> = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;com.itally.base.data.bean.UserInfo&quot;</span>)</span><br><span class="line">        <span class="keyword">var</span> isVip = <span class="title class_">User</span>.<span class="property">isVip</span></span><br><span class="line">        isVip.<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="keyword">let</span> res = <span class="variable language_">this</span>.<span class="title function_">isVip</span>()</span><br><span class="line">                <span class="variable language_">this</span>.<span class="title function_">setVipFlag</span>(<span class="number">1</span>)</span><br><span class="line">                <span class="variable language_">this</span>.<span class="title function_">setVipType</span>(<span class="number">1</span>)</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(res)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ps:frida -U -p 13937 -l xiaoxiguan.js</p>
+</blockquote>
+<p>要用attach去hook而非spwn</p>
+<p>because:</p>
+<ol>
+<li>Frida 启动 App 的进程</li>
+<li>App 还没开始加载 dex</li>
+<li>Frida 就执行你的脚本</li>
+<li>此时 Java 层 <strong>尚未初始化</strong></li>
+<li>所以 <code>UserInfo</code>、<code>com.itally.*</code> 全部都还没加载</li>
+<li>因此 <code>Java.use(&quot;xxxx&quot;)</code> → ClassNotFound</li>
+</ol>
+<p> APP还没加载 Java 类时去 Hook，当然找不到。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171923366.jpg" alt="8a6342f1c4b8e7cb47db544a9f654041"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://matriy330.github.io">Matriy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://matriy330.github.io/f441fea0/">http://matriy330.github.io/f441fea0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://matriy330.github.io" target="_blank">Matriy's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post-share"><div class="social-share" data-image="https://matriy.oss-cn-beijing.aliyuncs.com/202511171930791.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/zsm.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zsm.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/zfb.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/zfb.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/b20671e0/" title="Android逆向1-smali"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-25</div><div class="info-item-2">Android逆向1-smali</div></div><div class="info-2"><div class="info-item-1">Android逆向1-smali来自吾爱破解-正己 https://www.52pojie.cn/thread-1701353-1-1.html 1. JVM、Dalvik、ART JVM是JAVA虚拟机，运行JAVA字节码程序 Dalvik是Google专门为Android设计的一个虚拟机，Dalvik有专属的文件执行格式dex(Dalvik executable) Art(Android Runtime)相当于Dalvik的升级版，本质与Dalvik无异  2. smali及其语法smali是Dalvik的寄存器语言，smali代码是dex反编译而来的。 关键字    名称 注释    .class 类名   .super 父类名，继承的上级类名名称   .source 源名   .field 变量   .method 方法名   .register 寄存器   .end...</div></div></div></a><a class="pagination-related" href="/3761fa33/" title="Android逆向11-Frida进阶"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-29</div><div class="info-item-2">Android逆向11-Frida进阶</div></div><div class="info-2"><div class="info-item-1">Android逆向11-Frida进阶来自吾爱破解-正己 https://www.52pojie.cn/thread-1701353-1-1.html Frida写数据12345678//一般写在app的私有目录里，不然会报错:failed to open file (Permission denied)(实际上就是权限不足)var file_path = &quot;/data/user/0/com.zj.wuaipojie/test.txt&quot;;var file_handle = new File(file_path, &quot;wb&quot;);if (file_handle &amp;&amp; file_handle != null) &#123;        file_handle.write(data); //写入数据        file_handle.flush(); //刷新        file_handle.close(); //关闭&#125;  Frida_inlineHook与读写汇编什么是inlinehook？ Inline...</div></div></div></a><a class="pagination-related" href="/c47c9f7e/" title="Android逆向10-Frida_Native"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-28</div><div class="info-item-2">Android逆向10-Frida_Native</div></div><div class="info-2"><div class="info-item-1">Android逆向10-Frida_Native来自吾爱破解-正己 https://www.52pojie.cn/thread-1701353-1-1.html Process、Module、MemoryProcess 对象代表当前被Hook的进程，能获取进程的信息，枚举模块，枚举范围等    API 含义    Process.id 返回附加目标进程的 PID   Process.isDebuggerAttached() 检测当前是否对目标程序已经附加   Process.enumerateModules() 枚举当前加载的模块，返回模块对象的数组   Process.enumerateThreads() 枚举当前所有的线程，返回包含 id, state, context 等属性的对象数组   Module 对象代表一个加载到进程的模块(例如，在 Windows 上的 DLL，或在 Linux&#x2F;Android 上的 .so...</div></div></div></a><a class="pagination-related" href="/d81ca9c8/" title="Android逆向13-例题"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-01</div><div class="info-item-2">Android逆向13-例题</div></div><div class="info-2"><div class="info-item-1">Android逆向13-例题初级112345方法1:var ClassName=Java.use(&quot;com.zj.wuaipojie2024_1.YSQDActivity&quot;); console.log(ClassName.extractDataFromFile(&quot;/data/user/0/com.zj.wuaipojie2024_1/files/ys.mp4&quot;));方法2:android intent launch_activity com.zj.wuaipojie2024_1.YSQDActivity  初级2123456789101112131415161718方法1:android intent launch_activity com.kbtx.redpack_simple.FlagActivity方法2:function hookTest1()&#123;    var Arrays = Java.use(&quot;java.util.Arrays&quot;);   ...</div></div></div></a><a class="pagination-related" href="/3fc95872/" title="Android逆向12-RPC"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-30</div><div class="info-item-2">Android逆向12-RPC</div></div><div class="info-2"><div class="info-item-1">Android逆向12-RPC来自吾爱破解-正己 https://www.52pojie.cn/thread-1701353-1-1.html RPC（Remote Procedure Call Protocol） 是一种远程过程调用协议，允许程序在不同的计算机上请求服务，而无需了解底层网络技术。RPC的主要作用是使不同服务之间的方法调用像本地调用一样便捷 Hook_Libartlibart.so: 在 Android 5.0（Lollipop）及更高版本中，libart.so 是 Android 运行时（ART，Android Runtime）的核心组件，它取代了之前的 Dalvik 虚拟机。可以在 libart.so 里找到 JNI 相关的实现。 PS:在高于安卓10的系统里，so的路径是&#x2F;apex&#x2F;com.android.runtime&#x2F;lib64&#x2F;libart.so，低于10的则在system&#x2F;lib64&#x2F;libart.so    函数名称 参数 描述 返回值    RegisterNatives JNIEnv...</div></div></div></a><a class="pagination-related" href="/4152d38e/" title="Android逆向14-Frida检测"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-02</div><div class="info-item-2">Android逆向14-Frida检测</div></div><div class="info-2"><div class="info-item-1">Android逆向14-Frida检测来自吾爱破解-正己 https://www.52pojie.cn/thread-1701353-1-1.html 检测文件名、端口名、双进程保护、失效的检测点检测&#x2F;data&#x2F;local&#x2F;tmp路径下的是否有frida特征文件，server端改名，例如:fr 指定端口转发 123./fs1 -l 0.0.0.0:6666adb forward tcp:6666 tcp:6666frida -H 127.0.0.1:6666 wuaipojie -l hook.js  spawn启动过双进程保护 1frida -U -f 进程名 -l hook.js  PS:学会看注入报错的日志，比如说当app主动附加自身进程时，这时候再注入就会提示run frida as root（以spawn的方式启动进程即可） 借助脚本定位检测frida的so 12345678910111213function hook_dlopen() &#123;   ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Matriy</div><div class="author-info-description">不积硅步，无以至千里</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">238</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Matriy330"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">正在学习安卓逆向 (*^_^*)</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%90%E4%B9%A0%E6%83%AFapp%E7%9A%84%E8%84%B1%E5%A3%B3%E5%88%86%E6%9E%90%E4%B8%8E%E7%A0%B4%E8%A7%A3"><span class="toc-text">某习惯app的脱壳分析与破解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E7%9A%84%E8%84%B1%E5%A3%B3%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7"><span class="toc-text">几种常见的脱壳相关工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%B1%E5%A3%B3"><span class="toc-text">脱壳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82Signature%E5%88%86%E6%9E%90"><span class="toc-text">请求Signature分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vip%E7%A0%B4%E8%A7%A3"><span class="toc-text">Vip破解</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/f441fea0/" title="某习惯app的脱壳分析与破解"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://matriy.oss-cn-beijing.aliyuncs.com/202511171930791.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="某习惯app的脱壳分析与破解"/></a><div class="content"><a class="title" href="/f441fea0/" title="某习惯app的脱壳分析与破解">某习惯app的脱壳分析与破解</a><time datetime="2025-11-17T11:29:00.000Z" title="发表于 2025-11-17 19:29:00">2025-11-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/e3395b96/" title="某节拍APP逆向+XPosed模块编写"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://luhaoblog.oss-cn-hangzhou.aliyuncs.com/img1/v2-dbadb26e707dabf6723061583f9967b4_720w.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="某节拍APP逆向+XPosed模块编写"/></a><div class="content"><a class="title" href="/e3395b96/" title="某节拍APP逆向+XPosed模块编写">某节拍APP逆向+XPosed模块编写</a><time datetime="2025-11-09T07:39:32.000Z" title="发表于 2025-11-09 15:39:32">2025-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/9e076382/" title="华为杯第四届中国研究生网络安全创新大赛 Megrez RE WP">华为杯第四届中国研究生网络安全创新大赛 Megrez RE WP</a><time datetime="2025-11-07T00:25:25.000Z" title="发表于 2025-11-07 08:25:25">2025-11-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/f925a96f/" title="NSSCTF 2025 re wp">NSSCTF 2025 re wp</a><time datetime="2025-11-05T13:45:34.000Z" title="发表于 2025-11-05 21:45:34">2025-11-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/1e7e61d9/" title="IDA e语言逆向初探-以一道CTF题为例">IDA e语言逆向初探-以一道CTF题为例</a><time datetime="2025-11-04T14:21:38.000Z" title="发表于 2025-11-04 22:21:38">2025-11-04</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Matriy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px"target="_blank" href="https://hexo.io/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px"target="_blank" href="https://butterfly.js.org/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px"target="_blank" href="https://www.jsdelivr.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用 Jsdelivr 为静态资源提供CDN加速" alt="Jsdelivr"></a><a style="margin-inline:5px"target="_blank" href="https://github.com/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px"target="_blank"href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img no-lazy src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p> <p>Hi, welcome to Matriy's <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikoo.open-ctf.top/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="/js/anzhiyu.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
